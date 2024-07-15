@@ -2,8 +2,8 @@
 import { ArrowRightAltOutlined } from '@mui/icons-material';
 import { Button } from '@mui/material';
 import Image from 'next/image';
-import React, { useState, useEffect, useRef } from 'react';
-import { heroItems } from '@/data/hero-data';
+import React, { useEffect, useRef } from 'react';
+import { heroItems } from '@/data/hero.data';
 import { setupEventListeners } from '@/helper/hero';
 
 interface CarouselItemProps {
@@ -36,7 +36,7 @@ const CarouselItem = (props: CarouselItemProps) => (
 
                     <Button
                         variant="contained"
-                        className="relative py-[0.8em] px-[1.7em] overflow-hidden transition-all duration-1000 ease-in-out transform bg-transparent cursor-pointer mt-7 bg-secondary border-secondary text-secondary font-medium hover:scale-110 hero-btn active:scale-[0.98] active:brightness-[0.8] w-1/3 btn"
+                        className="relative py-[0.8em] px-[1.7em] overflow-hidden transition-all duration-1000 ease-in-out transform bg-transparent cursor-pointer mt-7 bg-secondary border-secondary text-secondary font-medium hover:scale-110 active:scale-[0.98] active:brightness-[0.8] w-2/5 hero-btn"
                     >
                         {props.buttonText}
                         <ArrowRightAltOutlined fontSize="large" className="ml-2" />
@@ -54,7 +54,7 @@ const Hero: React.FC = () => {
     const runNextAuto = useRef<NodeJS.Timeout | null>(null);
     const runTimeOut = useRef<NodeJS.Timeout | null>(null);
     const timeRunning = 3000;
-    const timeAutoNext = 100000;
+    const timeAutoNext = 7000;
 
     useEffect(() => {
         const currentNextDom = nextDom.current;
@@ -80,7 +80,7 @@ const Hero: React.FC = () => {
                 {heroItems.map((item, index) => (
                     <div key={index} className="item">
                         <CarouselItem
-                            image={item.image}
+                            image={`/images/hero/${item.image}`}
                             name={item.name}
                             desc1={item.desc1}
                             desc2={item.desc2}
@@ -92,7 +92,13 @@ const Hero: React.FC = () => {
             <div className="thumbnail">
                 {heroItems.map((item, index) => (
                     <div key={index} className="item">
-                        <Image alt="" className='w-full h-full' width={1000} height={1000} src={item.image} />
+                        <Image
+                            src={`/images/hero/${item.image}`}
+                            alt={item.name}
+                            className='w-full h-full'
+                            width={1000}
+                            height={1000}
+                        />
                         <div className="content">
                             <div>{item.name}</div>
                         </div>

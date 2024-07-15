@@ -50,7 +50,7 @@ const Services = () => {
         <div className="py-12">
             <div className="container px-20 mx-auto">
 
-                <h2 className="mb-12 text-4xl font-bold text-left text-gray-800">
+                <h2 className="relative mb-12 text-3xl font-bold text-left text-gray-800 special-underline">
                     Our Services
                 </h2>
 
@@ -67,7 +67,7 @@ const Services = () => {
 
                             <div className='flex justify-center w-full bg-white service-image'>
                                 <Image
-                                    src={`/images/${service.image}`}
+                                    src={`/images/services/${service.image}`}
                                     alt={service.title}
                                     width={1000}
                                     height={1000}
@@ -80,14 +80,16 @@ const Services = () => {
                                 <h3 className="w-full font-semibold text-white uppercase service-title bg-secondary">
                                     {service.title}
                                 </h3>
-                                <p className="mt-2 text-sm service-description">{service.description}</p>
+                                <p className="mt-2 text-sm service-description">
+                                    {service.description}
+                                </p>
                             </div>
 
                         </div>
                     ))}
                 </div>
             </div>
-        </div>
+        </div >
     );
 };
 
