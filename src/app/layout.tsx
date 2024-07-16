@@ -3,8 +3,14 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import Navbar1 from "@/components/Navbar1";
 import Navbar2 from "@/components/Navbar2";
-import localFont from 'next/font/local'
+import localFont from 'next/font/local';
 import { cn } from "@/utils/cn";
+import { AppRouterCacheProvider } from '@mui/material-nextjs/v13-appRouter';
+import { ThemeProvider } from '@mui/material/styles';
+import theme from '../mui.theme';
+import Footer from "@/components/Footer";
+import ScrollButton from "@/components/ScrollButton";
+import WhatsAppButton from "@/components/WhatsAppButton";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -25,7 +31,7 @@ const futura = localFont({
     }
   ],
   variable: '--font-futura'
-})
+});
 
 export default function RootLayout({
   children,
@@ -35,9 +41,16 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={cn(inter.className, futura.variable)}>
-        <Navbar1 />
-        <Navbar2 />
-        {children}
+        <AppRouterCacheProvider>
+          <ThemeProvider theme={theme}>
+            <Navbar1 />
+            <Navbar2 />
+            {children}
+            <Footer />
+            <ScrollButton />
+            <WhatsAppButton />
+          </ThemeProvider>
+        </AppRouterCacheProvider>
       </body>
     </html>
   );

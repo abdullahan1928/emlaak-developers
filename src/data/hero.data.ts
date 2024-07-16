@@ -9,7 +9,7 @@ interface IHeroItems {
 export const heroItems: IHeroItems[] = [
   
   {
-    image: "img1.jpg",
+    image: "hero1.jpg",
     name: "Monster Developers",
     desc1: "is a multi-faceted, Pakistan-based real estate company.",
     desc2:
@@ -17,7 +17,7 @@ export const heroItems: IHeroItems[] = [
     buttonText: "Contact Us",
   },
   {
-    image: "img2.jpg",
+    image: "hero2.jpg",
     name: "Deer Developers",
     desc1: "is a multi-faceted, Pakistan-based real estate company.",
     desc2:
@@ -25,7 +25,7 @@ export const heroItems: IHeroItems[] = [
     buttonText: "Our Projects",
   },
   {
-    image: "img3.webp",
+    image: "hero3.webp",
     name: "Elephant Developers",
     desc1: "is a multi-faceted, Pakistan-based real estate company.",
     desc2:
@@ -33,7 +33,7 @@ export const heroItems: IHeroItems[] = [
     buttonText: "Our Team",
   },
   {
-    image: "img4.webp",
+    image: "hero4.webp",
     name: "Emlaak Developers",
     desc1: "is a multi-faceted, Pakistan-based real estate company.",
     desc2:

@@ -80,7 +80,7 @@ const Hero: React.FC = () => {
                 {heroItems.map((item, index) => (
                     <div key={index} className="item">
                         <CarouselItem
-                            image={`/images/hero/${item.image}`}
+                            image={`/images/home/${item.image}`}
                             name={item.name}
                             desc1={item.desc1}
                             desc2={item.desc2}
@@ -93,7 +93,7 @@ const Hero: React.FC = () => {
                 {heroItems.map((item, index) => (
                     <div key={index} className="item">
                         <Image
-                            src={`/images/hero/${item.image}`}
+                            src={`/images/home/${item.image}`}
                             alt={item.name}
                             className='w-full h-full'
                             width={1000}

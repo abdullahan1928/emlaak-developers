@@ -2,18 +2,10 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  --foreground-rgb: 0, 0, 0;
-  --background-start-rgb: 214, 219, 220;
-  --background-end-rgb: 255, 255, 255;
-}
+:root {}
 
 @media (prefers-color-scheme: dark) {
-  :root {
-    --foreground-rgb: 255, 255, 255;
-    --background-start-rgb: 0, 0, 0;
-    --background-end-rgb: 0, 0, 0;
-  }
+  :root {}
 }
 
 body {
@@ -35,7 +27,7 @@ body {
   position: relative;
   width: max-content;
 
-  &::after{
+  &::after {
     content: '';
     position: absolute;
     bottom: -5px;
@@ -357,6 +349,10 @@ body {
   z-index: 2;
 }
 
+.carousel.prev .list .item:nth-child(2) .content {
+  z-index: 2;
+}
+
 .carousel.prev .list .item:nth-child(2) img {
   animation: outFrame .5s linear 1 forwards;
   position: absolute;
@@ -374,22 +370,22 @@ body {
   }
 }
 
-/* 
+
 .carousel.prev .thumbnail .item:nth-child(1) {
   overflow: hidden;
-  opacity: 0;
-  animation: showThumbnail .5s linear 1 backwards;
-} */
+  /* opacity: 0; */
+  animation: showThumbnail .5s linear 1 forwards;
+}
 
 .carousel.next .arrows button,
 .carousel.prev .arrows button {
   pointer-events: none;
 }
 
-.carousel.prev .list .item:nth-child(2) .title,
+/* .carousel.prev .list .item:nth-child(2) .title,
 .carousel.prev .list .item:nth-child(2) .main-content,
-.carousel.prev .list .item:nth-child(2) .desc,
-.carousel.prev .list .item:nth-child(2) .hero-btn {
+.carousel.prev .list .item:nth-child(2) .desc, */
+.carousel.prev .list .item:nth-child(2) .content {
   animation: contentOut 1.5s linear 1 forwards !important;
 }
 

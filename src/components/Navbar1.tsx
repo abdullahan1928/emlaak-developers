@@ -1,39 +1,7 @@
-import { Facebook, Instagram, LinkedIn, Pinterest, Twitter, YouTube, Email } from '@mui/icons-material'
+import { emailLink, phoneNumber, socialLinks } from '@/data/social.data'
+import { Email } from '@mui/icons-material'
 import { Button } from '@mui/material'
 import React from 'react'
-
-const socialLinks = [
-    {
-        name: 'Facebook',
-        href: 'https://www.facebook.com/emlaakdevelopers',
-        icon: Facebook
-    },
-    {
-        name: 'Twitter',
-        href: 'https://www.twitter.com',
-        icon: Twitter
-    },
-    {
-        name: 'Instagram',
-        href: 'https://www.instagram.com',
-        icon: Instagram
-    },
-    {
-        name: 'LinkedIn',
-        href: 'https://www.linkedin.com',
-        icon: LinkedIn
-    },
-    {
-        name: 'YouTube',
-        href: 'https://www.youtube.com',
-        icon: YouTube
-    },
-    {
-        name: 'Pintrest',
-        href: 'https://www.pintrest.com',
-        icon: Pinterest
-    }
-]
 
 const Navbar1 = () => {
 
@@ -70,17 +38,20 @@ const Navbar1 = () => {
 
                 <div className="flex items-center space-x-2">
                     <Email fontSize="medium" sx={{ "&:hover": "text-secondary" }} />
-                    <a href="mailto:abdullahan1928@gmail.com" className="font-semibold transition-colors duration-300 hover:text-secondary">
-                        info@emlaakdevelopers.com
+                    <a
+                        href={`mailto:${emailLink}`}
+                        className="font-semibold transition-colors duration-300 hover:text-secondary"
+                    >
+                        {emailLink}
                     </a>
                 </div>
             </div>
 
 
             <Button
-                className="text-white bg-secondary-700 hover:bg-secondary-800"
+                className="!text-white !border !border-white !bg-black hover:!bg-white hover:!text-black"
                 variant="contained"
-                href="tel:+923111111111"
+                href={`tel:${phoneNumber}`}
             >
                 Call Now
             </Button>
