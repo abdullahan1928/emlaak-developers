@@ -3,10 +3,10 @@ import { Email } from '@mui/icons-material'
 import { Button } from '@mui/material'
 import React from 'react'
 
-const Navbar1 = () => {
+const Header = () => {
 
     return (
-        <div className="flex items-center justify-between px-4 py-2 text-black bg-white shadow-lg">
+        <div className="items-center justify-between hidden px-4 py-2 text-black bg-white shadow-lg md:flex">
             <div className="flex items-center space-x-4 text-lg font-extr font-futura-[800]">
                 Emlaak Developers
             </div>
@@ -59,4 +59,4 @@ const Navbar1 = () => {
     )
 }
 
-export default Navbar1
+export default Header

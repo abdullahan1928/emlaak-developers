@@ -52,7 +52,7 @@ const InquiryForm = () => {
     return (
         <div className="bg-[url('/images/home/form-bg.jpg')] w-full my-32">
             <div className="py-12">
-                <form onSubmit={handleSubmit(onSubmit)} className="max-w-xl p-6 mx-auto bg-white rounded-md shadow-md">
+                <form onSubmit={handleSubmit(onSubmit)} className="max-w-xl p-6 mx-4 bg-white rounded-md shadow-md md:mx-auto">
                     <h2 className="mb-2 font-bold">Inquiry Form</h2>
                     <div className="mb-4">
                         <FormControl fullWidth>

@@ -24,6 +24,7 @@
     "react-dom": "^18",
     "react-hook-form": "^7.52.1",
     "react-material-ui-carousel": "^3.4.2",
+    "react-responsive-carousel": "^3.2.23",
     "resend": "^3.4.0",
     "tailwind-merge": "^2.4.0",
     "zod": "^3.23.8"

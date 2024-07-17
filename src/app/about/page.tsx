@@ -5,26 +5,26 @@ import React from 'react';
 
 const Page = () => {
     return (
-        <div className="py-20 mx-auto">
-            <h3 className="mb-10 text-5xl font-bold text-center">
+        <div className="px-4 py-10 mx-auto max-w-7xl sm:px-6 lg:px-8">
+            <h3 className="mb-10 text-3xl font-bold text-center sm:text-4xl md:text-5xl">
                 Our Core Team
             </h3>
 
-            <div className="mx-32 mb-16">
-                <h2 className="mb-4 text-3xl font-bold">
+            <div className="mx-4 mb-16 sm:mx-8 md:mx-16 lg:mx-32">
+                <h2 className="mb-4 text-2xl font-bold sm:text-3xl">
                     Our Mission
                 </h2>
-                <p className="text-lg font-semibold">
+                <p className="text-base font-semibold sm:text-lg">
                     At Emlaak Developers, our mission is to transform dreams into reality by providing top-notch real estate solutions that exceed our clients&apos; expectations. We are dedicated to delivering excellence through innovation, integrity, and a commitment to sustainable development.
                 </p>
             </div>
 
-            <div className="flex flex-col gap-20 mx-32">
+            <div className="flex flex-col gap-10 mx-4 sm:gap-16 md:gap-20 sm:mx-8 md:mx-16 lg:mx-32">
                 {about.map((item, index) => (
-                    <div key={index} className="flex flex-col gap-0">
+                    <div key={index} className="flex flex-col gap-4 sm:gap-6 md:gap-8">
                         <div
                             className={cn(
-                                "flex gap-8 border border-gray-200 shadow-md",
+                                "flex flex-col sm:flex-row gap-4 sm:gap-8 border border-gray-200 shadow-md",
                                 // index % 2 === 0 ? 'flex-row' : 'flex-row-reverse',
                                 "tilt-right"
                             )}
@@ -32,18 +32,18 @@ const Page = () => {
                             <Image
                                 src={`/images/about/${item.image}`}
                                 alt={item.name}
-                                width={1000}
-                                height={1000}
-                                className="w-48 h-full"
+                                width={500}
+                                height={500}
+                                className="w-full h-auto sm:w-48"
                             />
-                            <div className="flex flex-col justify-center px-8">
-                                <h2 className="mt-4 text-3xl font-bold">
+                            <div className="flex flex-col justify-center px-4 py-4 sm:px-8 sm:py-0">
+                                <h2 className="mt-2 text-2xl font-bold sm:mt-4 sm:text-3xl">
                                     {item.name}
                                 </h2>
-                                <h3 className="text-base font-semibold text-gray-800">
+                                <h3 className="text-sm font-semibold text-gray-800 sm:text-base">
                                     {item.designation}
                                 </h3>
-                                <p className="mt-2 text-sm text-gray-800">
+                                <p className="mt-2 mb-4 text-xs text-gray-800 sm:text-sm">
                                     {item.description}
                                 </p>
                             </div>
@@ -52,7 +52,7 @@ const Page = () => {
                 ))}
             </div>
 
-        </div >
+        </div>
     );
 }
 

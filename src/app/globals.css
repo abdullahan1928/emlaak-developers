@@ -454,3 +454,7 @@ body {
     width: 50%;
   }
 }
+
+.dotted-border {
+  border-bottom: 1px dashed #eaeaea
+}

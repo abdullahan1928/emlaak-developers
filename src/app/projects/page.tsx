@@ -40,20 +40,20 @@ const ProjectPage: React.FC = () => {
     const [sort, setSort] = useState('');
     const [cardsToShow, setCardsToShow] = useState(15);
 
-    const handleFilterChange = (event: React.ChangeEvent<{ name?: string; value: unknown }>) => {
+    const handleFilterChange = (event: any) => {
         const { name, value } = event.target;
         setFilters((prevFilters) => ({ ...prevFilters, [name as string]: value }));
     };
 
-    const handlePageChange = (event: React.ChangeEvent<unknown>, value: number) => {
+    const handlePageChange = (event: any, value: number) => {
         setPage(value);
     };
 
-    const handleSortChange = (event: React.ChangeEvent<{ value: unknown }>) => {
+    const handleSortChange = (event: any) => {
         setSort(event.target.value as string);
     };
 
-    const handleCardsToShowChange = (event: React.ChangeEvent<{ value: unknown }>) => {
+    const handleCardsToShowChange = (event: any) => {
         setCardsToShow(event.target.value as number);
     };
 
@@ -168,7 +168,7 @@ const ProjectPage: React.FC = () => {
                     </Select>
                 </FormControl>
             </div>
-            <div className="grid grid-cols-2 gap-4 mb-4 md:grid-cols-3 lg:grid-cols-4">
+            <div className="grid grid-cols-1 gap-4 mb-4 md:grid-cols-3 lg:grid-cols-4">
                 {paginatedProjects.map(project => (
                     <div key={project.id} className="overflow-hidden bg-white rounded-lg shadow-lg cursor-pointer" onClick={() => handleCardClick(project.id)}>
                         <Image
@@ -196,6 +196,7 @@ const ProjectPage: React.FC = () => {
                     </div>
                 ))}
             </div>
+
             <Pagination
                 count={Math.ceil(filteredProjects.length / cardsToShow)}
                 page={page}
@@ -205,6 +206,7 @@ const ProjectPage: React.FC = () => {
                 color="primary"
             />
         </div>
+
     );
 };
 

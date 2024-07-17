@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
-import Navbar1 from "@/components/Navbar1";
-import Navbar2 from "@/components/Navbar2";
+import Header from "@/components/Header";
+import Navbar from "@/components/Navbar";
 import localFont from 'next/font/local';
 import { cn } from "@/utils/cn";
 import { AppRouterCacheProvider } from '@mui/material-nextjs/v13-appRouter';
@@ -43,8 +43,8 @@ export default function RootLayout({
       <body className={cn(inter.className, futura.variable)}>
         <AppRouterCacheProvider>
           <ThemeProvider theme={theme}>
-            <Navbar1 />
-            <Navbar2 />
+            <Header />
+            <Navbar />
             {children}
             <Footer />
             <ScrollButton />
