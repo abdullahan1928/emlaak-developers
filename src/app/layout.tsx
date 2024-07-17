@@ -1,16 +1,11 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
-import Header from "@/components/Header";
-import Navbar from "@/components/Navbar";
 import localFont from 'next/font/local';
 import { cn } from "@/utils/cn";
 import { AppRouterCacheProvider } from '@mui/material-nextjs/v13-appRouter';
 import { ThemeProvider } from '@mui/material/styles';
 import theme from '../mui.theme';
-import Footer from "@/components/Footer";
-import ScrollButton from "@/components/ScrollButton";
-import WhatsAppButton from "@/components/WhatsAppButton";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -43,12 +38,7 @@ export default function RootLayout({
       <body className={cn(inter.className, futura.variable)}>
         <AppRouterCacheProvider>
           <ThemeProvider theme={theme}>
-            <Header />
-            <Navbar />
             {children}
-            <Footer />
-            <ScrollButton />
-            <WhatsAppButton />
           </ThemeProvider>
         </AppRouterCacheProvider>
       </body>
