@@ -1,9 +1,9 @@
 import type { Metadata } from "next";
-import Header from "@/components/Header";
-import Navbar from "@/components/Navbar";
-import Footer from "@/components/Footer";
-import ScrollButton from "@/components/ScrollButton";
-import WhatsAppButton from "@/components/WhatsAppButton";
+import Header from "@/components/layouts/public/Header";
+import Navbar from "@/components/layouts/public/Navbar";
+import Footer from "@/components/layouts/public/Footer";
+import ScrollButton from "@/components/layouts/public/ScrollButton";
+import WhatsAppButton from "@/components/layouts/public/WhatsAppButton";
 
 export const metadata: Metadata = {
   title: "Emlaak Developers",

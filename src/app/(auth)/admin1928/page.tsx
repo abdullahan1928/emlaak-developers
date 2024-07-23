@@ -1,10 +1,11 @@
 "use client";
 import React, { useState } from 'react';
-import axios from 'axios';
 import { TextField, Button, IconButton, InputAdornment, Typography } from '@mui/material';
 import { Search, Visibility, VisibilityOff, ErrorOutline, Key } from '@mui/icons-material';
 import Link from 'next/link';
 import Image from 'next/image';
+import { useRouter } from 'next/navigation';
+import axios from 'axios';
 
 const SignupForm = () => {
     const [email, setEmail] = useState('');
@@ -12,6 +13,7 @@ const SignupForm = () => {
     const [showPassword, setShowPassword] = useState(false);
     const [emailError, setEmailError] = useState(false);
     const [credentialsError, setCredentialsError] = useState(false);
+    const router = useRouter();
 
     const handleSubmit = async (e: any) => {
         e.preventDefault();
@@ -25,13 +27,12 @@ const SignupForm = () => {
         }
 
         try {
-            await axios.get(`/api/login?email=${email}&password=${password}`);
-            setEmail('');
-            setPassword('');
+            await axios.post('/api/auth/login', { email, password });
+            router.push('/admin/dashboard');
         } catch (error) {
-            console.error('Error signing up:', error);
             setCredentialsError(true);
         }
+
     };
 
     const togglePasswordVisibility = () => {
@@ -44,10 +45,11 @@ const SignupForm = () => {
     };
 
     return (
-        <div className="flex items-center justify-center min-h-screen bg-black">
-            <form onSubmit={handleSubmit} className="bg-white pt-8 pb-24 rounded-lg px-8 w-1/2 max-w-lg flex flex-col">
+        <div className="flex flex-col items-center justify-center min-h-screen bg-black">
 
-                <Link href="/" className="mb-4 mx-auto">
+            <form onSubmit={handleSubmit} className="flex flex-col w-1/2 max-w-lg px-8 pt-8 pb-24 bg-white rounded-lg">
+
+                <Link href="/" className="mx-auto mb-4">
                     <Image
                         src="/logo.png"
                         alt="Emlaak Logo"
@@ -58,7 +60,7 @@ const SignupForm = () => {
                     />
                 </Link>
 
-                <div className="flex flex-col my-8 gap-8">
+                <div className="flex flex-col gap-8 my-8">
                     <TextField
                         label="Email"
                         type="email"
@@ -115,7 +117,7 @@ const SignupForm = () => {
                 </div>
 
                 {credentialsError &&
-                    <Typography variant="h6" color="error" className="mb-4 flex items-center gap-2"><ErrorOutline /> Invalid email or password</Typography>
+                    <Typography variant="body1" color="error" className="!mb-8 flex items-center gap-2"><ErrorOutline /> Invalid email or password</Typography>
                 }
 
                 <Button
@@ -123,7 +125,7 @@ const SignupForm = () => {
                     variant="contained"
                     className="!text-white !border !border-white !bg-black hover:!bg-white hover:!text-black"
                 >
-                    Call Now
+                    Sign In
                 </Button>
             </form>
         </div>

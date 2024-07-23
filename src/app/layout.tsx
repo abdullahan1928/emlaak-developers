@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
-import "./globals.css";
+import "@/styles/index.css";
 import localFont from 'next/font/local';
 import { cn } from "@/utils/cn";
 import { AppRouterCacheProvider } from '@mui/material-nextjs/v13-appRouter';
@@ -12,6 +12,9 @@ const inter = Inter({ subsets: ["latin"] });
 export const metadata: Metadata = {
   title: "Emlaak Developers",
   description: "Emlaak Developers - Real Estate Company in Pakistan",
+  icons: {
+    icon: "/logo.ico",
+  },
 };
 
 const futura = localFont({

@@ -25,7 +25,7 @@ const CarouselItem = (props: CarouselItemProps) => (
         />
 
         <div className="static flex items-stretch justify-between h-[85vh] text-white content">
-            <div className="bg-[#000000b3] flex justify-end h-full px-6 items-center">
+            <div className="bg-[#000000b3] flex justify-end h-full px-6 max-md:py-24 md:items-center">
                 <div className="flex flex-col w-full gap-4 lg:max-w-xl">
                     <h1 className="font-futura mx-0 text-[21px] [line-height:34px] uppercase [letter-spacing:.06em] main-content">
                         <span className="text-3xl text-primary title">{props.name}</span>  {props.desc1}

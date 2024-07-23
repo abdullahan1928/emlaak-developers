@@ -11,10 +11,6 @@ const Footer: React.FC = () => {
         <footer className="text-white bg-gray-900">
             <Container className="pt-12 mx-auto">
                 <div className="grid grid-cols-1 gap-8 md:grid-cols-3">
-                    {/* <div>
-                        <h2 className="mb-4 text-xl font-bold">About Us</h2>
-                        <p className="text-gray-400">Emlaak Developers is committed to delivering the best real estate services with a focus on reliability and client satisfaction.</p>
-                    </div> */}
                     <div className="flex flex-col gap-8">
                         <Image
                             src="/logo.png"

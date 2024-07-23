@@ -1,51 +1,41 @@
 "use client";
-import React, { useState } from 'react';
-import { TextField, MenuItem, Pagination, Select, FormControl, InputLabel } from '@mui/material';
-import { useRouter } from 'next/navigation';
-import Image from 'next/image';
+import React, { ReactNode, useEffect, useState } from 'react';
+import axios from 'axios';
+import { IProject } from '@/interfaces/project';
+import { TextField, MenuItem, Select, FormControl, InputLabel, CircularProgress, Pagination, SelectChangeEvent } from '@mui/material';
 import { Search, LocationOn, FilterList, Sort, AttachMoney, Visibility, Category } from '@mui/icons-material';
-
-interface Project {
-    id: number;
-    picture: string;
-    title: string;
-    location: string;
-    price: string;
-    category: string;
-    views: number;
-}
-
-const singleProject: Project = {
-    id: 1,
-    picture: '/images/home/form-bg.jpg',
-    title: 'Project',
-    location: 'Islamabad',
-    price: '$1000',
-    category: 'Category 1',
-    views: 100,
-};
-
-const projects: Project[] = Array(200).fill(null).map((_, index) => ({
-    ...singleProject,
-    id: index + 1,
-    title: `${singleProject.title} ${index + 1}`,
-    views: Math.floor(Math.random() * 1000),
-    // price: `$${Math.floor(Math.random() * 1000)}`,
-}));
+import ProjectCard from '@/components/projects/ProjectCard';
 
 const ProjectPage: React.FC = () => {
-    const router = useRouter();
     const [filters, setFilters] = useState({ keyword: '', location: '', choices: '', floors: '' });
+    const [projects, setProjects] = useState<IProject[]>([]);
     const [page, setPage] = useState(1);
     const [sort, setSort] = useState('');
     const [cardsToShow, setCardsToShow] = useState(15);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState<string | null>(null);
+
+    useEffect(() => {
+        const fetchProjects = async () => {
+            try {
+                const response = await axios.get('/api/projects');
+                setProjects(response.data);
+                setLoading(false);
+            } catch (error) {
+                setError('Failed to fetch projects.');
+                setLoading(false);
+            }
+        };
+
+        fetchProjects();
+    }, []);
 
     const handleFilterChange = (event: any) => {
         const { name, value } = event.target;
         setFilters((prevFilters) => ({ ...prevFilters, [name as string]: value }));
     };
 
-    const handlePageChange = (event: any, value: number) => {
+    const handlePageChange = (event: React.ChangeEvent<unknown>, value: number) => {
         setPage(value);
     };
 
@@ -53,12 +43,8 @@ const ProjectPage: React.FC = () => {
         setSort(event.target.value as string);
     };
 
-    const handleCardsToShowChange = (event: any) => {
+    const handleCardsToShowChange = (event: SelectChangeEvent<number>, child: ReactNode) => {
         setCardsToShow(event.target.value as number);
-    };
-
-    const handleCardClick = (id: number) => {
-        router.push(`/projects/${id}`);
     };
 
     const filteredProjects = projects
@@ -83,7 +69,7 @@ const ProjectPage: React.FC = () => {
     return (
         <div className="container p-4 mx-auto">
             <h1 className="mb-4 text-4xl font-bold">Projects</h1>
-            <p className="mb-4">Browse our projects. Use the filters below to refine your search.</p>
+            <p className="mb-4 text-gray-700">Browse our projects. Use the filters below to refine your search.</p>
             <div className="grid grid-cols-1 gap-4 mb-4 md:grid-cols-2 lg:grid-cols-4">
                 <TextField
                     label="Keyword"
@@ -168,45 +154,30 @@ const ProjectPage: React.FC = () => {
                     </Select>
                 </FormControl>
             </div>
-            <div className="grid grid-cols-1 gap-4 mb-4 md:grid-cols-3 lg:grid-cols-4">
-                {paginatedProjects.map(project => (
-                    <div key={project.id} className="overflow-hidden bg-white rounded-lg shadow-lg cursor-pointer" onClick={() => handleCardClick(project.id)}>
-                        <Image
-                            src={project.picture}
-                            alt={project.title}
-                            width={400}
-                            height={200}
-                            className="object-cover w-full h-48"
-                        />
-                        <div className="p-4">
-                            <h2 className="mb-2 text-xl font-bold">{project.title}</h2>
-                            <div className="flex items-center mb-1 text-gray-700">
-                                <LocationOn className="mr-1" /> {project.location}
-                            </div>
-                            <div className="flex items-center mb-1 text-gray-700">
-                                <AttachMoney className="mr-1" /> {project.price}
-                            </div>
-                            <div className="flex items-center mb-1 text-gray-700">
-                                <Category className="mr-1" /> {project.category}
-                            </div>
-                            <div className="flex items-center text-gray-700">
-                                <Visibility className="mr-1" /> {project.views}
-                            </div>
-                        </div>
+            {loading ? (
+                <div className="flex justify-center items-center h-64">
+                    <CircularProgress />
+                </div>
+            ) : error ? (
+                <div className="text-red-500">{error}</div>
+            ) : (
+                <>
+                    <div className="grid grid-cols-1 gap-4 mb-4 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+                        {paginatedProjects.map((project) => (
+                            <ProjectCard key={project._id} project={project} />
+                        ))}
                     </div>
-                ))}
-            </div>
-
-            <Pagination
-                count={Math.ceil(filteredProjects.length / cardsToShow)}
-                page={page}
-                showFirstButton
-                showLastButton
-                onChange={handlePageChange}
-                color="primary"
-            />
+                    <Pagination
+                        count={Math.ceil(filteredProjects.length / cardsToShow)}
+                        page={page}
+                        showFirstButton
+                        showLastButton
+                        onChange={handlePageChange}
+                        color="primary"
+                    />
+                </>
+            )}
         </div>
-
     );
 };
 

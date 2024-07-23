@@ -1,30 +1,55 @@
 "use client";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
 import Image from "next/image";
 import { Carousel } from "react-responsive-carousel";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
-import { LocationOn, Visibility, CalendarToday, Category, Description, CheckCircle } from "@mui/icons-material";
-import { Typography, Chip } from "@mui/material";
-
-const projects = [
-    {
-        id: 1,
-        title: "Beautiful House",
-        images: ["/images/home/form-bg.jpg", "/images/home/form-bg.jpg", "/images/home/form-bg.jpg"],
-        location: "123 Main St, City, Country",
-        views: 1500,
-        dateUploaded: "2023-07-15",
-        status: "Available",
-        category: "Residential",
-        description: "A long description about the beautiful house with all the details and features...",
-    },
-    // Add more projects as needed
-];
+import { LocationOn, Visibility, Category } from "@mui/icons-material";
+import { Typography, CircularProgress } from "@mui/material";
+import axios from "axios";
+import { IProject } from "@/interfaces/project";
 
 const ProjectPage = () => {
     const { id } = useParams();
-    const project = projects.find((proj) => proj.id === parseInt(id?.toString() || "0"));
+    const [project, setProject] = useState<IProject>({
+        _id: 0,
+        title: "",
+        price: "0",
+        location: "",
+        pictures: [],
+        views: 0,
+        description: "",
+        category: "",
+    });
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState<string | null>(null);
+
+    useEffect(() => {
+        const fetchProject = async () => {
+            try {
+                const response = await axios.get(`/api/projects/${id}`);
+                setProject(response.data);
+                setLoading(false);
+            } catch (error) {
+                setError("Failed to fetch project details.");
+                setLoading(false);
+            }
+        };
+
+        fetchProject();
+    }, [id]);
+
+    if (loading) {
+        return (
+            <div className="flex justify-center items-center h-64">
+                <CircularProgress />
+            </div>
+        );
+    }
+
+    if (error) {
+        return <div className="text-red-500">{error}</div>;
+    }
 
     if (!project) {
         return <div>Project not found</div>;
@@ -36,9 +61,15 @@ const ProjectPage = () => {
                 {project.title}
             </Typography>
             <Carousel className="mb-4">
-                {project.images.map((image, index) => (
+                {project.pictures.map((image: string, index: number) => (
                     <div key={index}>
-                        <Image src={image} alt={project.title} width={800} height={400} className="object-cover w-full h-96" />
+                        <Image
+                            src={image}
+                            alt={project.title}
+                            width={800}
+                            height={400}
+                            className="object-contain w-full"
+                        />
                     </div>
                 ))}
             </Carousel>
@@ -52,14 +83,6 @@ const ProjectPage = () => {
                     <Typography variant="body1">{project.views} views</Typography>
                 </div>
                 <div className="flex items-center">
-                    <CalendarToday className="mr-2" />
-                    <Typography variant="body1">Uploaded on {project.dateUploaded}</Typography>
-                </div>
-                <div className="flex items-center">
-                    <CheckCircle className="mr-2" />
-                    <Typography variant="body1">{project.status}</Typography>
-                </div>
-                <div className="flex items-center">
                     <Category className="mr-2" />
                     <Typography variant="body1">{project.category}</Typography>
                 </div>
@@ -67,9 +90,7 @@ const ProjectPage = () => {
             <Typography variant="h5" className="mb-2 text-2xl font-bold">
                 Description
             </Typography>
-            <Typography variant="body1" className="leading-relaxed">
-                {project.description}
-            </Typography>
+            <Typography variant="body1" className="leading-relaxed" dangerouslySetInnerHTML={{ __html: project.description }} />
         </div>
     );
 };
