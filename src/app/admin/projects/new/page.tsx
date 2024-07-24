@@ -138,9 +138,9 @@ const Page = () => {
     };
 
     return (
-        <div className="flex justify-center items-center py-16 min-h-screen bg-gray-100">
-            <Paper className="p-8 w-full max-w-3xl shadow-lg py-16">
-                <h1 className="text-3xl font-bold mb-6 text-center text-gray-700">Add New Project</h1>
+        <div className="flex items-center justify-center min-h-screen py-16 bg-gray-100">
+            <Paper className="w-full max-w-3xl p-8 py-16 shadow-lg">
+                <h1 className="mb-6 text-3xl font-bold text-center text-gray-700">Add New Project</h1>
                 <form onSubmit={handleSubmit} className="space-y-4">
                     <div className="grid grid-cols-2 gap-4">
                         <TextField
@@ -196,7 +196,7 @@ const Page = () => {
                         multiple
                         value={project.tags}
                         onChange={handleItemChange}
-                        renderItems={handleRenderItems}
+                        renderTags={handleRenderItems}
                         renderInput={handleRenderInput}
                         renderOption={(props, option, { selected }) => (
                             <li {...props} key={option} className="flex flex-row items-center justify-between px-4 py-2">
@@ -227,7 +227,7 @@ const Page = () => {
                     {project.pictures.length > 0 && (
                         <div className="grid grid-cols-2 gap-4 mt-4">
                             {project.pictures.map((picture, index) => (
-                                <div key={index} className="relative w-full h-32 rounded-lg overflow-hidden">
+                                <div key={index} className="relative w-full h-32 overflow-hidden rounded-lg">
                                     <Image
                                         src={picture}
                                         alt="Project"
@@ -243,7 +243,7 @@ const Page = () => {
                             {loading ? <CircularProgress size={24} /> : 'Add Project'}
                         </Button>
                     </div>
-                    {error && <div className="text-red-500 mt-2">{error}</div>}
+                    {error && <div className="mt-2 text-red-500">{error}</div>}
                 </form>
             </Paper>
         </div>
