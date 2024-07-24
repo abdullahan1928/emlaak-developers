@@ -2,9 +2,8 @@ import { Divider, Menu, MenuItem, Typography } from "@mui/material";
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import axios from "axios";
 
-const HeaderMenu = (handlelogout: { handlelogout: () => Promise<void> }) => {
+const NavMenu = (handleLogout: { handleLogout: () => Promise<void> }) => {
     const name = "Admin";
     const [anchorEl, setAnchorEl] = useState(null);
 
@@ -93,7 +92,7 @@ const HeaderMenu = (handlelogout: { handlelogout: () => Promise<void> }) => {
                 <Divider />
 
                 <MenuItem
-                    onClick={() => handlelogout.handlelogout()}
+                    onClick={() => handleLogout.handleLogout()}
                     sx={{
                         "&:hover": {
                             backgroundColor: "rgba(0,0,0,0.1)",
@@ -108,4 +107,4 @@ const HeaderMenu = (handlelogout: { handlelogout: () => Promise<void> }) => {
     )
 }
 
-export default HeaderMenu
+export default NavMenu

@@ -65,11 +65,11 @@ const DrawerHeader = styled("div")(({ theme }) => ({
 
 interface PrivateLayoutProps {
     open: boolean;
-    handlelogout: () => Promise<void>;
+    handleLogout: () => Promise<void>;
     children: React.ReactNode;
 }
 
-const Sidebar = ({ open, handlelogout, children }: PrivateLayoutProps) => {
+const Sidebar = ({ open, handleLogout, children }: PrivateLayoutProps) => {
     const router = useRouter();
 
     return (
@@ -87,11 +87,11 @@ const Sidebar = ({ open, handlelogout, children }: PrivateLayoutProps) => {
 
                 <Divider className="w-[85%] flex self-center" />
 
-                <SidebarItems open={open} handlelogout={handlelogout} />
+                <SidebarItems open={open} handleLogout={handleLogout} />
 
             </Drawer >
 
-            <Box component="main" sx={{ flexGrow: 1}}>
+            <Box component="main" sx={{ flexGrow: 1 }}>
                 <DrawerHeader />
 
                 {children}

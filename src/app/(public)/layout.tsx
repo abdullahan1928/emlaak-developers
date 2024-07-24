@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
-import Header from "@/components/layouts/public/Header";
-import Navbar from "@/components/layouts/public/Navbar";
+import Navbar1 from "@/components/layouts/public/Navbar1";
+import Navbar2 from "@/components/layouts/public/Navbar2";
 import Footer from "@/components/layouts/public/Footer";
 import ScrollButton from "@/components/layouts/public/ScrollButton";
 import WhatsAppButton from "@/components/layouts/public/WhatsAppButton";
@@ -17,14 +17,14 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body>
-        <Header />
-        <Navbar />
+      <>
+        <Navbar1 />
+        <Navbar2 />
         {children}
         <Footer />
         <ScrollButton />
         <WhatsAppButton />
-      </body>
+      </>
     </html>
   );
 }

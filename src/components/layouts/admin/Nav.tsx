@@ -5,8 +5,8 @@ import {
 } from "@mui/material";
 import MuiAppBar, { AppBarProps as MuiAppBarProps } from "@mui/material/AppBar";
 import drawerWidth from "./data/drawerWidth";
-import ToggleSidebarButton from "./Header/ToggleSidebarButton";
-import HeaderMenu from "./Header/HeaderMenu";
+import ToggleSidebarButton from "./Nav/ToggleSidebarButton";
+import NavMenu from "./Nav/NavMenu";
 
 const AppBar = styled(MuiAppBar, {
     shouldForwardProp: (prop) => prop !== "open",
@@ -40,19 +40,19 @@ const AppBar = styled(MuiAppBar, {
 }));
 
 interface AppBarProps extends MuiAppBarProps {
-    open?: boolean;
-    setopen?: any;
-    handlelogout: () => Promise<void>
+    open: boolean;
+    setOpen?: any;
+    handleLogout?: () => Promise<void>;
 }
 
-const Nav = ({ open, setopen, handlelogout }: AppBarProps) => {
+const Nav = ({ open, setOpen, handleLogout = () => Promise.resolve() }: AppBarProps) => {
 
     const toggleDrawer = () => {
-        setopen(!open);
+        setOpen(!open);
     };
 
     return (
-        <AppBar position="fixed" open={open} setopen={setopen} handlelogout={handlelogout}>
+        <AppBar position="fixed" open={open}>
             <Toolbar sx={{ display: "flex", justifyContent: "space-between" }}>
 
                 <div className="flex items-center gap-12 max-lg:hidden">
@@ -67,7 +67,7 @@ const Nav = ({ open, setopen, handlelogout }: AppBarProps) => {
 
                 <div className="flex items-center gap-12 max-lg:gap-6">
 
-                    <HeaderMenu handlelogout={handlelogout} />
+                    <NavMenu handleLogout={handleLogout} />
                 </div>
             </Toolbar>
         </AppBar>

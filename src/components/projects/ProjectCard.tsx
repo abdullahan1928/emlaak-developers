@@ -2,11 +2,19 @@
 import React from 'react';
 import Image from 'next/image';
 import { IProject } from '@/interfaces/project';
-import { LocationOn, AttachMoney, Visibility, Category } from '@mui/icons-material';
+import { LocationOn, Category } from '@mui/icons-material';
 import { useRouter } from 'next/navigation';
+import { cn } from '@/utils/cn';
 
 interface ProjectCardProps {
     project: IProject;
+}
+
+const formatPrice = (price: string): string => {
+    const cleanPrice = price.replace(/,/g, ''); // Remove commas
+    const million = 1000000;
+    const formattedPrice = (parseInt(cleanPrice) / million).toFixed(1);
+    return `${formattedPrice} Million`;
 }
 
 const ProjectCard: React.FC<ProjectCardProps> = ({ project }) => {
@@ -17,33 +25,56 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project }) => {
     }
 
     return (
-        <div
-            className="overflow-hidden bg-white rounded-lg shadow-lg cursor-pointer transform transition-transform duration-300 hover:scale-105"
-            onClick={() => handleCardClick(project._id?.toString())}
-        >
-            <Image
-                src={project.pictures[0]}
-                alt={project.title}
-                width={400}
-                height={200}
-                className="object-cover w-full h-48 hover:scale-110 transition-transform duration-300"
-            />
+        <div className="relative mt-12 overflow-hidden bg-white shadow-lg">
+            <div className="relative w-full h-80">
+                <Image
+                    src={project.pictures[0]}
+                    alt={project.title}
+                    layout="fill"
+                    objectFit="cover"
+                    className="image-filter"
+                />
+                <div className="absolute bottom-0 w-full p-4 bg-gradient-to-t from-black to-transparent">
+                    <h2 className="text-xl font-semibold text-white uppercase">{project.title}</h2>
+                    <div className="flex items-center mt-2 text-gray-300">
+                        <LocationOn className="mr-1" /> {project.location}
+                    </div>
+                </div>
+                <div className="absolute top-0 right-0 px-3 py-1 font-semibold text-white bg-primary-700 rounded-bl-md">
+                    {project.category}
+                </div>
+            </div>
             <div className="p-4">
-                <h2 className="mb-2 text-xl font-semibold">{project.title}</h2>
-                <div className="flex items-center mb-2 text-gray-700">
-                    <LocationOn className="mr-1" /> {project.location}
+                <div className="flex items-center justify-center mb-2 text-gray-700 uppercase">
+                    Starting from&nbsp;
+                    <strong>
+                        {formatPrice(project.price)}
+                    </strong>
+                    &nbsp;Only
                 </div>
-                <div className="flex items-center mb-2 text-gray-700">
-                    <AttachMoney className="mr-1" /> {project.price}
+            </div>
+            <div className="px-4 py-2 border-t border-b border-gray-200 bg-[#FAFAFA] font-gilroy">
+                <div className="flex justify-center">
+                    {project.tags.map((tag, index) => (
+                        <span
+                            key={index}
+                            className={cn(
+                                "px-3 uppercase py-1 m-1 text-[#7a7a7a] flex self-center border-[#D7D7D7]",
+                                index === 1 && "border-r border-l",
+                            )}
+                        >
+                            {tag}
+                        </span>
+                    ))}
                 </div>
-                <div className="flex gap-2 mb-2 text-gray-700">
-                    <div className="flex items-center">
-                        <Category className="mr-1" /> {project.category}
-                    </div>
-                    <div className="flex items-center">
-                        <Visibility className="mr-1" /> {project.views} views
-                    </div>
-                </div>
+            </div>
+            <div className="flex justify-center my-8">
+                <button
+                    onClick={() => handleCardClick(project._id?.toString())}
+                    className="px-6 py-2 text-lg text-white bg-black hover:bg-secondary"
+                >
+                    View Detail
+                </button>
             </div>
         </div>
     );

@@ -7,11 +7,11 @@ import LoadingOverlay from "./Sidebar/LoadingOverlay";
 import { useRouter } from "next/navigation";
 
 const AdminDashboardLayout = ({ children }: { children: React.ReactNode }) => {
-  const [open, setopen] = useState(false);
+  const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
   const router = useRouter();
 
-  const handlelogout = async () => {
+  const handleLogout = async () => {
     setLoading(true);
     try {
       await fetch('/api/auth/logout', { method: 'POST' });
@@ -26,8 +26,8 @@ const AdminDashboardLayout = ({ children }: { children: React.ReactNode }) => {
   return (
     <Box sx={{ display: "flex", position: "relative" }}>
       {loading && <LoadingOverlay />}
-      <Nav open={open} setopen={setopen} handlelogout={handlelogout} />
-      <Sidebar open={open} handlelogout={handlelogout} >
+      <Nav open={open} setOpen={setOpen} handleLogout={handleLogout} />
+      <Sidebar open={open} handleLogout={handleLogout} >
         {children}
       </Sidebar>
     </Box>

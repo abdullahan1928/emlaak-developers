@@ -21,6 +21,14 @@ body {
     text-wrap: balance;
   }
 
+  .image-filter {
+    filter: brightness(90%) contrast(100%) saturate(40%) blur(0px) hue-rotate(0deg);
+
+    &:hover {
+      filter: brightness(100%) contrast(100%) saturate(100%) blur(0px) hue-rotate(0deg);
+    }
+  }
+
 }
 
 .special-underline {

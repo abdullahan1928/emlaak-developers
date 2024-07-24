@@ -1,17 +1,19 @@
 import Footer from "@/components/layouts/public/Footer";
-import Header from "@/components/layouts/public/Header";
+import Navbar1 from "@/components/layouts/public/Navbar1";
 import Hero from "@/components/home/hero";
 import InquiryForm from "@/components/home/inquiry-form";
 import Services from "@/components/home/services";
-import Navbar from "@/components/layouts/public/Navbar";
+import Navbar2 from "@/components/layouts/public/Navbar2";
+import ScrollButton from "@/components/layouts/public/ScrollButton";
+import WhatsAppButton from "@/components/layouts/public/WhatsAppButton";
 
 export default function Home() {
   return (
-    <main>
+    <>
 
-      <Header />
+      <Navbar1 />
 
-      <Navbar />
+      <Navbar2 />
 
       <Hero />
 
@@ -21,6 +23,10 @@ export default function Home() {
 
       <Footer />
 
-    </main>
+      <ScrollButton />
+
+      <WhatsAppButton />
+
+    </>
   );
 }

@@ -3,7 +3,7 @@ import { Email } from '@mui/icons-material'
 import { Button } from '@mui/material'
 import React from 'react'
 
-const Header = () => {
+const Navbar1 = () => {
 
     return (
         <div className="items-center justify-between hidden px-4 py-2 text-black bg-white shadow-lg md:flex">
@@ -49,7 +49,7 @@ const Header = () => {
 
 
             <Button
-                className="!text-white !border !border-white !bg-black hover:!bg-white hover:!text-black"
+                className="!text-white !border !border-white !bg-black hover:!bg-primary hover:!text-black"
                 variant="contained"
                 href={`tel:${phoneNumber}`}
             >
@@ -59,4 +59,4 @@ const Header = () => {
     )
 }
 
-export default Header
+export default Navbar1

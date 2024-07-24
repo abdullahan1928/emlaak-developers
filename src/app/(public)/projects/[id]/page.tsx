@@ -16,10 +16,11 @@ const ProjectPage = () => {
         title: "",
         price: "0",
         location: "",
-        pictures: [],
         views: 0,
-        description: "",
         category: "",
+        description: "",
+        tags: [],
+        pictures: [],
     });
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);

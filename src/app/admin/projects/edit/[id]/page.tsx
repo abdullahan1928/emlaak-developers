@@ -1,11 +1,13 @@
 "use client";
 import React, { ReactNode, useEffect, useState } from 'react';
-import { TextField, Button, Paper, FormControl, InputLabel, Select, MenuItem, CircularProgress, SelectChangeEvent } from '@mui/material';
+import { TextField, Button, Paper, FormControl, InputLabel, Select, MenuItem, CircularProgress, SelectChangeEvent, Chip, Autocomplete } from '@mui/material';
 import axios from 'axios';
 import { useParams, useRouter } from 'next/navigation';
 import { IProject } from '@/interfaces/project';
 import Image from 'next/image';
 import 'react-quill/dist/quill.snow.css';
+import DoneIcon from '@mui/icons-material/Done';
+
 import ReactQuill from 'react-quill';
 
 const modules = {
@@ -37,6 +39,7 @@ const Page = () => {
         category: '',
         views: 0,
         description: '',
+        tags: [],
         pictures: [],
     });
     const [loading, setLoading] = useState(false);
@@ -92,6 +95,28 @@ const Page = () => {
             }));
         }
     };
+
+    const handleItemChange = (_: any, newValue: string[]) => {
+        setProject((prevProject) => ({
+            ...prevProject,
+            tags: newValue,
+        }));
+    }
+
+    const handleRenderItems = (value: string[], props: any) => {
+        return value.map((option, index) => (
+            <Chip key="" label={option} {...props({ index })} />
+        ))
+    }
+
+    const handleRenderInput = (params: any) => {
+        return (
+            <TextField
+                {...params}
+                label="Add Tags"
+            />
+        )
+    }
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -181,6 +206,26 @@ const Page = () => {
                             </Select>
                         </FormControl>
                     </div>
+                    <Autocomplete
+                        clearIcon={false}
+                        options={project.tags}
+                        freeSolo
+                        multiple
+                        value={project.tags}
+                        onChange={handleItemChange}
+                        renderItems={handleRenderItems}
+                        renderInput={handleRenderInput}
+                        renderOption={(props, option, { selected }) => (
+                            <li {...props} key={option} className="flex flex-row items-center justify-between px-4 py-2">
+                                <span>
+                                    {option}
+                                </span>
+                                {selected ?
+                                    <DoneIcon className='text-green-700' />
+                                    : null}
+                            </li>
+                        )}
+                    />
                     <ReactQuill
                         value={project.description}
                         onChange={handleDescriptionChange}

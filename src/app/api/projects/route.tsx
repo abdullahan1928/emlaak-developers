@@ -7,7 +7,7 @@ import mongoose from "mongoose";
 export async function POST(req: NextRequest) {
     await dbConnect();
 
-    const { title, location, price, category, views, description, pictures } = await req.json();
+    const { title, location, price, category, views, description, tags, pictures } = await req.json();
 
     // Decode base64 images
     const decodeBase64Image = (data: string) => {
@@ -30,8 +30,6 @@ export async function POST(req: NextRequest) {
             })
         );
 
-        console.log("Picture URLs", pictureUrls);
-
         // Save project data to MongoDB
         const project = new Project({
             _id: projectId,
@@ -41,6 +39,7 @@ export async function POST(req: NextRequest) {
             category,
             views,
             description,
+            tags,
             pictures: pictureUrls,
         });
 

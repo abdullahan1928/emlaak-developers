@@ -6,5 +6,6 @@ export interface IProject {
   category: string;
   views: number;
   description: string;
+  tags: string[];
   pictures: string[];
 }

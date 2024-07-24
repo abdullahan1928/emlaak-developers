@@ -7,7 +7,6 @@ export async function GET(req: NextRequest, { params }: { params: { id: string }
     await dbConnect();
 
     const id = params.id;
-    console.log(id);
 
     const project = await Project.findById(id);
 
@@ -31,7 +30,7 @@ export async function GET(req: NextRequest, { params }: { params: { id: string }
 export async function PUT(req: NextRequest, { params }: { params: { id: string } }) {
     await dbConnect();
 
-    const { title, location, price, category, views, description, pictures, removePictures } = await req.json();
+    const { title, location, price, category, views, description, tags, pictures, removePictures } = await req.json();
 
     // Decode base64 images
     const decodeBase64Image = (data: string) => {
@@ -70,7 +69,8 @@ export async function PUT(req: NextRequest, { params }: { params: { id: string }
             category,
             views,
             description,
-            pictures: [...project.pictures, ...newPictureUrls], // Add new pictures to existing ones
+            tags,
+            pictures: [...project.pictures, ...newPictureUrls],
         };
 
         // Handle removed pictures

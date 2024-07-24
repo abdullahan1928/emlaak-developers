@@ -15,6 +15,7 @@ const Page = () => {
         category: '',
         views: 0,
         description: '',
+        tags: [],
         pictures: [],
     });
     const [loading, setLoading] = useState(true);

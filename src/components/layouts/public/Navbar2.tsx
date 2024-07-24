@@ -16,7 +16,7 @@ import { Close } from '@mui/icons-material';
 import { Button } from '@mui/material';
 import { phoneNumber } from '@/data/social.data';
 
-const Navbar: React.FC = () => {
+const Navbar2: React.FC = () => {
     const [scrolled, setScrolled] = useState(false);
     const [menuOpen, setMenuOpen] = useState(false);
     const pathname = usePathname();
@@ -165,4 +165,4 @@ const Navbar: React.FC = () => {
     );
 };
 
-export default Navbar;
+export default Navbar2;

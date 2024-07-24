@@ -1,8 +1,6 @@
-// components/ScrollButton.tsx
 "use client";
 import React, { useState, useEffect } from "react";
 import { ArrowUpward, ArrowDownward } from "@mui/icons-material";
-import { IconButton } from "@mui/material";
 
 const ScrollButton: React.FC = () => {
     const [showButton, setShowButton] = useState(false);

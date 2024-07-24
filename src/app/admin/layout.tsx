@@ -12,10 +12,10 @@ export default function RootLayout({
     children: React.ReactNode;
 }>) {
     return (
-        <body>
+        <>
             <AdminDashboardLayout>
                 {children}
             </AdminDashboardLayout>
-        </body>
+        </>
     );
 }

@@ -43,6 +43,7 @@ const config: Config = {
       },
       fontFamily: {
         futura: ["var(--font-futura)"],
+        gilroy: ["var(--font-gilroy)"],
       },
     },
   },

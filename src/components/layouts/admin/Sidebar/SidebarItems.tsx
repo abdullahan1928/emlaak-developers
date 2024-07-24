@@ -13,10 +13,10 @@ import LoadingOverlay from "./LoadingOverlay";
 
 interface SidebarItemsProps {
     open: boolean;
-    handlelogout: () => Promise<void>;
+    handleLogout: () => Promise<void>;
 }
 
-const SidebarItems = ({ open, handlelogout }: SidebarItemsProps) => {
+const SidebarItems = ({ open, handleLogout }: SidebarItemsProps) => {
 
     const sidebarItems = [
         [
@@ -46,7 +46,7 @@ const SidebarItems = ({ open, handlelogout }: SidebarItemsProps) => {
             {
                 icon: <LogoutIcon />,
                 text: "Log out",
-                onClick: handlelogout
+                onClick: handleLogout
             },
         ],
     ];
