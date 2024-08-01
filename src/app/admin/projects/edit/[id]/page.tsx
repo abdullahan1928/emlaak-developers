@@ -37,7 +37,6 @@ const Page = () => {
         location: '',
         price: '',
         category: '',
-        views: 0,
         description: '',
         tags: [],
         pictures: [],

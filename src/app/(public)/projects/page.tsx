@@ -2,10 +2,9 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { IProject } from '@/interfaces/project';
-import { CircularProgress } from '@mui/material';
-import ProjectCard from '@/components/projects/ProjectCard';
 import Image from 'next/image';
 import ProjectForm from '@/components/projects/ProjectForm';
+import ProjectCards from '@/components/projects/ProjectCards';
 
 const Page: React.FC = () => {
     const [projects, setProjects] = useState<IProject[]>([]);
@@ -48,20 +47,10 @@ const Page: React.FC = () => {
                 <p className="mb-8 text-center text-gray-700">
                     We have completed various projects in different categories. Check out our projects below.
                 </p>
-                {loading ? (
-                    <div className="flex items-center justify-center h-64">
-                        <CircularProgress />
-                    </div>
-                ) : error ? (
+                {error ? (
                     <div className="text-center text-red-500">{error}</div>
                 ) : (
-                    <>
-                        <div className="grid grid-cols-1 gap-4 mt-12 mb-4 md:grid-cols-2 lg:grid-cols-3">
-                            {projects.map((project) => (
-                                <ProjectCard key={project._id} project={project} />
-                            ))}
-                        </div>
-                    </>
+                    <ProjectCards projects={projects} loading={loading} />
                 )}
             </div>
 

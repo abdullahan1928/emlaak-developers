@@ -7,7 +7,7 @@ import mongoose from "mongoose";
 export async function POST(req: NextRequest) {
     await dbConnect();
 
-    const { title, location, price, category, views, description, tags, pictures } = await req.json();
+    const { title, location, price, category, description, tags, pictures } = await req.json();
 
     // Decode base64 images
     const decodeBase64Image = (data: string) => {
@@ -37,7 +37,6 @@ export async function POST(req: NextRequest) {
             location,
             price,
             category,
-            views,
             description,
             tags,
             pictures: pictureUrls,

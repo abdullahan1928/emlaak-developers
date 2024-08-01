@@ -95,7 +95,18 @@ const Navbar2: React.FC = () => {
                         {item.name}
                     </Link>
                 ))}
+                <Button
+                    className={cn(
+                        scrolled ? "!block" : "!hidden",
+                        "!text-white !border !border-white !bg-black hover:!bg-primary hover:!text-black"
+                    )}
+                    variant="contained"
+                    href={`tel:${phoneNumber}`}
+                >
+                    Call Now
+                </Button>
             </ul>
+
 
             <div className="flex items-center space-x-4 md:hidden">
                 <MenuIcon

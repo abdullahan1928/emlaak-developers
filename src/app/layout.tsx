@@ -6,6 +6,11 @@ import { cn } from "@/utils/cn";
 import { AppRouterCacheProvider } from '@mui/material-nextjs/v13-appRouter';
 import { ThemeProvider } from '@mui/material/styles';
 import theme from '../mui.theme';
+import Navbar1 from "@/components/layouts/public/Navbar1";
+import Navbar2 from "@/components/layouts/public/Navbar2";
+import Footer from "@/components/layouts/public/Footer";
+import ScrollButton from "@/components/layouts/public/ScrollButton";
+import WhatsAppButton from "@/components/layouts/public/WhatsAppButton";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -38,11 +43,11 @@ const gilroy = localFont({
       weight: '300'
     },
     {
-      path: '../../public/fonts/Gilroy-Medium.ttf',
+      path: '../../public/fonts/Gilroy-Regular.ttf',
       weight: '400'
     },
     {
-      path: '../../public/fonts/Gilroy-Regular.ttf',
+      path: '../../public/fonts/Gilroy-Medium.ttf',
       weight: '500'
     },
     {
@@ -61,11 +66,11 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={cn(inter.className, futura.variable, gilroy.variable)}>
-        <AppRouterCacheProvider>
-          <ThemeProvider theme={theme}>
+        <ThemeProvider theme={theme}>
+          <AppRouterCacheProvider>
             {children}
-          </ThemeProvider>
-        </AppRouterCacheProvider>
+          </AppRouterCacheProvider>
+        </ThemeProvider>
       </body>
     </html>
   );

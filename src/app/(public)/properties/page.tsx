@@ -59,9 +59,6 @@ const Page: React.FC = () => {
       if (sort === 'price') {
         return parseInt(a.price.substring(1)) - parseInt(b.price.substring(1));
       }
-      if (sort === 'views') {
-        return b.views - a.views;
-      }
       return 0;
     });
 
@@ -71,10 +68,10 @@ const Page: React.FC = () => {
     <>
       <div className="relative mb-4 w-full h-[40vh]">
         <Image
-          src="/images/project/project2.jpg"
+          src="/images/properties/property.jpg"
           alt="Projects"
-          layout="fill"
-          objectFit="cover"
+          width={1920}
+          height={1080}
           className="w-full h-full"
         />
         <div className="absolute inset-0 flex flex-col items-center justify-center bg-black bg-opacity-50">
@@ -153,7 +150,6 @@ const Page: React.FC = () => {
             >
               <MenuItem value=""><em>None</em></MenuItem>
               <MenuItem value="price">Price</MenuItem>
-              <MenuItem value="views">Views</MenuItem>
             </Select>
           </FormControl>
           <FormControl variant="outlined" size="small">

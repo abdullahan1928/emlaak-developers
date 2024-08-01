@@ -2,10 +2,13 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
 import Image from "next/image";
-import { Carousel } from "react-responsive-carousel";
-import "react-responsive-carousel/lib/styles/carousel.min.css";
-import { LocationOn, Visibility, Category } from "@mui/icons-material";
-import { Typography, CircularProgress } from "@mui/material";
+import { Swiper, SwiperSlide } from "swiper/react";
+import "swiper/css";
+import "swiper/css/navigation";
+import { Navigation } from "swiper/modules";
+import { LocationOn, Category } from "@mui/icons-material";
+import { Typography, CircularProgress, Modal, Box, IconButton } from "@mui/material";
+import CloseIcon from '@mui/icons-material/Close';
 import axios from "axios";
 import { IProject } from "@/interfaces/project";
 
@@ -16,7 +19,6 @@ const ProjectPage = () => {
         title: "",
         price: "0",
         location: "",
-        views: 0,
         category: "",
         description: "",
         tags: [],
@@ -24,6 +26,8 @@ const ProjectPage = () => {
     });
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
+    const [modalOpen, setModalOpen] = useState(false);
+    const [selectedImage, setSelectedImage] = useState<string | null>(null);
 
     useEffect(() => {
         const fetchProject = async () => {
@@ -39,6 +43,16 @@ const ProjectPage = () => {
 
         fetchProject();
     }, [id]);
+
+    const openModal = (image: string) => {
+        setSelectedImage(image);
+        setModalOpen(true);
+    };
+
+    const closeModal = () => {
+        setModalOpen(false);
+        setSelectedImage(null);
+    };
 
     if (loading) {
         return (
@@ -58,40 +72,78 @@ const ProjectPage = () => {
 
     return (
         <div className="container p-4 mx-auto mt-24">
-            <Typography variant="h2" className="mb-4 text-4xl font-bold">
-                {project.title}
-            </Typography>
-            <Carousel className="mb-4">
+            <Swiper
+                modules={[Navigation]}
+                navigation
+                className="mb-8"
+            >
                 {project.pictures.map((image: string, index: number) => (
-                    <div key={index}>
+                    <SwiperSlide key={index}>
                         <Image
                             src={image}
                             alt={project.title}
-                            width={800}
-                            height={400}
-                            className="object-contain w-full"
+                            width={10000}
+                            height={10000}
+                            className="w-full h-96 cursor-pointer"
+                            onClick={() => openModal(image)}
                         />
-                    </div>
+                    </SwiperSlide>
                 ))}
-            </Carousel>
-            <div className="grid grid-cols-1 gap-4 mb-4 md:grid-cols-2 lg:grid-cols-3">
-                <div className="flex items-center">
+            </Swiper>
+            <h2 className="mb-8 text-4xl font-bold font-gilroy text-gray-800">
+                {project.title}
+            </h2>
+            <table className="mb-8 w-full">
+                <tr>
+                    <td className="font-bold">Price</td>
+                    <td>Rs. {project.price}</td>
+                </tr>
+                <tr>
+                    <td className="font-bold">Location</td>
+                    <td>{project.location}</td>
+                </tr>
+                <tr>
+                    <td className="font-bold">Category</td>
+                    <td>{project.category}</td>
+                </tr>
+            </table>
+                {/* <div className="flex items-center justify-center">
                     <LocationOn className="mr-2" />
-                    <Typography variant="body1">{project.location}</Typography>
+                    <p>{project.location}</p>
                 </div>
-                <div className="flex items-center">
-                    <Visibility className="mr-2" />
-                    <Typography variant="body1">{project.views} views</Typography>
-                </div>
-                <div className="flex items-center">
+                <div className="flex items-center justify-center">
                     <Category className="mr-2" />
-                    <Typography variant="body1">{project.category}</Typography>
+                    <p>{project.category}</p>
                 </div>
-            </div>
-            <Typography variant="h5" className="mb-2 text-2xl font-bold">
+            </table> */}
+            <h5 className="mb-4 text-2xl font-bold text-gray-800">
                 Description
-            </Typography>
-            <Typography variant="body1" className="leading-relaxed" dangerouslySetInnerHTML={{ __html: project.description }} />
+            </h5>
+            <p className="leading-relaxed mb-24" dangerouslySetInnerHTML={{ __html: project.description }} />
+
+            <Modal
+                open={modalOpen}
+                onClose={closeModal}
+                className="flex items-center justify-center"
+            >
+                <div className="bg-white rounded-md shadow-lg relative">
+                    <IconButton
+                        onClick={closeModal}
+                        className="absolute top-2 -right-2"
+                    >
+                        <CloseIcon />
+                    </IconButton>
+                    {selectedImage && (
+                        <Image
+                            src={selectedImage}
+                            alt="Selected"
+                            width={10000}
+                            height={10000}
+                            className="object-contain w-full h-full max-h-[90vh]"
+                        />
+                    )}
+                </div>
+            </Modal>
         </div>
     );
 };

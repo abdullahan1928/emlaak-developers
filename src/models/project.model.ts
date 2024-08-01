@@ -5,7 +5,6 @@ interface IProject extends Document {
   location: string;
   price: string;
   category: string;
-  views: number;
   description: string;
   tags: string[];
   pictures: string[];
@@ -17,7 +16,6 @@ const projectSchema: Schema = new Schema(
     location: { type: String, required: true },
     price: { type: String, required: true },
     category: { type: String, required: true },
-    views: { type: Number, default: 0 },
     description: { type: String, required: true },
     tags: [{ type: String, required: true }],
     pictures: [{ type: String, required: true }],

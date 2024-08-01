@@ -30,7 +30,7 @@ export async function GET(req: NextRequest, { params }: { params: { id: string }
 export async function PUT(req: NextRequest, { params }: { params: { id: string } }) {
     await dbConnect();
 
-    const { title, location, price, category, views, description, tags, pictures, removePictures } = await req.json();
+    const { title, location, price, category, description, tags, pictures, removePictures } = await req.json();
 
     // Decode base64 images
     const decodeBase64Image = (data: string) => {
@@ -67,7 +67,6 @@ export async function PUT(req: NextRequest, { params }: { params: { id: string }
             location,
             price,
             category,
-            views,
             description,
             tags,
             pictures: [...project.pictures, ...newPictureUrls],

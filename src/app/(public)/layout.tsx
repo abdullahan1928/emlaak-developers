@@ -6,25 +6,25 @@ import ScrollButton from "@/components/layouts/public/ScrollButton";
 import WhatsAppButton from "@/components/layouts/public/WhatsAppButton";
 
 export const metadata: Metadata = {
-  title: "Emlaak Developers",
-  description: "Emlaak Developers - Real Estate Company in Pakistan",
+    title: "Emlaak Developers",
+    description: "Emlaak Developers - Real Estate Company in Pakistan",
 };
 
 export default function RootLayout({
-  children,
+    children,
 }: Readonly<{
-  children: React.ReactNode;
+    children: React.ReactNode;
 }>) {
-  return (
-    <html lang="en">
-      <>
-        <Navbar1 />
-        <Navbar2 />
-        {children}
-        <Footer />
-        <ScrollButton />
-        <WhatsAppButton />
-      </>
-    </html>
-  );
+    return (
+        <html lang="en">
+            <body>
+                <Navbar1 />
+                <Navbar2 />
+                {children}
+                <Footer />
+                <ScrollButton />
+                <WhatsAppButton />
+            </body>
+        </html>
+    );
 }

@@ -13,7 +13,6 @@ const Page = () => {
         location: '',
         price: '',
         category: '',
-        views: 0,
         description: '',
         tags: [],
         pictures: [],
@@ -60,7 +59,6 @@ const Page = () => {
                             <Typography variant="h6" className="text-lg font-semibold"><strong>Location:</strong> {project.location}</Typography>
                             <Typography variant="h6" className="text-lg font-semibold"><strong>Price:</strong> {project.price}</Typography>
                             <Typography variant="h6" className="text-lg font-semibold"><strong>Category:</strong> {project.category}</Typography>
-                            <Typography variant="h6" className="text-lg font-semibold"><strong>Views:</strong> {project.views}</Typography>
                         </div>
                     </div>
                     <Typography variant="h5" className="text-2xl font-semibold mb-4">Description</Typography>

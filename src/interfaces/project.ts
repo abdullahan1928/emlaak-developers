@@ -4,7 +4,6 @@ export interface IProject {
   location: string;
   price: string;
   category: string;
-  views: number;
   description: string;
   tags: string[];
   pictures: string[];
