@@ -69,8 +69,8 @@ const InquiryForm = () => {
     };
 
     return (
-        <div className="bg-[url('/images/home/form-bg.jpg')] min-h-screen flex items-center justify-center my-32">
-            <div className={`max-w-xl max-4 md:mx-auto shadow-md ${isSubmitted ? 'p-6 bg-white' : 'p-12'} transition-all duration-300`}>
+        <div className="bg-[url('/images/home/form-bg.jpg')] min-h-screen flex items-center justify-center my-12 lg:my-32">
+            <div className={`max-w-xl max-4 md:mx-auto shadow-md ${isSubmitted ? 'p-6 bg-white' : 'py-4 lg:p-12'} transition-all duration-300`}>
                 {isSubmitted ? (
                     <div className="flex flex-col items-center justify-center h-full">
                         <h2 className="text-3xl font-bold text-green-700 mb-4">Thank You!</h2>

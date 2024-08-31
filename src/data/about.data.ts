@@ -8,14 +8,14 @@ interface IAbout {
 export const about: IAbout[] = [
   {
     name: "Anwar ul Haq",
-    designation: "Founder",
-    description: "Anwar ul Haq is the founder of Emlaak Developers and Al-Haq Developers. He is a visionary entrepreneur with a passion for real estate and a commitment to excellence. Anwar has over 20 years of experience in the real estate industry and has successfully completed numerous projects in Pakistan and abroad. He is known for his innovative approach to real estate development and his dedication to delivering high-quality projects that exceed customer expectations.",
+    designation: "Chairman",
+    description: "Anwar ul Haq is the Chairman of Emlaak Developers and Al-Haq Developers. He is a visionary entrepreneur with a passion for real estate and a commitment to excellence. Anwar has over 20 years of experience in the real estate industry and has successfully completed numerous projects in Pakistan and abroad. He is known for his innovative approach to real estate development and his dedication to delivering high-quality projects that exceed customer expectations.",
     image: "anwar.jpg",
   },
   {
     name: "Inam ul Haq",
-    designation: "Co-Founder & CEO",
-    description: "Inam ul Haq is the co-founder and CEO of Emlaak Developers. He is a dynamic leader with a strong background in real estate development and a proven track record of success. Inam is responsible for overseeing the company's operations and ensuring that all projects are completed on time and within budget. He is committed to delivering exceptional value to customers and creating long-term relationships based on trust and integrity.",
+    designation: "Founder & CEO",
+    description: "Inam ul Haq is the Founder and CEO of Emlaak Developers. He is a dynamic leader with a strong background in real estate development and a proven track record of success. Inam is responsible for overseeing the company's operations and ensuring that all projects are completed on time and within budget. He is committed to delivering exceptional value to customers and creating long-term relationships based on trust and integrity.",
     image: "inam.jpg",
   },
   {

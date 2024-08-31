@@ -55,7 +55,7 @@ const Page = () => {
                                     <h2 className="mt-2 text-2xl font-bold sm:mt-4 sm:text-3xl">
                                         {item.name}
                                     </h2>
-                                    <h3 className="text-sm font-semibold text-gray-800 sm:text-base">
+                                    <h3 className="text-sm font-semibold text-gray-800 sm:text-base uppercase">
                                         {item.designation}
                                     </h3>
                                     <p className="mt-2 mb-4 text-xs text-gray-800 sm:text-sm">

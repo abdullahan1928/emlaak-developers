@@ -6,7 +6,7 @@ import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { TextField, Button, IconButton } from '@mui/material';
 import { LocationOn, Phone } from '@mui/icons-material';
-import { socialLinks, emailLink, phoneNumber, location, contact } from '@/data/social.data';
+import { socialLinks, contact, mapLocation } from '@/data/social.data';
 
 // Define the schema with Zod
 const schema = z.object({
@@ -33,27 +33,36 @@ const ContactPage: React.FC = () => {
     return (
         <div className="bg-white min-h-screen py-12">
             <div className="container mx-auto px-4 lg:px-8">
-                <h1 className="text-4xl font-bold text-gray-800 mb-4 text-center">Free Quote from Emlaak Marketing</h1>
-                <p className="text-lg text-gray-600 mb-8 text-center">
+                <h1 className="text-4xl font-bold text-gray-800 mb-4 text-center">Free Quote from Emlaak Developers</h1>
+                <p className="text-lg text-gray-600 mb-8 text-center w-1/2 m-auto">
                     Our professional team is serving many housing societies for marketing purposes and has completed many renowned projects achieving high excellency.
                 </p>
 
                 <div className="flex flex-col lg:flex-row lg:space-x-12">
                     <div className="lg:w-1/3 lg:border-l-8 p-4 lg:border-primary lg:pl-8 bg-gray-100">
-                        {/* <h2 className="text-2xl font-semibold text-gray-800 mb-6">Contact Information</h2> */}
                         {contact.map((contactInfo, index) => (
                             <div key={index} className="mb-6">
                                 <h3 className="text-xl font-semibold text-gray-800 mb-4">{contactInfo.name}</h3>
                                 <div className="mb-4">
-                                    <div className="flex items-center mb-4">
+
+                                    <div
+                                        className="flex items-center mb-4 cursor-pointer"
+                                        onClick={() => window.open(mapLocation, '_blank')}
+                                    >
                                         <LocationOn className="mr-3 text-secondary-600" />
                                         <p className="text-gray-700">{contactInfo.location}</p>
                                     </div>
+
                                     <div className="flex flex-col">
                                         {contactInfo.phone.map((phone, idx) => (
                                             <div key={idx} className="flex items-center mb-4">
                                                 <Phone className="mr-3 text-secondary-600" />
-                                                <a href={`tel:${phone}`} className="text-gray-700 hover:underline">{phone}</a>
+                                                <a
+                                                    href={`tel:${phone}`}
+                                                    className="text-gray-700 hover:underline"
+                                                >
+                                                    {phone}
+                                                </a>
                                             </div>
                                         ))}
                                     </div>
@@ -78,11 +87,15 @@ const ContactPage: React.FC = () => {
                             className="p-6"
                         >
                             <h2 className="text-2xl font-semibold text-gray-800 mb-6">Get in Touch</h2>
+                            <p className="text-gray-600 mb-8">
+                                Please fill out the form below and we will get back to you as soon as possible.
+                            </p>
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
                                 <div>
                                     <TextField
                                         label="Name"
                                         variant="outlined"
+                                        size='small'
                                         fullWidth
                                         {...register('name')}
                                         error={!!errors.name}
@@ -93,6 +106,7 @@ const ContactPage: React.FC = () => {
                                     <TextField
                                         label="Phone Number"
                                         variant="outlined"
+                                        size='small'
                                         fullWidth
                                         {...register('phone')}
                                         error={!!errors.phone}
@@ -105,6 +119,7 @@ const ContactPage: React.FC = () => {
                                     <TextField
                                         label="Email"
                                         variant="outlined"
+                                        size='small'
                                         type="email"
                                         fullWidth
                                         {...register('email')}
@@ -116,6 +131,7 @@ const ContactPage: React.FC = () => {
                                     <TextField
                                         label="Subject"
                                         variant="outlined"
+                                        size='small'
                                         fullWidth
                                         {...register('subject')}
                                         error={!!errors.subject}

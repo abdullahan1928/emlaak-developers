@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { Container, CircularProgress } from '@mui/material';
 import Link from 'next/link';
 import axios from 'axios';
-import { emailLink, location, phoneNumber, socialLinks } from '@/data/social.data';
+import { emailLink, location, phoneNumber, socialLinks, mapLocation } from '@/data/social.data';
 import Image from 'next/image';
 import { Email, LocationOn, Phone } from '@mui/icons-material';
 import { IProject } from '@/interfaces/project';
@@ -49,17 +49,27 @@ const Footer: React.FC = () => {
                             height={150}
                             className="object-contain w-48 h-32"
                         />
-                        <div className='flex items-center gap-2'>
+                        <div
+                            className='flex items-center gap-2 cursor-pointer'
+                            onClick={() => window.open(mapLocation, '_blank')}
+                        >
                             <LocationOn className="text-2xl text-secondary-500" />
-                            <span className="text-lg text-gray-300">{location}</span>
+                            <span className="text-lg text-gray-300 hover:text-primary">{location}</span>
                         </div>
                         <div className='flex items-center gap-2'>
-                            <Phone className="text-2xl text-secondary-500" />
-                            <span className="text-lg text-gray-300">{phoneNumber}</span>
+                            <a href={`tel:${phoneNumber}`} className="flex items-center gap-2">
+                                <Phone className="text-2xl text-secondary-500" />
+                                <span className="text-lg text-gray-300 hover:text-primary">{phoneNumber}</span>
+                            </a>
                         </div>
                         <div className='flex items-center gap-2'>
                             <Email className="text-2xl text-secondary-500" />
-                            <span className="text-lg text-gray-300">{emailLink}</span>
+                            <a
+                                href={`mailto:${emailLink}`}
+                                className="text-lg text-gray-300 hover:text-primary"
+                            >
+                                {emailLink}
+                            </a>
                         </div>
                     </div>
 

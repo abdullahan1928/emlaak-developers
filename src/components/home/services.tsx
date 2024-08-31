@@ -11,6 +11,10 @@ const Services = () => {
                     Our Services
                 </h2>
 
+                <p className="mb-12 text-lg text-gray-600">
+                    We provide a range of services to help you market your property and reach your target audience. Whether you&apos;re looking to sell, rent, or buy a property, we have the tools and expertise to help you succeed. Our team of experienced professionals will work with you to create a customized marketing plan that meets your needs and helps you achieve your goals. Contact us today to learn more about our services and how we can help you succeed.
+                </p>
+
                 <div className="grid grid-cols-1 gap-8 md:grid-cols-3 lg:grid-cols-4">
                     {services.map((service, index) => (
                         <div
@@ -29,7 +33,6 @@ const Services = () => {
                                     width={1000}
                                     height={1000}
                                     className="w-1/2 h-auto rounded-t-lg service-image"
-                                    unoptimized={true}
                                 />
                             </div>
 
@@ -46,6 +49,20 @@ const Services = () => {
                     ))}
                 </div>
             </div>
+
+            {/* Call to Action */}
+            <div className="mt-16 text-center">
+                <h3 className="mb-4 text-2xl font-bold text-gray-800">
+                    Ready to get started?
+                </h3>
+                <p className="mb-8 text-lg text-gray-600">
+                    Contact us today to find out how we can help your business thrive.
+                </p>
+                <button className="px-8 py-3 text-white bg-primary rounded-full hover:bg-secondary">
+                    Contact Us
+                </button>
+            </div>
+
         </div >
     );
 };
