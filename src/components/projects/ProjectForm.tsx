@@ -30,14 +30,13 @@ const ProjectForm: React.FC = () => {
     };
 
     return (
-        <div className="py-24 text-center">
-            <h2 className="text-4xl text-gray-800 uppercase">
+        <div className="py-12 px-4 text-center md:py-24">
+            <h2 className="text-2xl md:text-4xl text-gray-800 uppercase">
                 Free advice from Emlaak Developers
-                </h2>
-            <p className="mt-4 mb-8 text-lg text-gray-600">
+            </h2>
+            <p className="mt-4 mb-8 text-base md:text-lg text-gray-600">
                 To hear from our experienced team members fill out the form below to get in touch with us instantly.
             </p>
-
 
             <form onSubmit={handleSubmit(onSubmit)} className="max-w-xl px-6 py-12 mx-4 shadow-md bg-gray-50 md:mx-auto">
                 <h2 className="mb-8 text-2xl font-bold text-center">

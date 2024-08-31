@@ -40,9 +40,24 @@ export const socialLinks = [
   },
 ];
 
-export const emailLink = "abdullahan1928@gmail.com";
+export const emailLink = "info.emlaakdevelopers@gmail.com";
 
-export const phoneNumber = "+923366364016";
+export const phoneNumber = "+923335079002";
 
 export const location =
-  "Farhan Plaza, Office # 10, 1st Floor, Islamabad, 44000";
+  "Office # 10, 1st Floor, Farhan Plaza, G-11 Markaz, Islamabad, 44000";
+
+export const contact = [
+  {
+    name: "Head Office",
+    location:
+      "Office # 10, 1st Floor, Farhan Plaza, G-11 Markaz, Islamabad, 44000",
+    phone: ["0333 5079002", "(051) 8744406"],
+  },
+  {
+    name: "Regional Office",
+    location:
+      "Office # 1, Street # 18, Islam Nagar, Jail Road, Faisalabad, 38000",
+    phone: ["0300 7560302"],
+  },
+];

@@ -5,6 +5,7 @@ import { IProject } from '@/interfaces/project';
 import { TextField, MenuItem, Select, FormControl, InputLabel, CircularProgress, Pagination, SelectChangeEvent } from '@mui/material';
 import { Search, LocationOn, FilterList, Sort } from '@mui/icons-material';
 import ProjectCard from '@/components/projects/ProjectCard';
+import PropertyCard from '../projects/PropertyCard';
 
 const PropertySection: React.FC = () => {
     const [projects, setProjects] = useState<IProject[]>([]);
@@ -42,7 +43,7 @@ const PropertySection: React.FC = () => {
                     <>
                         <div className="grid grid-cols-1 gap-4 mb-4 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
                             {projects.slice(0, 8).map((project) => (
-                                <ProjectCard key={project._id} project={project} />
+                                <PropertyCard key={project._id} project={project} />
                             ))}
                         </div>
                     </>

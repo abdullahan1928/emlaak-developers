@@ -75,11 +75,11 @@ const Page: React.FC = () => {
           className="w-full h-full"
         />
         <div className="absolute inset-0 flex flex-col items-center justify-center bg-black bg-opacity-50">
-          <h1 className="text-5xl font-bold text-white">Emlaak Developers</h1>
+          <h1 className="text-5xl font-bold text-white text-center">Emlaak Developers</h1>
           <p className="mt-2 text-lg text-white">Building Dreams, Creating Futures</p>
         </div>
       </div>
-      
+
       <div className="container p-4 mx-auto">
         <h1 className="mb-4 text-4xl font-bold">Properties</h1>
         {/* <p className="mb-4 text-gray-700">Browse our projects. Use the filters below to refine your search.</p> */}

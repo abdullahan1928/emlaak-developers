@@ -38,44 +38,46 @@ const Footer: React.FC = () => {
     ];
 
     return (
-        <footer className="text-white bg-gray-900">
-            <Container className="pt-12 mx-auto">
-                <div className="grid grid-cols-1 gap-8 md:grid-cols-3">
-                    <div className="flex flex-col gap-8">
+        <footer className="text-white bg-gray-900 pt-10">
+            <Container className="mx-auto">
+                <div className="grid grid-cols-1 gap-12 md:grid-cols-3">
+                    <div className="flex flex-col gap-6">
                         <Image
                             src="/logo.png"
                             alt="Emlaak Developers"
-                            width={1000}
-                            height={1000}
-                            className="object-contain w-56 h-40"
+                            width={150}
+                            height={150}
+                            className="object-contain w-48 h-32"
                         />
                         <div className='flex items-center gap-2'>
-                            <LocationOn className="text-xl" />
-                            <span>{location}</span>
+                            <LocationOn className="text-2xl text-secondary-500" />
+                            <span className="text-lg text-gray-300">{location}</span>
                         </div>
                         <div className='flex items-center gap-2'>
-                            <Phone className="text-xl" />
-                            <span>{phoneNumber}</span>
+                            <Phone className="text-2xl text-secondary-500" />
+                            <span className="text-lg text-gray-300">{phoneNumber}</span>
                         </div>
                         <div className='flex items-center gap-2'>
-                            <Email className="text-xl" />
-                            <span>{emailLink}</span>
+                            <Email className="text-2xl text-secondary-500" />
+                            <span className="text-lg text-gray-300">{emailLink}</span>
                         </div>
                     </div>
+
                     <div>
-                        <h2 className="mb-4 text-xl [letter-spacing:.06em] uppercase font-futura border-b border-white pb-2">Quick Links</h2>
-                        <ul className="space-y-2 uppercase">
+                        <h2 className="mb-6 text-xl font-bold tracking-wider uppercase text-secondary-500 border-b border-gray-600 pb-2">Quick Links</h2>
+                        <ul className="space-y-3">
                             {quickLinks.map((link, index) => (
                                 <li key={index}>
-                                    <Link href={link.href} className="transition-colors duration-300 hover:text-secondary-500">
+                                    <Link href={link.href} className="transition-all text-gray-300 hover:text-secondary-500">
                                         - {link.title}
                                     </Link>
                                 </li>
                             ))}
                         </ul>
                     </div>
+
                     <div>
-                        <h2 className="mb-4 text-xl [letter-spacing:.06em] uppercase font-futura border-b border-white pb-2">Projects</h2>
+                        <h2 className="mb-6 text-xl font-bold tracking-wider uppercase text-secondary-500 border-b border-gray-600 pb-2">Projects</h2>
                         {loading ? (
                             <div className="flex items-center justify-center h-20">
                                 <CircularProgress color="inherit" />
@@ -83,17 +85,18 @@ const Footer: React.FC = () => {
                         ) : error ? (
                             <div className="text-center text-red-500">{error}</div>
                         ) : (
-                            <ul className="space-y-2">
+                            <ul className="space-y-3">
                                 {projects.map((project) => (
                                     <li key={project._id}>
-                                        <Link href={`/projects/${project._id}`} className="uppercase transition-colors duration-300 hover:text-secondary-500">
+                                        <Link href={`/projects/${project._id}`} className="transition-all text-gray-300 hover:text-secondary-500">
                                             - {project.title}
                                         </Link>
                                     </li>
                                 ))}
                             </ul>
                         )}
-                        <h2 className="mt-8 mb-4 text-xl [letter-spacing:.06em] uppercase font-futura border-b border-white pb-2">Follow Us</h2>
+
+                        <h2 className="mt-8 mb-4 text-xl font-bold tracking-wider uppercase text-secondary-500 border-b border-gray-600 pb-2">Follow Us</h2>
                         <div className="flex space-x-4">
                             {socialLinks.map((link, index) => {
                                 const Icon = link.icon;
@@ -103,13 +106,13 @@ const Footer: React.FC = () => {
                                         href={link.href}
                                         target="_blank"
                                         rel="noreferrer"
-                                        className="transition-colors duration-300 transform hover:text-black hover:scale-110"
+                                        className="transition-transform duration-300 transform hover:text-secondary-500 hover:scale-105"
                                     >
-                                        <Icon fontSize="medium" sx={{
+                                        <Icon fontSize="large" sx={{
                                             color: 'white',
                                             '&:hover': {
                                                 color: '#00A97F',
-                                                scale: 1.1
+                                                transform: 'scale(1.15)',
                                             }
                                         }} />
                                     </a>
@@ -118,8 +121,11 @@ const Footer: React.FC = () => {
                         </div>
                     </div>
                 </div>
-                <div className="py-4 mt-8 text-center border-t border-gray-700">
-                    <p className="text-gray-400">&copy; {new Date().getFullYear()} Emlaak Developers. All rights reserved.</p>
+
+                <div className="py-6 mt-12 text-center border-t border-gray-700">
+                    <p className="text-gray-500">&copy; {new Date().getFullYear()}
+                        Emlaak Developers. All rights reserved.
+                    </p>
                 </div>
             </Container>
         </footer>

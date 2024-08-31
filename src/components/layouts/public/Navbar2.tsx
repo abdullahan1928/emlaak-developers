@@ -98,7 +98,7 @@ const Navbar2: React.FC = () => {
                 <Button
                     className={cn(
                         scrolled ? "!block" : "!hidden",
-                        "!text-white !border !border-white !bg-black hover:!bg-primary hover:!text-black"
+                        "hover:!text-white !border !border-white hover:!bg-black !bg-primary !text-black !rounded-none"
                     )}
                     variant="contained"
                     href={`tel:${phoneNumber}`}
@@ -125,7 +125,7 @@ const Navbar2: React.FC = () => {
                     className="w-[80lvw]"
                     role="presentation"
                 >
-                    <div className="flex items-center justify-between px-4 py-2 bg-primary-700">
+                    <div className="flex items-center justify-between px-4 py-2 bg-primary">
                         <h2 className="font-semibold text-white">Menu</h2>
                         <Close
                             onClick={toggleDrawer(false)}
@@ -162,7 +162,7 @@ const Navbar2: React.FC = () => {
                             </ListItem>
                         ))}
                         <Button
-                            className="w-full !mt-8 !text-white border !border-white !bg-black hover:!bg-white hover:!text-black"
+                            className="w-full !mt-8 !text-white border !border-white !bg-black hover:!bg-white hover:!text-black !rounded-none"
                             variant="contained"
                             href={`tel:${phoneNumber}`}
                         >

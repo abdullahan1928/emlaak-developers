@@ -25,21 +25,22 @@ const CarouselItem = (props: CarouselItemProps) => (
         />
 
         <div className="static flex items-stretch justify-between h-[85vh] text-white content">
-            <div className="bg-[#000000b3] flex justify-end h-full px-6 max-md:py-24 md:items-center">
-                <div className="flex flex-col w-full gap-4 lg:max-w-xl">
-                    <h1 className="font-futura mx-0 text-[21px] [line-height:34px] uppercase [letter-spacing:.06em] main-content">
+            <div className="bg-[#000000b3] flex justify-end h-full px-6 max-md:py-4 md:items-center">
+                <div className="flex flex-col w-full gap-6 md:gap-4 lg:max-w-xl">
+                    <h1 className="font-futura mx-0 md:text-[21px] md:[line-height:34px] uppercase md:[letter-spacing:.06em] main-content text-xl">
                         <span className="text-3xl text-primary title">{props.name}</span>  {props.desc1}
                     </h1>
-                    <p className="mt-5 desc">
+
+                    <p className="md:mt-5 desc">
                         {props.desc2}
                     </p>
 
                     <Button
                         variant="contained"
-                        className="relative py-[0.8em] px-[1.7em] overflow-hidden transition-all duration-1000 ease-in-out transform bg-transparent cursor-pointer mt-7 bg-secondary border-secondary text-secondary font-medium hover:scale-110 active:scale-[0.98] active:brightness-[0.8] w-2/5 hero-btn"
+                        className="relative py-[0.8em] px-[1.7em] overflow-hidden transition-all duration-1000 ease-in-out transform bg-transparent cursor-pointer !mt-7 bg-secondary border-secondary text-secondary font-medium hover:scale-110 active:scale-[0.98] active:brightness-[0.8] w-[45%] md:w-2/5 hero-btn"
                     >
                         {props.buttonText}
-                        <ArrowRightAltOutlined fontSize="large" className="ml-2" />
+                        <ArrowRightAltOutlined fontSize="large" className="ml-2 !hidden md:!block" />
                     </Button>
                 </div>
             </div>
@@ -62,12 +63,12 @@ const Hero: React.FC = () => {
         const currentCarouselDom = carouselDom.current;
 
         if (currentNextDom && currentPrevDom && currentCarouselDom) {
-            setupEventListeners(currentCarouselDom, currentNextDom, currentPrevDom, timeAutoNext, runNextAuto, runTimeOut);
+            setupEventListeners(currentCarouselDom, currentNextDom, currentPrevDom, timeAutoNext, runNextAuto, runTimeOut, 5000);
         }
 
         return () => {
             if (currentCarouselDom && currentNextDom && currentPrevDom) {
-                setupEventListeners(currentCarouselDom, currentNextDom, currentPrevDom, timeAutoNext, runNextAuto, runTimeOut)();
+                setupEventListeners(currentCarouselDom, currentNextDom, currentPrevDom, timeAutoNext, runNextAuto, runTimeOut, 5000)();
             }
         };
     }, [timeAutoNext]);
@@ -99,9 +100,9 @@ const Hero: React.FC = () => {
                             width={1000}
                             height={1000}
                         />
-                        <div className="content">
+                        {/* <div className="content">
                             <div>{item.name}</div>
-                        </div>
+                        </div> */}
                     </div>
                 ))}
             </div>

@@ -49,7 +49,7 @@ const Navbar1 = () => {
 
 
             <Button
-                className="!text-white !border !border-white !bg-black hover:!bg-primary hover:!text-black"
+                className="!text-white !border !border-white !bg-black hover:!bg-primary hover:!text-black !rounded-none"
                 variant="contained"
                 href={`tel:${phoneNumber}`}
             >

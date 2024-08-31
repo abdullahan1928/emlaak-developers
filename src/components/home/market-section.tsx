@@ -34,7 +34,7 @@ const Marketing = () => {
                 <p className="mb-6 text-gray-700">
                     We have been consistently growing in the real estate market while embracing every innovation along the way to meet the rising demands within the sector. As a real estate platform, we are not shy of diversity and take the initiative to set the trends. Our client base only grew over time as we were the first in Pakistan to launch digital marketing campaigns in real estate.
                 </p>
-                <Link href="/contact" className='mx-auto my-6'>
+                <Link href="/contact" className='mx-auto my-6 hidden md:block'>
                     <button className="block px-8 py-4 text-xl font-normal text-center text-white uppercase transition-all duration-300 bg-black rounded-none hover:bg-primary hover:text-black">
                         Consult Us Now!
                     </button>
@@ -50,6 +50,11 @@ const Marketing = () => {
                         </p>
                     </div>
                 ))}
+                <Link href="/contact" className='mx-auto my-6 block md:hidden'>
+                    <button className="block px-8 py-4 text-xl font-normal text-center text-white uppercase transition-all duration-300 bg-black rounded-none hover:bg-primary hover:text-black">
+                        Consult Us Now!
+                    </button>
+                </Link>
             </div>
         </div>
     );

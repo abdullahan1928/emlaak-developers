@@ -33,11 +33,10 @@ const Page: React.FC = () => {
                     src="/images/project/project2.jpg"
                     alt="Projects"
                     layout="fill"
-                    objectFit="cover"
-                    className="w-full h-full"
+                    className="w-full h-full object-cover"
                 />
                 <div className="absolute inset-0 flex flex-col items-center justify-center bg-black bg-opacity-50">
-                    <h1 className="text-5xl font-bold text-white">Emlaak Developers</h1>
+                    <h1 className="text-5xl font-bold text-white text-center">Emlaak Developers</h1>
                     <p className="mt-2 text-lg text-white">Building Dreams, Creating Futures</p>
                 </div>
             </div>

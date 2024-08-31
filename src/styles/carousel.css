@@ -330,9 +330,6 @@
 }
 
 @media screen and (max-width: 480px) {
-    .carousel {
-        height: 65vh;
-    }
 
     .carousel .list .item .content .main-content {
         padding: 0;

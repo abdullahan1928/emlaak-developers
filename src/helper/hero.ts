@@ -6,7 +6,8 @@ const showSlider = (
   timeRunning: number,
   timeAutoNext: number,
   runTimeOut: React.MutableRefObject<NodeJS.Timeout | null>,
-  runNextAuto: React.MutableRefObject<NodeJS.Timeout | null>
+  runNextAuto: React.MutableRefObject<NodeJS.Timeout | null>,
+  manualInteractionDelay: number = 5000 // Delay after manual click (5 seconds)
 ) => {
   if (!carouselDom) return;
 
@@ -31,23 +32,28 @@ const showSlider = (
     carouselDom.classList.add("prev");
   }
 
+  // Clear any ongoing animations
   if (runTimeOut.current) {
     clearTimeout(runTimeOut.current);
   }
 
+  // Clear auto-run timeout to prevent it from triggering immediately after a manual click
+  if (runNextAuto.current) {
+    clearTimeout(runNextAuto.current);
+  }
+
+  // Remove next/prev class after a set duration
   runTimeOut.current = setTimeout(() => {
     carouselDom.classList.remove("next");
     carouselDom.classList.remove("prev");
   }, timeRunning);
 
-  if (runNextAuto.current) {
-    clearTimeout(runNextAuto.current);
-  }
+  // Restart the auto-run but with a delay after manual interaction
   runNextAuto.current = setTimeout(() => {
     nextDom.click();
-  }, timeAutoNext);
+  }, timeAutoNext + manualInteractionDelay); // Delay auto-run after manual interaction
 
-  resetAutoNext(runNextAuto, nextDom, timeAutoNext);
+  resetAutoNext(runNextAuto, nextDom, timeAutoNext + manualInteractionDelay); // Include delay
 };
 
 const resetAutoNext = (
@@ -71,7 +77,8 @@ const setupEventListeners = (
   prevDom: HTMLElement,
   timeAutoNext: number,
   runTimeOut: React.MutableRefObject<NodeJS.Timeout | null>,
-  runNextAuto: React.MutableRefObject<NodeJS.Timeout | null>
+  runNextAuto: React.MutableRefObject<NodeJS.Timeout | null>,
+  timeOut: number = 5000
 ) => {
   nextDom.onclick = () =>
     showSlider(
@@ -82,7 +89,8 @@ const setupEventListeners = (
       3000,
       timeAutoNext,
       runTimeOut,
-      runNextAuto
+      runNextAuto,
+      timeOut
     );
   prevDom.onclick = () =>
     showSlider(
@@ -93,7 +101,8 @@ const setupEventListeners = (
       3000,
       timeAutoNext,
       runTimeOut,
-      runNextAuto
+      runNextAuto,
+      timeOut
     );
 
   resetAutoNext(runNextAuto, nextDom, timeAutoNext);

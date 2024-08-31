@@ -22,13 +22,13 @@ const Services = () => {
                                 {service.title}
                             </div>
 
-                            <div className='flex justify-center w-full bg-white service-image'>
+                            <div className='flex justify-center w-full bg-white'>
                                 <Image
                                     src={`/images/services/${service.image}`}
                                     alt={service.title}
                                     width={1000}
                                     height={1000}
-                                    className="w-1/2 h-auto rounded-t-lg"
+                                    className="w-1/2 h-auto rounded-t-lg service-image"
                                     unoptimized={true}
                                 />
                             </div>
