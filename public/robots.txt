@@ -1,0 +1,9 @@
+# *
+User-agent: *
+Allow: /
+
+# Host
+Host: https://www.emlaakdevelopers.com
+
+# Sitemaps
+Sitemap: https://www.emlaakdevelopers.com/sitemap.xml
