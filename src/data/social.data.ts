@@ -45,7 +45,7 @@ export const emailLink = "info.emlaakdevelopers@gmail.com";
 export const phoneNumber = "+923335079002";
 
 export const location =
-  "Farhan Plaza, Office # 10, 1st Floor, Islamabad, 44000";
+  "Office # 10, 1st Floor, Farhan Plaza, G-11 Markaz, Islamabad, 44000";
 
 export const mapLocation = "https://maps.google.com?q=Emlaak Developers";
 
