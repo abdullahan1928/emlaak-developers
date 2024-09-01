@@ -1,10 +1,12 @@
 "use client";
+
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { IProject } from '@/interfaces/project';
 import Image from 'next/image';
 import ProjectForm from '@/components/projects/ProjectForm';
 import ProjectCards from '@/components/projects/ProjectCards';
+import Head from 'next/head';
 
 const Page: React.FC = () => {
     const [projects, setProjects] = useState<IProject[]>([]);
@@ -28,10 +30,30 @@ const Page: React.FC = () => {
 
     return (
         <>
+            <Head>
+                <title>Our Projects - Emlaak Developers</title>
+                <meta name="description" content="Explore the various projects completed by Emlaak Developers, including residential, commercial, and industrial developments. Building dreams and creating futures with excellence." />
+                <meta name="keywords" content="projects, Emlaak Developers, residential, commercial, industrial, developments" />
+                <meta name="robots" content="index, follow" />
+                <link rel="canonical" href="https://yourwebsite.com/projects" />
+                <script
+                    type="application/ld+json"
+                    dangerouslySetInnerHTML={{
+                        __html: JSON.stringify({
+                            "@context": "https://schema.org",
+                            "@type": "WebPage",
+                            "name": "Our Projects - Emlaak Developers",
+                            "description": "Explore the various projects completed by Emlaak Developers, including residential, commercial, and industrial developments.",
+                            "url": "https://yourwebsite.com/projects",
+                        }),
+                    }}
+                />
+            </Head>
+
             <div className="relative mb-4 w-full h-[40vh]">
                 <Image
                     src="/images/project/project2.jpg"
-                    alt="Projects"
+                    alt="Projects overview showing various developments"
                     layout="fill"
                     className="w-full h-full object-cover"
                 />

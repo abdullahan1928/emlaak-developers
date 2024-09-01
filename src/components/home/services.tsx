@@ -1,5 +1,6 @@
 import { services } from '@/data/services.data';
 import Image from 'next/image';
+import Link from 'next/link';
 import React from 'react'
 
 const Services = () => {
@@ -58,9 +59,11 @@ const Services = () => {
                 <p className="mb-8 text-lg text-gray-600">
                     Contact us today to find out how we can help your business thrive.
                 </p>
-                <button className="px-8 py-3 text-white bg-primary rounded-full hover:bg-secondary">
-                    Contact Us
-                </button>
+                <Link href="/contact">
+                    <button className="px-8 py-3 text-white bg-primary rounded-full hover:bg-secondary">
+                        Contact Us
+                    </button>
+                </Link>
             </div>
 
         </div >

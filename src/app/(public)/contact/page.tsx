@@ -7,6 +7,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { TextField, Button, IconButton } from '@mui/material';
 import { LocationOn, Phone } from '@mui/icons-material';
 import { socialLinks, contact, mapLocation } from '@/data/social.data';
+import Head from 'next/head';
 
 // Define the schema with Zod
 const schema = z.object({
@@ -32,6 +33,32 @@ const ContactPage: React.FC = () => {
 
     return (
         <div className="bg-white min-h-screen py-12">
+            <Head>
+                <title>Contact Us - Emlaak Developers</title>
+                <meta name="description" content="Get in touch with Emlaak Developers for a free quote. Our professional team is here to assist with your housing and marketing needs." />
+                <meta name="keywords" content="contact, Emlaak Developers, housing, marketing, free quote" />
+                <meta name="robots" content="index, follow" />
+                <link rel="canonical" href="https://yourwebsite.com/contact" />
+                <script
+                    type="application/ld+json"
+                    dangerouslySetInnerHTML={{
+                        __html: JSON.stringify({
+                            "@context": "https://schema.org",
+                            "@type": "ContactPage",
+                            "name": "Contact Us",
+                            "description": "Contact Emlaak Developers for a free quote. Our professional team is here to assist with your housing and marketing needs.",
+                            "url": "https://yourwebsite.com/contact",
+                            "contactPoint": {
+                                "@type": "ContactPoint",
+                                "telephone": "+1-800-555-5555",
+                                "contactType": "Customer Service",
+                                "areaServed": "US",
+                                "availableLanguage": "English",
+                            },
+                        }),
+                    }}
+                />
+            </Head>
             <div className="container mx-auto px-4 lg:px-8">
                 <h1 className="text-4xl font-bold text-gray-800 mb-4 text-center">Free Quote from Emlaak Developers</h1>
                 <p className="text-lg text-gray-600 mb-8 text-center w-1/2 m-auto">
