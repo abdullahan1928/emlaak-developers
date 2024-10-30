@@ -81,7 +81,7 @@ const Sidebar = ({ open, handleLogout, children }: PrivateLayoutProps) => {
                     alt="logo"
                     width={1000}
                     height={1000}
-                    className="flex self-center w-4/5 my-2 cursor-pointer"
+                    className="flex self-center w-4/5 object-contain h-32 my-2 cursor-pointer"
                     onClick={() => router.push("/dashboard")}
                 />
 
