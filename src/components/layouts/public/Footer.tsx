@@ -133,7 +133,7 @@ const Footer: React.FC = () => {
                 </div>
 
                 <div className="py-6 mt-12 text-center border-t border-gray-700">
-                    <p className="text-gray-500">&copy; {new Date().getFullYear()}
+                    <p className="text-gray-500">&copy; {new Date().getFullYear()}{' '}
                         Emlaak Developers. All rights reserved.
                     </p>
                 </div>

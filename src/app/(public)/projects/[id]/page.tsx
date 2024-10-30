@@ -14,7 +14,6 @@ import { Navigation } from "swiper/modules";
 const swiperStyles = `
 .swiper-button-next,
 .swiper-button-prev {
-    // background-color: white;
     padding: 24px;
     border-radius: 50%;
     box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
@@ -214,7 +213,8 @@ const ProjectPage = () => {
                         '& .MuiTabs-indicator': {
                             height: '100%',
                             borderRadius: '8px',
-                            backgroundColor: 'white',
+                            backgroundColor: '#F6D957',
+                            color: 'white',
                             boxShadow: '0 4px 6px -1px rgba(0,0,0,0.1)',
                             zIndex: 1,
                         },
@@ -224,7 +224,7 @@ const ProjectPage = () => {
                             onChange={handleTabChange}
                             sx={{
                                 '& .MuiTab-root': {
-                                    fontSize: '1rem',
+                                    fontSize: '1.2rem',
                                     textTransform: 'none',
                                     color: '#64748b',
                                     fontWeight: 500,
