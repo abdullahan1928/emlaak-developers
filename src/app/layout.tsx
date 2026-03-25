@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { Inter, Geist } from "next/font/google";
 import "@/styles/index.css";
 import localFont from 'next/font/local';
 import { cn } from "@/utils/cn";
@@ -7,6 +7,8 @@ import { AppRouterCacheProvider } from '@mui/material-nextjs/v13-appRouter';
 import { ThemeProvider } from '@mui/material/styles';
 import theme from '../mui.theme';
 import Head from "next/head";
+
+const geist = Geist({subsets:['latin'],variable:'--font-sans'});
 
 const inter = Inter({ subsets: ["latin"], display: "swap" });
 
@@ -127,7 +129,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" className={cn("font-sans", geist.variable)}>
       <Head>
         <meta charSet="UTF-8" />
         <meta name="description" content="Emlaak Developers offers premium real estate solutions in Pakistan, specializing in commercial, residential, and agricultural property investments." />
