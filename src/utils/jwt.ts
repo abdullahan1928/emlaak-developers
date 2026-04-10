@@ -8,7 +8,7 @@ export const signToken = (payload: any) => {
     throw new Error("JWT secret not provided");
   }
 
-  return jwt.sign(payload, secret, { expiresIn: "1h" });
+  return jwt.sign(payload, secret, { expiresIn: "30d" });
 };
 
 export const verifyToken = (token: string) => {

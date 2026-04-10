@@ -1,11 +1,12 @@
 "use client";
 import React, { ReactNode, useEffect, useState } from 'react';
 import axios from 'axios';
-import { IProject } from '@/interfaces/project';
 import { TextField, MenuItem, Select, FormControl, InputLabel, CircularProgress, Pagination, SelectChangeEvent } from '@mui/material';
 import { Search, LocationOn, FilterList, Sort, AttachMoney, Visibility, Category } from '@mui/icons-material';
 import ProjectCard from '@/components/projects/ProjectCard';
 import Image from 'next/image';
+import { SITE_NAME } from '@/data/social.data';
+import { IProject } from '@/models/project.model';
 
 const Page: React.FC = () => {
   const [filters, setFilters] = useState({ keyword: '', location: '', choices: '', floors: '' });
@@ -20,7 +21,7 @@ const Page: React.FC = () => {
     const fetchProjects = async () => {
       try {
         const response = await axios.get('/api/projects');
-        setProjects(response.data);
+        setProjects(response.data.projects);
         setLoading(false);
       } catch (error) {
         setError('Failed to fetch projects.');
@@ -56,8 +57,8 @@ const Page: React.FC = () => {
       && (filters.floors === '' || project.title.includes(filters.floors))
     )
     .sort((a, b) => {
-      if (sort === 'price') {
-        return parseInt(a.price.substring(1)) - parseInt(b.price.substring(1));
+      if (sort === 'startingPrice') {
+        return parseInt(a.startingPrice.toString().substring(1)) - parseInt(b.startingPrice.toString().substring(1));
       }
       return 0;
     });
@@ -74,8 +75,8 @@ const Page: React.FC = () => {
           height={1080}
           className="w-full h-full"
         />
-        <div className="absolute inset-0 flex flex-col items-center justify-center bg-black bg-opacity-50">
-          <h1 className="text-5xl font-bold text-white text-center">Emlaak Developers</h1>
+        <div className="absolute inset-0 flex flex-col items-center justify-center bg-secondary/50">
+          <h1 className="text-5xl font-bold text-white text-center">{SITE_NAME}</h1>
           <p className="mt-2 text-lg text-white">Building Dreams, Creating Futures</p>
         </div>
       </div>
@@ -149,7 +150,7 @@ const Page: React.FC = () => {
               startAdornment={<Sort />}
             >
               <MenuItem value=""><em>None</em></MenuItem>
-              <MenuItem value="price">Price</MenuItem>
+              <MenuItem value="startingPrice">startingPrice</MenuItem>
             </Select>
           </FormControl>
           <FormControl variant="outlined" size="small">
@@ -176,7 +177,7 @@ const Page: React.FC = () => {
           <>
             <div className="grid grid-cols-1 gap-4 mb-4 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
               {paginatedProjects.map((project) => (
-                <ProjectCard key={project._id} project={project} />
+                <ProjectCard key={project._id?.toString()} project={project} />
               ))}
             </div>
             <Pagination

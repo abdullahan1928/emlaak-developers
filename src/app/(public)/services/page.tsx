@@ -1,27 +1,38 @@
-import Services from '@/components/home/services'
-import React from 'react'
-import Image from 'next/image';
+import { SITE_URL } from "@/data/social.data";
+import ServicesPage from "./services.client";
 
-const page = () => {
-    return (
-        <>
-        <div className="relative mb-4 w-full h-[40vh]">
-          <Image
-            src="/images/services/service.jpg"
-            alt="Projects"
-            width={1920}
-            height={1080}
-            className="w-full h-full object-cover"
-          />
-          <div className="absolute inset-0 flex flex-col items-center justify-center bg-black bg-opacity-50">
-            <h1 className="text-5xl font-bold text-white text-center">Emlaak Developers</h1>
-            <p className="mt-2 text-lg text-white">Building Dreams, Creating Futures</p>
-          </div>
-        </div>
+export const metadata = {
+  title: "Real Estate Services",
+  description:
+    "Explore premium real estate services including property investment, marketing, sales, and consultancy by Emlaak Developers.",
+  keywords: [
+    "real estate services Pakistan",
+    "property investment",
+    "buy sell property",
+    "real estate marketing",
+    "Emlaak Developers",
+  ],
+  openGraph: {
+    title: "Real Estate Services",
+    description:
+      "Premium real estate solutions designed for growth, trust, and long-term value.",
+    url: `${SITE_URL}/services`,
+    siteName: "Emlaak Developers",
+    images: [
+      {
+        url: "/images/services/service.jpg",
+        width: 1200,
+        height: 630,
+      },
+    ],
+    type: "website",
+  },
+};
 
-            <Services />
-        </>
-    )
-}
+const Page = () => {
+  return (
+    <ServicesPage />
+  );
+};
 
-export default page
+export default Page;

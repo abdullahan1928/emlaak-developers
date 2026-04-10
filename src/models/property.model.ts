@@ -1,27 +1,74 @@
+import { Category, IImage } from "@/enums/project.enum";
+import { PropertyPurpose, PropertyStatus } from "@/enums/property.enum";
 import mongoose, { Document, Model, Schema } from "mongoose";
 
-interface IProperty extends Document {
+export interface IProperty extends Document {
   title: string;
+  slug: string;
   location: string;
-  price: string;
-  category: string;
+  city: string;
+  price: number;
+  type: Category;
+  purpose: PropertyPurpose;
   description: string;
-  tags: string[];
-  pictures: string[];
+  features: string[];
+  images: IImage[];
+  status: PropertyStatus;
+  isFeatured: boolean;
+  area: number;
 }
 
-const propertySchema: Schema = new Schema(
+const propertySchema = new Schema(
   {
     title: { type: String, required: true },
+    slug: { type: String, unique: true },
+
     location: { type: String, required: true },
-    price: { type: String, required: true },
-    category: { type: String, required: true },
-    description: { type: String, required: true },
-    tags: [{ type: String, required: true }],
-    pictures: [{ type: String, required: true }],
+    city: { type: String, index: true },
+
+    price: { type: Number, required: true, index: true },
+
+    type: {
+      type: String,
+      enum: Category,
+    },
+
+    purpose: {
+      type: String,
+      enum: PropertyPurpose,
+    },
+
+    description: String,
+
+    features: [{ type: String }],
+    images: [
+      {
+        url: { type: String, required: true },
+        order: { type: Number, default: 0 },
+        public_id: String,
+      },
+    ],
+
+    status: {
+      type: String,
+      enum: PropertyStatus,
+      default: PropertyStatus.AVAILABLE,
+    },
+
+    isFeatured: { type: Boolean, default: false },
+
+    area: Number,
   },
   { timestamps: true }
 );
+
+// Auto slug
+propertySchema.pre("save", function (next) {
+  if (!this.slug) {
+    this.slug = this.title.toLowerCase().replace(/\s+/g, "-");
+  }
+  next();
+});
 
 const Property: Model<IProperty> =
   mongoose.models.Property ||

@@ -2,7 +2,7 @@ export interface IProject {
   _id?: number;
   title: string;
   location: string;
-  price: string;
+  startingPrice: string;
   category: string;
   description: string;
   tags: string[];

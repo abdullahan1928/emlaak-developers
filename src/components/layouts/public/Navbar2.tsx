@@ -4,17 +4,12 @@ import Link from 'next/link';
 import React, { useState, useEffect, useCallback } from 'react';
 import { usePathname } from 'next/navigation';
 import { cn } from '@/utils/cn';
-import { navItems } from '@/data/nav.data';
-import MenuIcon from '@mui/icons-material/Menu';
-import Drawer from '@mui/material/Drawer';
-import IconButton from '@mui/material/IconButton';
-import List from '@mui/material/List';
-import ListItem from '@mui/material/ListItem';
-import ListItemText from '@mui/material/ListItemText';
-import Divider from '@mui/material/Divider';
-import { Close } from '@mui/icons-material';
-import { Button } from '@mui/material';
-import { phoneNumber } from '@/data/social.data';
+import { CONTACT_PHONE, SITE_NAME } from '@/data/social.data';
+import { ROUTES } from '@/routes';
+import { Separator } from '@/components/ui/separator';
+import { Button } from '@/components/ui/button';
+import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetClose } from '@/components/ui/sheet';
+import { Menu, X } from 'lucide-react';
 
 const Navbar2: React.FC = () => {
     const [scrolled, setScrolled] = useState(false);
@@ -33,27 +28,29 @@ const Navbar2: React.FC = () => {
         };
     }, [handleScroll]);
 
-    const toggleDrawer = (open: boolean) => (event: React.KeyboardEvent | React.MouseEvent) => {
-        if (event.type === 'keydown' && ((event as React.KeyboardEvent).key === 'Tab' || (event as React.KeyboardEvent).key === 'Shift')) {
-            return;
-        }
-        setMenuOpen(open);
-    };
+    const navItems = [
+        { name: "Home", href: ROUTES.PUBLIC.HOME },
+        { name: "Properties", href: ROUTES.PUBLIC.PROPERTIES.LIST },
+        { name: "Projects", href: ROUTES.PUBLIC.PROJECTS.LIST },
+        { name: "About Us", href: ROUTES.PUBLIC.ABOUT },
+        { name: "Services", href: ROUTES.PUBLIC.SERVICES },
+        { name: "Contact", href: ROUTES.PUBLIC.CONTACT },
+    ];
 
     return (
         <div className={cn(
-            'flex items-center justify-between md:justify-around px-4 shadow-[0px 2px 4px rgba(0,0,0,0.1)] z-50 sticky -top-[2px] w-full transition-all duration-300 ease-in-out',
-            scrolled ? 'bg-white text-black h-16 shadow-md' : 'bg-black text-white h-16'
+            'flex items-center justify-between md:justify-around px-4 shadow-[0px 2px 4px rgba(0,0,0,0.1)] z-50 sticky -top-0.5 w-full transition-all duration-300 ease-in-out',
+            scrolled ? 'bg-white text-black h-16 shadow-md' : 'bg-secondary text-white h-16'
         )}>
 
             <div className={cn(
                 'rounded-b-full items-center transition-all duration-300 ease-in-out hidden md:flex',
-                scrolled ? 'bg-white mt-0 px-0 pb-0' : 'bg-black pb-8 px-12 mt-20'
+                scrolled ? 'bg-white mt-0 px-0 pb-0' : 'bg-secondary pb-8 px-12 mt-20'
             )}>
-                <Link href="/">
+                <Link href={ROUTES.PUBLIC.HOME}>
                     <Image
                         src="/logo.png"
-                        alt="Emlaak Logo"
+                        alt={`${SITE_NAME} Logo`}
                         width={1000}
                         height={1000}
                         priority
@@ -65,114 +62,113 @@ const Navbar2: React.FC = () => {
                 </Link>
             </div>
 
-            <Link href="/" className='flex md:hidden'>
+            {/* Mobile Logo */}
+            <Link href={ROUTES.PUBLIC.HOME} className='flex md:hidden'>
                 <Image
                     src="/logo.png"
-                    alt="Emlaak Logo"
+                    alt={`${SITE_NAME} Logo`}
                     width={1000}
                     height={1000}
                     priority
-                    className={cn(
-                        'object-contain w-16 h-16 transition-all duration-300 ease-in-out cursor-pointer',
-                    )}
+                    className='object-contain w-16 h-16 transition-all duration-300 ease-in-out cursor-pointer'
                 />
             </Link>
 
-            <ul className="items-center justify-between hidden space-x-8 text-center md:flex">
+            {/* Desktop Nav */}
+            <ul className="items-center justify-between hidden space-x-6 text-center md:flex">
                 {navItems.map((item, index) => (
                     <Link
                         href={item.href}
-                        key={index} className={cn(
-                            'py-[5px] px-4 hover:bg-primary hover:text-black',
-                            item.href === '/' ?
-                                pathname === item.href && !scrolled ? 'bg-primary text-black py-[5px] px-4' :
-                                    pathname === item.href && scrolled ? 'bg-black text-white py-[5px] px-4' :
-                                        '' :
-                                pathname.startsWith(item.href) && !scrolled ? 'bg-primary text-black py-[5px] px-4' :
-                                    pathname.startsWith(item.href) && scrolled ? 'bg-black text-white py-[5px] px-4' : ''
+                        key={index}
+                        className={cn(
+                            'relative py-1.5 px-4 text-sm font-medium transition-all duration-300 rounded-md',
+                            'hover:bg-primary hover:text-black',
+                            item.href === ROUTES.PUBLIC.HOME
+                                ? pathname === item.href && !scrolled
+                                    ? 'bg-primary text-black'
+                                    : pathname === item.href && scrolled
+                                        ? 'bg-secondary text-white'
+                                        : ''
+                                : pathname.startsWith(item.href) && !scrolled
+                                    ? 'bg-primary text-black'
+                                    : pathname.startsWith(item.href) && scrolled
+                                        ? 'bg-secondary text-white'
+                                        : ''
                         )}
                     >
                         {item.name}
                     </Link>
                 ))}
+
                 <Button
                     className={cn(
-                        scrolled ? "!block" : "!hidden",
-                        "hover:!text-white !border !border-white hover:!bg-black !bg-primary !text-black !rounded-none"
+                        scrolled ? "inline-flex" : "hidden",
+                        "py-5! px-6! rounded-md border text-black hover:bg-secondary! hover:text-white transition-all duration-300 ml-6 uppercase font-medium!"
                     )}
-                    variant="contained"
-                    href={`tel:${phoneNumber}`}
+                    asChild
                 >
-                    Call Now
+                    <a href={`tel:${CONTACT_PHONE}`}>Call Now</a>
                 </Button>
             </ul>
 
 
+            {/* Mobile Menu Button */}
             <div className="flex items-center space-x-4 md:hidden">
-                <MenuIcon
-                    fontSize="large"
-                    onClick={() => setMenuOpen(!menuOpen)}
+                <Menu
+                    size={28}
+                    onClick={() => setMenuOpen(true)}
                     className="cursor-pointer"
                 />
             </div>
 
-            <Drawer
-                anchor="right"
-                open={menuOpen}
-                onClose={toggleDrawer(false)}
-            >
-                <div
-                    className="w-[80lvw]"
-                    role="presentation"
-                >
-                    <div className="flex items-center justify-between px-4 py-2 bg-primary">
-                        <h2 className="font-semibold text-white">Menu</h2>
-                        <Close
-                            onClick={toggleDrawer(false)}
-                            sx={{
-                                color: 'white',
-                                cursor: 'pointer',
-                                border: '2px solid white',
-                                borderRadius: '50%',
-                            }}
-                            fontSize="small"
-                        />
-                    </div>
+            {/* Mobile Sheet (Drawer replacement) */}
+            <Sheet open={menuOpen} onOpenChange={setMenuOpen}>
+                <SheetContent side="right" className="w-[80lvw] p-0">
 
-                    <Divider />
+                    <SheetHeader className="flex flex-row items-center justify-between px-4 py-3 bg-primary">
+                        <SheetTitle className="text-white text-base font-semibold">
+                            Menu
+                        </SheetTitle>
+                        <SheetClose asChild>
+                            <X className="text-white cursor-pointer border border-white rounded-full p-1" />
+                        </SheetClose>
+                    </SheetHeader>
 
-                    <List sx={{
-                        padding: '10px',
-                    }}>
+                    <Separator />
+
+                    <div className="p-4 space-y-2">
                         {navItems.map((item, index) => (
-                            <ListItem
+                            <a
                                 key={index}
-                                component="a"
                                 href={item.href}
                                 className={cn(
-                                    'dotted-border !py-3',
-                                    item.href === '/' ?
-                                        pathname === item.href ? 'border-l-2 border-black text-black' : '' :
-                                        pathname.startsWith(item.href) ? 'border-l-2 border-black text-black' : ''
+                                    'block py-3 px-2 text-sm font-semibold transition-all border-l-2',
+                                    'hover:bg-muted',
+                                    item.href === ROUTES.PUBLIC.HOME
+                                        ? pathname === item.href
+                                            ? 'border-black text-black'
+                                            : 'border-transparent'
+                                        : pathname.startsWith(item.href)
+                                            ? 'border-black text-black'
+                                            : 'border-transparent'
                                 )}
                             >
-                                <p className="font-semibold text-black">
-                                    {item.name}
-                                </p>
-                            </ListItem>
+                                {item.name}
+                            </a>
                         ))}
-                        <Button
-                            className="w-full !mt-8 !text-white border !border-white !bg-black hover:!bg-white hover:!text-black !rounded-none"
-                            variant="contained"
-                            href={`tel:${phoneNumber}`}
-                        >
-                            Call Now
-                        </Button>
-                    </List>
 
-                </div>
-            </Drawer>
-        </div >
+                        <Button
+                            className="w-full mt-6 rounded-md bg-secondary text-white hover:bg-white hover:text-black border border-black transition-all"
+                            asChild
+                        >
+                            <a href={`tel:${CONTACT_PHONE}`}>Call Now</a>
+                        </Button>
+                    </div>
+
+                </SheetContent>
+            </Sheet>
+
+        </div>
     );
 };
 

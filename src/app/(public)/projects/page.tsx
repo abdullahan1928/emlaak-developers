@@ -1,83 +1,69 @@
-"use client";
+import Image from "next/image";
 
-import React, { useEffect, useState } from 'react';
-import axios from 'axios';
-import { IProject } from '@/interfaces/project';
-import Image from 'next/image';
-import ProjectForm from '@/components/projects/ProjectForm';
-import ProjectCards from '@/components/projects/ProjectCards';
-import Head from 'next/head';
+import { Category } from "@/enums/project.enum";
+import { enumToOptions } from "@/lib/enum";
+import ProjectsPage from "./projects.client";
+import { getProjects } from "@/lib/projects";
+import { SITE_URL } from "@/data/social.data";
 
-const Page: React.FC = () => {
-    const [projects, setProjects] = useState<IProject[]>([]);
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState<string | null>(null);
-
-    useEffect(() => {
-        const fetchProjects = async () => {
-            try {
-                const response = await axios.get('/api/projects');
-                setProjects(response.data);
-                setLoading(false);
-            } catch (error) {
-                setError('Failed to fetch projects.');
-                setLoading(false);
-            }
-        };
-
-        fetchProjects();
-    }, []);
-
-    return (
-        <>
-            <Head>
-                <title>Our Projects - Emlaak Developers</title>
-                <meta name="description" content="Explore the various projects completed by Emlaak Developers, including residential, commercial, and industrial developments. Building dreams and creating futures with excellence." />
-                <meta name="keywords" content="projects, Emlaak Developers, residential, commercial, industrial, developments" />
-                <meta name="robots" content="index, follow" />
-                <link rel="canonical" href="https://yourwebsite.com/projects" />
-                <script
-                    type="application/ld+json"
-                    dangerouslySetInnerHTML={{
-                        __html: JSON.stringify({
-                            "@context": "https://schema.org",
-                            "@type": "WebPage",
-                            "name": "Our Projects - Emlaak Developers",
-                            "description": "Explore the various projects completed by Emlaak Developers, including residential, commercial, and industrial developments.",
-                            "url": "https://yourwebsite.com/projects",
-                        }),
-                    }}
-                />
-            </Head>
-
-            <div className="relative mb-4 w-full h-[40vh]">
-                <Image
-                    src="/images/project/project2.jpg"
-                    alt="Projects overview showing various developments"
-                    layout="fill"
-                    className="w-full h-full object-cover"
-                />
-                <div className="absolute inset-0 flex flex-col items-center justify-center bg-black bg-opacity-50">
-                    <h1 className="text-5xl font-bold text-white text-center">Emlaak Developers</h1>
-                    <p className="mt-2 text-lg text-white">Building Dreams, Creating Futures</p>
-                </div>
-            </div>
-
-            <div className="container p-4 mx-auto">
-                <h1 className="mb-4 text-4xl font-bold text-center text-gray-800">Our Projects</h1>
-                <p className="mb-8 text-center text-gray-700">
-                    We have completed various projects in different categories. Check out our projects below.
-                </p>
-                {error ? (
-                    <div className="text-center text-red-500">{error}</div>
-                ) : (
-                    <ProjectCards projects={projects} loading={loading} />
-                )}
-            </div>
-
-            <ProjectForm />
-        </>
-    );
+const TEMPLATE_CONFIG = {
+    brand: "Emlaak Developers",
+    heroTitle: "Signature Living Spaces",
+    heroSubtitle: "A curated collection of luxury developments crafted for timeless living.",
+    heroImage: "/images/project/project2.jpg",
 };
 
-export default Page;
+export const metadata = {
+    title: "Real Estate Projects",
+    description:
+        "Discover premium real estate projects by Emlaak Developers. Explore luxury residential and commercial developments, curated for timeless living and smart investment opportunities.",
+    keywords: [
+        "luxury real estate Pakistan",
+        "real estate projects",
+        "property investment",
+        "residential developments",
+        "commercial projects",
+        "Emlaak Developers",
+        "premium properties"
+    ],
+    openGraph: {
+        title: "Real Estate Projects",
+        description:
+            "Explore our curated collection of luxury residential and commercial projects designed for sophisticated living and profitable investment.",
+        url: `${SITE_URL}/projects`,
+        siteName: "Emlaak Developers",
+        type: "website",
+    },
+};
+
+export default async function Page() {
+    // const data = await getProjects({});
+    const categories = enumToOptions(Category);
+
+    return (
+        <div className="bg-[#f8fafc]">
+            {/* Hero Section */}
+            <section className="relative h-[70vh] overflow-hidden">
+                <Image
+                    src={TEMPLATE_CONFIG.heroImage}
+                    alt="Luxury projects"
+                    fill
+                    priority
+                    className="object-cover scale-105"
+                />
+                <div className="absolute inset-0 bg-linear-to-b from-black/70 via-black/40 to-black/70" />
+                <div className="absolute inset-0 flex flex-col justify-center items-center text-center px-6">
+                    <h1 className="text-5xl md:text-7xl font-bold text-white tracking-tight">
+                        {TEMPLATE_CONFIG.heroTitle}
+                    </h1>
+                    <p className="text-white/80 mt-4 max-w-2xl text-lg">
+                        {TEMPLATE_CONFIG.heroSubtitle}
+                    </p>
+                </div>
+            </section>
+
+            {/* Client Component */}
+            <ProjectsPage categories={categories} />
+        </div>
+    );
+}

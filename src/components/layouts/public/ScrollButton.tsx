@@ -1,6 +1,6 @@
 "use client";
+import { ArrowUp } from "lucide-react";
 import React, { useState, useEffect } from "react";
-import { ArrowUpward, ArrowDownward } from "@mui/icons-material";
 
 const ScrollButton: React.FC = () => {
     const [showButton, setShowButton] = useState(false);
@@ -20,16 +20,18 @@ const ScrollButton: React.FC = () => {
         };
     }, []);
 
-    return (
-        showButton ? (
-            <div
-                className="fixed z-50 p-4 bg-white rounded-full shadow-xl cursor-pointer curso bottom-4 right-4 hover:bg-gray-100"
-                onClick={scrollToTop}
-            >
-                <ArrowUpward />
-            </div>
-        ) : null
-    );
+    return showButton ? (
+        <div
+            onClick={scrollToTop}
+            className="group fixed z-50 bottom-4 right-4 w-14 h-14 flex items-center justify-center rounded-full shadow-xl cursor-pointer overflow-hidden bg-white"
+        >
+            {/* Animated fill layer */}
+            <span className="absolute inset-0 bg-primary scale-y-0 origin-bottom transition-transform duration-1000 group-hover:scale-y-100"></span>
+
+            {/* Icon */}
+            <ArrowUp className="relative z-10 text-black" />
+        </div>
+    ) : null;
 };
 
 export default ScrollButton;

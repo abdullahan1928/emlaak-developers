@@ -3,6 +3,7 @@ import { useForm, Controller } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
 import { TextField, MenuItem, FormControl, Button } from '@mui/material';
+import { SITE_NAME } from '@/data/social.data';
 
 const projectFormSchema = z.object({
     name: z.string().min(1, 'Name is required'),
@@ -32,7 +33,7 @@ const ProjectForm: React.FC = () => {
     return (
         <div className="py-12 px-4 text-center md:py-24">
             <h2 className="text-2xl md:text-4xl text-gray-800 uppercase">
-                Free advice from Emlaak Developers
+                Free advice from {SITE_NAME}
             </h2>
             <p className="mt-4 mb-8 text-base md:text-lg text-gray-600">
                 To hear from our experienced team members fill out the form below to get in touch with us instantly.
@@ -118,7 +119,7 @@ const ProjectForm: React.FC = () => {
                 </div>
                 <Button
                     type="submit"
-                    className='w-full !text-lg !text-white !border !border-white !bg-black hover:!bg-primary hover:!text-black !rounded-none !mt-4'
+                    className='w-full text-lg! text-white! border! border-white! bg-secondary! hover:bg-primary! hover:text-black! rounded-none! mt-4!'
                     variant="contained"
                 >
                     Submit

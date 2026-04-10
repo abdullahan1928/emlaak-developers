@@ -1,4 +1,3 @@
-// app/api/login/route.js
 import dbConnect from '@/lib/connectDB';
 import Admin from '@/models/admin.model';
 import { signToken } from '@/utils/jwt';

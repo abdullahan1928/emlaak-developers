@@ -1,23 +1,50 @@
 import mongoose, { Model } from "mongoose";
+import bcrypt from "bcryptjs";
 
 export interface AdminDocument extends mongoose.Document {
   email: string;
   password: string;
+  role: "super_admin" | "admin";
+  lastLogin?: Date;
+  comparePassword: (password: string) => Promise<boolean>;
 }
 
-// Define admin schema
-const adminSchema = new mongoose.Schema<AdminDocument>({
-  email: {
-    type: String,
-    required: [true, "Please provide an email"],
+const adminSchema = new mongoose.Schema<AdminDocument>(
+  {
+    email: {
+      type: String,
+      required: true,
+      unique: true,
+      lowercase: true,
+      trim: true,
+    },
+    password: {
+      type: String,
+      required: true,
+      minlength: 6,
+    },
+    role: {
+      type: String,
+      enum: ["super_admin", "admin"],
+      default: "admin",
+    },
+    lastLogin: Date,
   },
-  password: {
-    type: String,
-    required: [true, "Please provide a password"],
-  },
+  { timestamps: true }
+);
+
+// 🔐 Hash password before saving
+adminSchema.pre("save", async function (next) {
+  if (!this.isModified("password")) return next();
+  this.password = await bcrypt.hash(this.password, 10);
+  next();
 });
 
-// Define Admin model if it doesn't exist, otherwise use existing model
+// 🔐 Compare password
+adminSchema.methods.comparePassword = function (password: string) {
+  return bcrypt.compare(password, this.password);
+};
+
 const Admin: Model<AdminDocument> =
   mongoose.models.Admin || mongoose.model<AdminDocument>("Admin", adminSchema);
 

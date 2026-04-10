@@ -5,49 +5,58 @@ import {
   Pinterest,
   Twitter,
   YouTube,
-} from "@mui/icons-material";
+} from "@mui/icons-material"
 
-export const socialLinks = [
+export type SocialLink = {
+  name: string
+  href: string | undefined
+  icon: React.ComponentType<{ size?: number; className?: string }>
+}
+
+export const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://abc.com"
+
+export const SITE_NAME = process.env.NEXT_PUBLIC_SITE_NAME || "Real Estate"
+
+export const CONTACT_EMAIL = process.env.NEXT_PUBLIC_CONTACT_EMAIL || "contact@emlaak.com"
+
+export const CONTACT_PHONE = process.env.NEXT_PUBLIC_CONTACT_PHONE || "+923001234567"
+
+export const LOCATION = process.env.NEXT_PUBLIC_OFFICE_ADDRESS || "Office # 10, Default Address"
+
+export const MAP_LINK = process.env.NEXT_PUBLIC_MAP_LINK || "https://maps.google.com"
+
+export const SOCIAL_LINKS: SocialLink[] = [
   {
     name: "Facebook",
-    href: "https://www.facebook.com/emlaakdevelopers",
+    href: process.env.NEXT_PUBLIC_FACEBOOK_URL,
     icon: Facebook,
   },
   {
     name: "Twitter",
-    href: "https://www.twitter.com",
+    href: process.env.NEXT_PUBLIC_TWITTER_URL,
     icon: Twitter,
   },
   {
     name: "Instagram",
-    href: "https://www.instagram.com",
+    href: process.env.NEXT_PUBLIC_INSTAGRAM_URL,
     icon: Instagram,
   },
   {
     name: "LinkedIn",
-    href: "https://www.linkedin.com",
+    href: process.env.NEXT_PUBLIC_LINKEDIN_URL,
     icon: LinkedIn,
   },
   {
     name: "YouTube",
-    href: "https://www.youtube.com",
+    href: process.env.NEXT_PUBLIC_YOUTUBE_URL,
     icon: YouTube,
   },
   {
-    name: "Pintrest",
-    href: "https://www.pintrest.com",
+    name: "Pinterest",
+    href: process.env.NEXT_PUBLIC_PINTREST_URL,
     icon: Pinterest,
   },
-];
-
-export const emailLink = "info.emlaakdevelopers@gmail.com";
-
-export const phoneNumber = "+923335079002";
-
-export const location =
-  "Office # 10, 1st Floor, Farhan Plaza, G-11 Markaz, Islamabad, 44000";
-
-export const mapLocation = "https://maps.google.com?q=Emlaak Developers";
+].filter(link => !!link.href)
 
 export const contact = [
   {

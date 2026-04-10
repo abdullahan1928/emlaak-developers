@@ -228,7 +228,7 @@ const InquiryForm = () => {
                         </div>
                         <Button
                             type="submit"
-                            className='w-full !text-lg !text-white !border !border-white !bg-black hover:!bg-primary hover:!border-primary !rounded-none'
+                            className='w-full text-lg! text-white! border! border-white! bg-secondary! hover:bg-primary! hover:border-primary! rounded-none!'
                             variant="contained"
                         >
                             Submit

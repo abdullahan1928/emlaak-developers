@@ -1,66 +1,86 @@
 "use client";
-import React from 'react';
-import Image from 'next/image';
-import { IProject } from '@/interfaces/project';
-import { LocationOn } from '@mui/icons-material';
-import { useRouter } from 'next/navigation';
-import { cn } from '@/utils/cn';
 
-interface ProjectCardProps {
-    project: IProject;
+import Image from "next/image";
+import { useRouter } from "next/navigation";
+import { Button } from "../ui/button";
+import { ROUTES } from "@/routes";
+import { IProject } from "@/models/project.model";
+import { MapPin } from "lucide-react";
+
+interface PropertyCardProps {
+    property: IProject;
 }
 
-const formatPrice = (price: string): string => {
-    const cleanPrice = price.replace(/,/g, ''); // Remove commas
+const formatPrice = (startingPrice: string): string => {
+    const cleanPrice = startingPrice.toString().replace(/,/g, "");
     const million = 1000000;
     const formattedPrice = (parseInt(cleanPrice) / million).toFixed(1);
-    return `${formattedPrice} Million`;
-}
+    return `${formattedPrice}M`;
+};
 
-const PropertyCard: React.FC<ProjectCardProps> = ({ project }) => {
+const PropertyCard = ({ property: project }: PropertyCardProps) => {
     const router = useRouter();
 
     const handleCardClick = (id: string | undefined) => {
-        router.push(`/projects/${id}`);
+        router.push(ROUTES.PUBLIC.PROJECTS.VIEW(id!));
     }
 
     return (
-        <div className="relative mt-12 overflow-hidden bg-white shadow-lg">
-            <div className="relative w-full h-80">
-                <Image
-                    src={project?.pictures[0]}
-                    alt={project?.title}
-                    layout="fill"
-                    objectFit="cover"
-                    className="image-filter"
-                />
-                <div className="absolute bottom-0 w-full p-4 bg-gradient-to-t from-black to-transparent">
-                    <h2 className="text-xl font-semibold text-white uppercase">{project?.title}</h2>
-                    <div className="flex items-center mt-2 text-gray-300">
-                        <LocationOn className="mr-1" /> {project?.location}
+        <div
+            data-aos="fade-up"
+            className="relative overflow-hidden bg-white rounded-xl shadow-lg cursor-pointer group hover:shadow-2xl transition-all duration-500"
+        >
+            {/* Image */}
+            <div className="relative w-full h-80 overflow-hidden rounded-t-xl">
+                {project?.images?.[0]?.url ? (
+                    <Image
+                        src={project.images[0].url}
+                        alt={project?.title || "Project image"}
+                        fill
+                        sizes="(max-width: 640px) 100vw,(max-width: 1024px) 50vw, 25vw"
+                        className="object-cover image-filter"
+                    />
+                ) : (
+                    <div className="w-full h-full flex items-center justify-center bg-gray-200">
+                        <span className="text-5xl font-bold text-gray-600">
+                            {project?.title
+                                ? project.title
+                                    .split(" ")
+                                    .map(word => word[0])
+                                    .slice(0, 2)
+                                    .join("")
+                                    .toUpperCase()
+                                : "?"}
+                        </span>
+                    </div>
+                )}
+                <div className="absolute bottom-0 w-full p-4 bg-linear-to-t from-black/80 to-transparent">
+                    <h2 className="text-xl font-semibold text-white uppercase">
+                        {project?.title}
+                    </h2>
+                    <div className="flex items-center mt-1 text-gray-300 text-sm">
+                        <MapPin className="mr-1" fontSize="small" /> {project?.location}
                     </div>
                 </div>
-                <div className="absolute top-0 right-0 px-3 py-1 font-semibold text-white bg-primary-700 rounded-bl-md">
+                <span className="absolute top-0 right-0 px-3 py-1 font-semibold text-black bg-primary rounded-bl-md text-sm uppercase">
                     {project?.category}
-                </div>
+                </span>
             </div>
-            <div className="p-4">
-                <div className="flex items-center text-[13px] justify-center mb-2 text-gray-700 uppercase">
-                    Starting from&nbsp;
-                    <strong>
-                        Rs. {formatPrice(project?.price)}
-                    </strong>
-                    &nbsp;Only
-                </div>
+
+            {/* Price */}
+            <div className="p-4 flex justify-between items-center">
+                <span className="text-sm font-semibold text-gray-700 uppercase">
+                    Starting from <strong>Rs. {formatPrice(project?.startingPrice.toString())}</strong>
+                </span>
             </div>
-            <div className="flex justify-center w-full">
-                <button
-                    onClick={() => handleCardClick(project?._id?.toString())}
-                    className="px-6 py-2 text-lg text-white bg-black hover:bg-secondary w-full"
-                >
-                    View Detail
-                </button>
-            </div>
+
+            {/* CTA */}
+            <Button
+                onClick={() => handleCardClick(project._id?.toString())}
+                className="w-full py-2 text-white bg-secondary rounded-b-xl font-semibold hover:bg-primary transition-colors"
+            >
+                View Detail
+            </Button>
         </div>
     );
 };

@@ -1,135 +1,145 @@
 "use client";
-import React, { useState } from 'react';
-import { TextField, Button, IconButton, InputAdornment, Typography } from '@mui/material';
-import { Search, Visibility, VisibilityOff, ErrorOutline, Key } from '@mui/icons-material';
-import Link from 'next/link';
-import Image from 'next/image';
-import { useRouter } from 'next/navigation';
-import axios from 'axios';
 
-const SignupForm = () => {
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
-    const [showPassword, setShowPassword] = useState(false);
-    const [emailError, setEmailError] = useState(false);
-    const [credentialsError, setCredentialsError] = useState(false);
+import { useState } from "react";
+import Link from "next/link";
+import Image from "next/image";
+import { useRouter } from "next/navigation";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
+import { Label } from "@/components/ui/label";
+import { Eye, EyeOff, Mail } from "lucide-react";
+import axios from "axios";
+import { ROUTES } from "@/routes";
+
+const AdminLoginPage = () => {
     const router = useRouter();
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
+    const [showPassword, setShowPassword] = useState(false);
+    const [loading, setLoading] = useState(false);
+    const [errorMsg, setErrorMsg] = useState("");
 
-    const handleSubmit = async (e: any) => {
+    const validateEmail = (email: string) => /\S+@\S+\.\S+/.test(email);
+
+    const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
+        setErrorMsg("");
 
-        // Validate email field
-        if (!email) {
-            setEmailError(true);
+        if (!email || !validateEmail(email)) {
+            setErrorMsg("Please enter a valid email");
             return;
-        } else {
-            setEmailError(false);
+        }
+
+        if (!password) {
+            setErrorMsg("Please enter your password");
+            return;
         }
 
         try {
-            await axios.post('/api/auth/login', { email, password });
-            router.push('/admin/dashboard');
-        } catch (error) {
-            setCredentialsError(true);
+            setLoading(true);
+            await axios.post("/api/auth/login", { email, password });
+            router.push(ROUTES.ADMIN.DASHBOARD);
+        } catch (err: any) {
+            setErrorMsg(err?.response?.data?.message || "Login failed");
+        } finally {
+            setLoading(false);
         }
-
-    };
-
-    const togglePasswordVisibility = () => {
-        setShowPassword(!showPassword);
-    };
-
-    const validateEmail = (email: string) => {
-        const re = /\S+@\S+\.\S+/;
-        return re.test(email);
     };
 
     return (
-        <div className="flex flex-col items-center justify-center min-h-screen bg-black">
-
-            <form onSubmit={handleSubmit} className="flex flex-col w-1/2 max-w-lg px-8 pt-8 pb-24 bg-white rounded-lg">
-
-                <Link href="/" className="mx-auto mb-4">
-                    <Image
-                        src="/logo.png"
-                        alt="Emlaak Logo"
-                        width={1000}
-                        height={1000}
-                        priority
-                        className='object-contain w-24 h-24 transition-all duration-300 ease-in-out cursor-pointer'
-                    />
-                </Link>
-
-                <div className="flex flex-col gap-8 my-8">
-                    <TextField
-                        label="Email"
-                        type="email"
-                        variant="outlined"
-                        fullWidth
-                        className={`mb-4 ${emailError ? 'border-red-500' : ''}`}
-                        size='small'
-                        value={email}
-                        onChange={(e) => {
-                            setEmail(e.target.value);
-                            if (!validateEmail(e.target.value)) {
-                                setEmailError(true);
-                            } else {
-                                setEmailError(false);
-                            }
-                        }}
-                        required
-                        InputProps={{
-                            startAdornment: <Search sx={{ marginRight: '8px' }} />,
-                        }}
-                        onBlur={() => {
-                            if (!email || !validateEmail(email)) {
-                                setEmailError(true);
-                            } else {
-                                setEmailError(false);
-                            }
-                        }}
-                        error={emailError}
-                        helperText={emailError && <Typography variant="body2" color="error"><ErrorOutline /> Please enter a valid email</Typography>}
-                    />
-                    <TextField
-                        label="Password"
-                        type={showPassword ? 'text' : 'password'}
-                        variant="outlined"
-                        fullWidth
-                        className="mb-4"
-                        size='small'
-                        value={password}
-                        onChange={(e) => setPassword(e.target.value)}
-                        required
-                        InputProps={{
-                            startAdornment: <Key sx={{ marginRight: '8px' }} />,
-                            endAdornment: (
-                                <InputAdornment position="end">
-                                    <IconButton onClick={togglePasswordVisibility} edge="end">
-                                        {showPassword ?
-                                            <VisibilityOff />
-                                            : <Visibility />}
-                                    </IconButton>
-                                </InputAdornment>
-                            ),
-                        }}
-                    />
+        <div className="min-h-screen flex">
+            {/* Left branding/illustration */}
+            <div className="hidden md:flex flex-1 bg-primary relative items-center justify-center overflow-hidden">
+                <div className="relative text-white text-center px-12 z-10">
+                    <h1 className="text-5xl font-extrabold mb-4">Admin Portal</h1>
+                    <p className="text-lg">
+                        Manage properties, projects, and users with ease and security
+                    </p>
                 </div>
+            </div>
 
-                {credentialsError &&
-                    <Typography variant="body1" color="error" className="!mb-8 flex items-center gap-2"><ErrorOutline /> Invalid email or password</Typography>
-                }
-
-                <Button
-                    type="submit"
-                    variant="contained"
-                    className="!text-white !border !border-white !bg-black hover:!bg-white hover:!text-black"
+            {/* Right form */}
+            <div className="flex-1 flex items-center justify-center bg-secondary">
+                <form
+                    onSubmit={handleSubmit}
+                    className="w-full max-w-md p-12 bg-white rounded-3xl shadow-2xl space-y-8"
                 >
-                    Sign In
-                </Button>
-            </form>
+                    <div className="flex justify-center mb-6">
+                        <Link href={ROUTES.PUBLIC.HOME}>
+                            <Image
+                                src="/logo.png"
+                                alt="Logo"
+                                width={120}
+                                height={120}
+                                className="object-contain"
+                            />
+                        </Link>
+                    </div>
+
+                    <h2 className="text-center text-3xl font-bold text-gray-900">
+                        Admin Sign In
+                    </h2>
+
+                    {errorMsg && (
+                        <div className="text-red-600 text-sm text-center font-medium">
+                            {errorMsg}
+                        </div>
+                    )}
+
+                    {/* Email input */}
+                    <div className="space-y-1">
+                        <Label htmlFor="email">Email</Label>
+                        <div className="relative">
+                            <Input
+                                id="email"
+                                type="email"
+                                placeholder="you@example.com"
+                                value={email}
+                                onChange={(e) => setEmail(e.target.value)}
+                                className="pr-10"
+                            />
+                            <Mail className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400" size={18} />
+                        </div>
+                    </div>
+
+                    {/* Password input */}
+                    <div className="space-y-1">
+                        <Label htmlFor="password">Password</Label>
+                        <div className="relative">
+                            <Input
+                                id="password"
+                                type={showPassword ? "text" : "password"}
+                                placeholder="Enter your password"
+                                value={password}
+                                onChange={(e) => setPassword(e.target.value)}
+                                className="pr-10"
+                            />
+                            <div
+                                className="absolute right-3 top-1/2 -translate-y-1/2 cursor-pointer text-gray-500"
+                                onClick={() => setShowPassword(!showPassword)}
+                            >
+                                {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+                            </div>
+                        </div>
+                    </div>
+
+                    <Button
+                        type="submit"
+                        className="w-full bg-primary text-white py-5 font-semibold hover:bg-secondary transition-all"
+                        disabled={loading}
+                    >
+                        {loading ? "Signing in..." : "Sign In"}
+                    </Button>
+
+                    <div className="text-center text-sm text-gray-500">
+                        <Link href={ROUTES.PUBLIC.HOME}>
+                            <span className="underline hover:text-gray-900">Back to Home</span>
+                        </Link>
+                    </div>
+                </form>
+            </div>
         </div>
     );
 };
 
-export default SignupForm;
+export default AdminLoginPage;

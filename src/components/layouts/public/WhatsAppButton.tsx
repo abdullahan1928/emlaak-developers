@@ -1,13 +1,11 @@
-// components/WhatsAppButton.tsx
 "use client";
-import React from "react";
-import { WhatsApp } from "@mui/icons-material";
-import { IconButton } from "@mui/material";
-import { phoneNumber } from "@/data/social.data";
 
-const WhatsAppButton: React.FC = () => {
+import { WhatsApp } from "@mui/icons-material";
+import { CONTACT_PHONE } from "@/data/social.data";
+
+const WhatsAppButton = () => {
     const handleClick = () => {
-        window.open(`https://wa.me/${phoneNumber}`, "_blank");
+        window.open(`https://wa.me/${CONTACT_PHONE}`, "_blank");
     };
 
     return (

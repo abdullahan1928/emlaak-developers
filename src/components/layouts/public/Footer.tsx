@@ -1,145 +1,182 @@
-"use client";
-import React, { useEffect, useState } from 'react';
-import { Container, CircularProgress } from '@mui/material';
-import Link from 'next/link';
-import axios from 'axios';
-import { emailLink, location, phoneNumber, socialLinks, mapLocation } from '@/data/social.data';
-import Image from 'next/image';
-import { Email, LocationOn, Phone } from '@mui/icons-material';
-import { IProject } from '@/interfaces/project';
+import Link from "next/link";
+import Image from "next/image";
+import { Mail, MapPin, Phone } from "lucide-react";
+import { ROUTES } from "@/routes";
+import { Separator } from "@/components/ui/separator";
+import {
+    CONTACT_EMAIL,
+    CONTACT_PHONE,
+    LOCATION,
+    MAP_LINK,
+    SOCIAL_LINKS,
+} from "@/data/social.data";
+import DevnixaLogo from "@/helper/devnixa.logo";
 
-const Footer: React.FC = () => {
-    const [projects, setProjects] = useState<IProject[]>([]);
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState<string | null>(null);
+async function getProjects() {
+    try {
+        const res = await fetch(
+            `${process.env.NEXT_PUBLIC_SITE_URL}/api/projects`,
+            { cache: "no-store" }
+        );
+        return res.json();
+    } catch {
+        return [];
+    }
+}
 
-    useEffect(() => {
-        const fetchProjects = async () => {
-            try {
-                const response = await axios.get('/api/projects');
-                setProjects(response.data);
-                setLoading(false);
-            } catch (error) {
-                setError('Failed to fetch projects.');
-                setLoading(false);
-            }
-        };
-
-        fetchProjects();
-    }, []);
+export default async function Footer() {
+    const { projects } = await getProjects();
 
     const quickLinks = [
-        { title: 'Home', href: '/' },
-        { title: 'Properties', href: '/properties' },
-        { title: 'Projects', href: '/projects' },
-        { title: 'About Us', href: '/about' },
-        { title: 'Services', href: '/services' },
-        { title: 'Contact', href: '/contact' },
+        { title: "Home", href: ROUTES.PUBLIC.HOME },
+        { title: "Properties", href: ROUTES.PUBLIC.PROPERTIES.LIST },
+        { title: "Projects", href: ROUTES.PUBLIC.PROJECTS.LIST },
+        { title: "About Us", href: ROUTES.PUBLIC.ABOUT },
+        { title: "Services", href: ROUTES.PUBLIC.SERVICES },
+        { title: "Contact", href: ROUTES.PUBLIC.CONTACT },
     ];
 
     return (
-        <footer className="text-white bg-gray-900 pt-10">
-            <Container className="mx-auto">
-                <div className="grid grid-cols-1 gap-12 md:grid-cols-3">
+        <footer className="bg-secondary text-white pt-14 border-t">
+            <div className="max-w-7xl mx-auto px-6">
+
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
+
+                    {/* Left */}
                     <div className="flex flex-col gap-6">
                         <Image
                             src="/logo.png"
-                            alt="Emlaak Developers"
-                            width={150}
-                            height={150}
-                            className="object-contain w-48 h-32"
+                            alt="Logo"
+                            width={160}
+                            height={120}
+                            className="object-contain w-44 h-28"
                         />
-                        <div
-                            className='flex items-center gap-2 cursor-pointer'
-                            onClick={() => window.open(mapLocation, '_blank')}
+
+                        <a
+                            href={MAP_LINK}
+                            target="_blank"
+                            className="flex items-start gap-3 group"
                         >
-                            <LocationOn className="text-2xl text-secondary-500" />
-                            <span className="text-lg text-gray-300 hover:text-primary">{location}</span>
-                        </div>
-                        <div className='flex items-center gap-2'>
-                            <a href={`tel:${phoneNumber}`} className="flex items-center gap-2">
-                                <Phone className="text-2xl text-secondary-500" />
-                                <span className="text-lg text-gray-300 hover:text-primary">{phoneNumber}</span>
-                            </a>
-                        </div>
-                        <div className='flex items-center gap-2'>
-                            <Email className="text-2xl text-secondary-500" />
-                            <a
-                                href={`mailto:${emailLink}`}
-                                className="text-lg text-gray-300 hover:text-primary"
-                            >
-                                {emailLink}
-                            </a>
-                        </div>
+                            <MapPin size={18} className="text-primary mt-1" />
+                            <span className="text-sm text-white/70 group-hover:text-primary">
+                                {LOCATION}
+                            </span>
+                        </a>
+
+                        <a href={`tel:${CONTACT_PHONE}`} className="flex gap-3 group">
+                            <Phone size={18} className="text-primary" />
+                            <span className="text-sm text-white/70 group-hover:text-primary">
+                                {CONTACT_PHONE}
+                            </span>
+                        </a>
+
+                        <a href={`mailto:${CONTACT_EMAIL}`} className="flex gap-3 group">
+                            <Mail size={18} className="text-primary" />
+                            <span className="text-sm text-white/70 group-hover:text-primary">
+                                {CONTACT_EMAIL}
+                            </span>
+                        </a>
                     </div>
 
+                    {/* Middle */}
                     <div>
-                        <h2 className="mb-6 text-xl font-bold tracking-wider uppercase text-secondary-500 border-b border-gray-600 pb-2">Quick Links</h2>
+                        <h2 className="text-xs uppercase tracking-widest text-white/50 mb-6">
+                            Quick Links
+                        </h2>
+
                         <ul className="space-y-3">
-                            {quickLinks.map((link, index) => (
-                                <li key={index}>
-                                    <Link href={link.href} className="transition-all text-gray-300 hover:text-secondary-500">
-                                        - {link.title}
+                            {quickLinks.map((link) => (
+                                <li key={link.title}>
+                                    <Link
+                                        href={link.href}
+                                        className="text-sm text-white/70 hover:text-primary"
+                                    >
+                                        {link.title}
                                     </Link>
                                 </li>
                             ))}
                         </ul>
                     </div>
 
+                    {/* Right */}
                     <div>
-                        <h2 className="mb-6 text-xl font-bold tracking-wider uppercase text-secondary-500 border-b border-gray-600 pb-2">Projects</h2>
-                        {loading ? (
-                            <div className="flex items-center justify-center h-20">
-                                <CircularProgress color="inherit" />
-                            </div>
-                        ) : error ? (
-                            <div className="text-center text-red-500">{error}</div>
-                        ) : (
-                            <ul className="space-y-3">
-                                {projects.map((project) => (
-                                    <li key={project._id}>
-                                        <Link href={`/projects/${project._id}`} className="transition-all text-gray-300 hover:text-secondary-500">
-                                            - {project.title}
-                                        </Link>
-                                    </li>
-                                ))}
-                            </ul>
-                        )}
+                        <h2 className="text-xs uppercase tracking-widest text-white/50 mb-6">
+                            Projects
+                        </h2>
 
-                        <h2 className="mt-8 mb-4 text-xl font-bold tracking-wider uppercase text-secondary-500 border-b border-gray-600 pb-2">Follow Us</h2>
-                        <div className="flex space-x-4">
-                            {socialLinks.map((link, index) => {
-                                const Icon = link.icon;
-                                return (
-                                    <a
-                                        key={index}
-                                        href={link.href}
-                                        target="_blank"
-                                        rel="noreferrer"
-                                        className="transition-transform duration-300 transform hover:text-secondary-500 hover:scale-105"
+                        <ul className="space-y-3">
+                            {projects.slice(0, 5).map((project: any) => (
+                                <li key={project._id.toString()}>
+                                    <Link
+                                        href={ROUTES.PUBLIC.PROJECTS.VIEW(project._id.toString())}
+                                        className="text-sm text-white/70 hover:text-primary"
                                     >
-                                        <Icon fontSize="large" sx={{
-                                            color: 'white',
-                                            '&:hover': {
-                                                color: '#00A97F',
-                                                transform: 'scale(1.15)',
-                                            }
-                                        }} />
-                                    </a>
-                                );
-                            })}
+                                        {project.title}
+                                    </Link>
+                                </li>
+                            ))}
+                        </ul>
+
+                        {/* Social */}
+                        <div className="mt-10">
+                            <h2 className="text-xs uppercase tracking-widest text-white/50 mb-4">
+                                Follow Us
+                            </h2>
+
+                            <div className="flex gap-3">
+                                {SOCIAL_LINKS.map((link, index) => {
+                                    const Icon = link.icon;
+
+                                    if (!link.href) return null;
+
+                                    return (
+                                        <a
+                                            key={index}
+                                            href={link.href}
+                                            target="_blank"
+                                            className="p-2 rounded-full bg-white/10 hover:bg-primary group"
+                                        >
+                                            <Icon
+                                                size={16}
+                                                className="text-white group-hover:text-black"
+                                            />
+                                        </a>
+                                    );
+                                })}
+                            </div>
                         </div>
                     </div>
                 </div>
 
-                <div className="py-6 mt-12 text-center border-t border-gray-700">
-                    <p className="text-gray-500">&copy; {new Date().getFullYear()}{' '}
-                        Emlaak Developers. All rights reserved.
-                    </p>
-                </div>
-            </Container>
-        </footer>
-    );
-};
+                <div className="mt-12">
+                    <Separator className="bg-white/10" />
 
-export default Footer;
+                    <div className="py-8 flex items-center justify-center gap-1">
+                        <div className="text-sm text-white/40">
+                            © {new Date().getFullYear()}
+                        </div>
+
+                        <div className="flex items-center gap-2">
+                            <span className="text-sm text-white/60">
+                                Powered by
+                            </span>
+
+                            <a
+                                href="https://devnixa.com"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="flex items-end gap-px group"
+                            >
+                                <DevnixaLogo className="w-10 h-8 text-white group-hover:text-primary transition duration-300" />
+
+                                <span className="text-xl font-semibold text-white group-hover:text-primary transition">
+                                    evnixa
+                                </span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </footer >
+    );
+}

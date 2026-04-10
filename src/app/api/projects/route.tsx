@@ -1,74 +1,88 @@
 import dbConnect from "@/lib/connectDB";
 import Project from "@/models/project.model";
 import { NextRequest, NextResponse } from "next/server";
-import { uploadFile } from "@/lib/s3";
-import mongoose from "mongoose";
+import cloudinary from "@/lib/cloudinary";
 
 export async function POST(req: NextRequest) {
     await dbConnect();
 
-    const { title, location, price, category, description, tags, pictures } = await req.json();
-
-    // Decode base64 images
-    const decodeBase64Image = (data: string) => {
-        const matches = data.match(/^data:(.+);base64,(.+)$/);
-        if (matches?.length !== 3) {
-            throw new Error('Invalid input string');
-        }
-        return Buffer.from(matches[2], 'base64');
-    };
-
-    const projectId = new mongoose.Types.ObjectId();
+    const uploadedImages: { url: string; order: number; public_id: string }[] = [];
 
     try {
-        // Upload base64 images to S3
-        const pictureUrls = await Promise.all(
-            (pictures as string[]).map(async (picture: string, index: number) => {
-                const fileContent = decodeBase64Image(picture);
-                const location = await uploadFile(fileContent, projectId.toString(), index);
-                return location.Location; // Assuming `location.Location` contains the URL of the uploaded file
-            })
+        const body = await req.json();
+
+        const { images, ...rest } = body;
+
+        // Upload images to Cloudinary
+        for (let i = 0; i < images.length; i++) {
+            const res = await cloudinary.uploader.upload(images[i], { folder: "projects" });
+            uploadedImages.push({ url: res.secure_url, order: i, public_id: res.public_id });
+        }
+
+        const project = await Project.create({
+            ...rest,
+            images: uploadedImages,
+        });
+
+        return NextResponse.json({ project }, { status: 201 });
+    } catch (error) {
+        // delete the images from cloudinary if project creation fails
+        await Promise.all(
+            uploadedImages.map(img => cloudinary.uploader.destroy(img.public_id))
         );
 
-        // Save project data to MongoDB
-        const project = new Project({
-            _id: projectId,
-            title,
-            location,
-            price,
-            category,
-            description,
-            tags,
-            pictures: pictureUrls,
-        });
-
-        await project.save();
-
-        return new NextResponse(JSON.stringify({ message: "Project added" }), {
-            status: 200,
-            headers: {
-                "Content-Type": "application/json",
-            },
-        });
-    } catch (error) {
-        console.error("Error saving project", error);
-        return new NextResponse(
-            JSON.stringify({ message: "Internal server error" }),
+        return NextResponse.json(
+            { message: "Error creating project" + error },
             { status: 500 }
         );
     }
 }
 
-// get all projects
-export async function GET() {
-    await dbConnect();
+export async function GET(req: NextRequest) {
+    try {
+        await dbConnect();
 
-    const projects = await Project.find({});
+        const { searchParams } = new URL(req.url);
 
-    return new NextResponse(JSON.stringify(projects), {
-        status: 200,
-        headers: {
-            "Content-Type": "application/json",
-        },
-    });
+        const page = parseInt(searchParams.get("page") || "1");
+        const limit = parseInt(searchParams.get("limit") || "10");
+        const search = searchParams.get("search") || "";
+        const category = searchParams.get("category") || "";
+        const sortBy = searchParams.get("sortBy") || "createdAt";
+        const order = searchParams.get("order") === "asc" ? 1 : -1;
+
+        const query: any = {};
+
+        // 🔍 SEARCH
+        if (search) {
+            query.title = { $regex: search, $options: "i" };
+        }
+
+        // 🏷 FILTER
+        if (category && category !== "All") {
+            query.category = category;
+        }
+
+        const total = await Project.countDocuments(query);
+
+        const projects = await Project.find(query)
+            .sort({ [sortBy]: order })
+            .skip((page - 1) * limit)
+            .limit(limit);
+
+        return NextResponse.json({
+            projects,
+            total,
+        });
+    } catch (error: any) {
+        console.error("GET Projects Error:", error);
+
+        return NextResponse.json(
+            {
+                message: "Failed to fetch projects",
+                error: error.message || "Unknown error",
+            },
+            { status: 500 }
+        );
+    }
 }

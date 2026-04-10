@@ -11,7 +11,7 @@ const Page = () => {
     const [project, setProject] = useState<IProject>({
         title: '',
         location: '',
-        price: '',
+        startingPrice: '',
         category: '',
         description: '',
         tags: [],
@@ -54,7 +54,7 @@ const Page = () => {
     );
 
     return (
-        <div className="flex flex-col items-center min-h-screen bg-gradient-to-b from-gray-50 to-gray-100">
+        <div className="flex flex-col items-center min-h-screen bg-linear-to-b from-gray-50 to-gray-100">
             <div className="w-full max-w-6xl p-6 md:p-12">
                 <Paper elevation={3} className="p-8 md:p-12 bg-white rounded-xl shadow-xl">
                     <Typography 
@@ -79,7 +79,7 @@ const Page = () => {
 
                         <div className="w-full md:w-1/2 flex flex-col justify-start gap-6 bg-gray-50 p-6 rounded-xl">
                             <DetailItem label="Location" value={project.location} />
-                            <DetailItem label="Price" value={project.price} />
+                            <DetailItem label="startingPrice" value={project.startingPrice} />
                             <DetailItem label="Category" value={project.category} />
                         </div>
                     </div>

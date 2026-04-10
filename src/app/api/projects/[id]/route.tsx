@@ -1,147 +1,190 @@
+import { PublishStatus } from "@/enums/project.enum";
+import cloudinary from "@/lib/cloudinary";
 import dbConnect from "@/lib/connectDB";
-import { deleteObjectFromS3, getKeyFromUrl, uploadFile } from "@/lib/s3";
 import Project from "@/models/project.model";
 import { NextRequest, NextResponse } from "next/server";
 
-export async function GET(req: NextRequest, { params }: { params: { id: string } }) {
-    await dbConnect();
-
-    const id = params.id;
-
-    const project = await Project.findById(id);
-
-    if (!project) {
-        return new NextResponse(
-            JSON.stringify({ message: "Project not found" }),
-            { status: 404 }
-        );
-    }
-
-    return new NextResponse(
-        JSON.stringify(project),
-        {
-            status: 200,
-            headers: {
-                "Content-Type": "application/json",
-            },
-        });
-}
-
-export async function PUT(req: NextRequest, { params }: { params: { id: string } }) {
-    await dbConnect();
-
-    const { title, location, price, category, description, tags, pictures, removePictures } = await req.json();
-
-    // Decode base64 images
-    const decodeBase64Image = (data: string) => {
-        const matches = data.match(/^data:(.+);base64,(.+)$/);
-        if (matches?.length !== 3) {
-            throw new Error('Invalid input string');
-        }
-        return Buffer.from(matches[2], 'base64');
-    };
-
+export async function GET(req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
     try {
-        // Find the existing project
-        const project = await Project.findById(params.id);
+        await dbConnect();
+
+        const { id } = await params;
+
+        // ✅ Only published
+        const project = await Project.findOne({
+            _id: id,
+            // status: PublishStatus.PUBLISHED,
+        }).lean();
+
         if (!project) {
-            return new NextResponse(
-                JSON.stringify({ message: "Project not found" }),
+            return NextResponse.json(
+                { success: false, message: "Project not found" },
                 { status: 404 }
             );
         }
 
-        // Process new images
-        const newPictureUrls = await Promise.all(
-            (pictures as string[]).map(async (picture: string, index: number) => {
-                const fileContent = decodeBase64Image(picture);
-                const fileName = `${params.id}-${index}.jpg`; // Ensure unique file names
-                const location = await uploadFile(fileContent, fileName, index)
-                return location.Location;
-            })
-        );
-
-        // Update project data
-        const updatedProjectData: any = {
-            title,
-            location,
-            price,
-            category,
-            description,
-            tags,
-            pictures: [...project.pictures, ...newPictureUrls],
-        };
-
-        // Handle removed pictures
-        if (removePictures && Array.isArray(removePictures)) {
-            // Delete removed pictures from S3
-            const deletePromises = removePictures.map(async (url: string) => {
-                const key = getKeyFromUrl(url);
-                await deleteObjectFromS3(key);
+        return new NextResponse(
+            JSON.stringify(project),
+            {
+                status: 200,
+                headers: {
+                    "Content-Type": "application/json",
+                },
             });
+    } catch (error: any) {
+        console.error("GET Project By ID Error:", error);
 
-            await Promise.all(deletePromises);
-
-            // Filter out removed pictures from the database
-            updatedProjectData.pictures = project.pictures.filter(
-                (pic: string) => !removePictures.includes(pic)
-            );
-        }
-
-        // Update the project in MongoDB
-        await Project.findByIdAndUpdate(params.id, updatedProjectData, { new: true });
-
-        return new NextResponse(
-            JSON.stringify({ message: "Project updated successfully" }),
-            { status: 200 }
-        );
-    } catch (error) {
-        console.error("Error updating project", error);
-        return new NextResponse(
-            JSON.stringify({ message: "Internal server error" }),
+        return NextResponse.json(
+            {
+                success: false,
+                message: "Failed to fetch project",
+                error: error.message || "Unknown error",
+            },
             { status: 500 }
         );
     }
 }
-export async function DELETE(req: NextRequest, { params }: { params: { id: string } }) {
+
+export async function PUT(req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
     await dbConnect();
 
-    const id = params.id;
+    const { id } = await params;
 
-    // Retrieve the project to get its pictures
-    const project = await Project.findById(id);
+    const data = await req.json();
+    const {
+        title,
+        slug,
+        location,
+        mapUrl,
+        startingPrice,
+        category,
+        description,
+        tags,
+        status,
+        existingImages = [],
+        newImages = [],
+        removedImages = [],
+    } = data;
 
-    if (!project) {
-        return new NextResponse(
-            JSON.stringify({ message: "Project not found" }),
-            { status: 404 }
-        );
-    }
-
-    // Delete the pictures from S3
-    const deletePromises = project.pictures.map(async (url: string) => {
-        const key = getKeyFromUrl(url);
-        console.log(key);
-        await deleteObjectFromS3(key);
-    });
+    const uploaded: any[] = [];
 
     try {
-        // Wait for all pictures to be deleted
-        await Promise.all(deletePromises);
+        const project = await Project.findById(id);
 
-        // Delete the project from MongoDB
+        if (!project) {
+            return NextResponse.json(
+                { message: "Project not found" },
+                { status: 404 }
+            );
+        }
+
+        // DELETE
+        if (removedImages.length) {
+            await Promise.all(
+                removedImages.map((id: string) =>
+                    cloudinary.uploader.destroy(id)
+                )
+            );
+        }
+
+        // UPLOAD NEW
+        for (let i = 0; i < newImages.length; i++) {
+            const res = await cloudinary.uploader.upload(newImages[i], {
+                folder: "projects",
+            });
+
+            uploaded.push({
+                url: res.secure_url,
+                public_id: res.public_id,
+                order: existingImages.length + i,
+            });
+        }
+
+        // KEEP EXISTING + ORDER
+        const updatedImages = [
+            ...existingImages.map((img: any) => {
+                const existing = project.images.find(
+                    (i: any) => i.public_id === img.public_id
+                );
+                if (!existing) {
+                    return img;
+                }
+                return { ...existing, order: img.order };
+            }),
+            ...uploaded,
+        ];
+
+        const updated = await Project.findByIdAndUpdate(
+            id,
+            {
+                title,
+                slug,
+                location,
+                mapUrl,
+                startingPrice,
+                category,
+                description,
+                tags,
+                status,
+                images: updatedImages,
+            },
+            { new: true }
+        );
+
+        return NextResponse.json(updated);
+
+    } catch (err) {
+        console.error(err);
+
+        // rollback uploads
+        await Promise.all(
+            uploaded.map((img) =>
+                cloudinary.uploader.destroy(img.public_id)
+            )
+        );
+
+        return NextResponse.json(
+            { message: "Update failed" },
+            { status: 500 }
+        );
+    }
+}
+
+export async function DELETE(req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
+    await dbConnect();
+
+    const { id } = await params;
+
+    try {
+        const project = await Project.findById(id);
+
+        if (!project) {
+            return NextResponse.json(
+                { message: "Project not found" },
+                { status: 404 }
+            );
+        }
+
+        // 🔥 Delete all images from Cloudinary
+        await Promise.all(
+            project.images.map((img: any) =>
+                cloudinary.uploader.destroy(img.public_id)
+            )
+        );
+
+        // 🔥 Delete project
         await Project.findByIdAndDelete(id);
 
-        return new NextResponse(JSON.stringify({ message: "Project deleted" }), {
-            status: 200,
-            headers: {
-                "Content-Type": "application/json",
-            },
-        });
+        return NextResponse.json(
+            { message: "Project deleted successfully" },
+            { status: 200 }
+        );
+
     } catch (error) {
         console.error("Error deleting project", error);
-        return new NextResponse(
-            JSON.stringify({ message: "Internal server error" }),
+
+        return NextResponse.json(
+            { message: "Internal server error" },
             { status: 500 }
         );
     }
