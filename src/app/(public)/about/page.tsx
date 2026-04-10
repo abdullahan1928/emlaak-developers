@@ -1,6 +1,6 @@
 import { about, INDEX_TO_HIGHLIGHT, stats } from "@/data/about.data";
 import Image from "next/image";
-// import { cn } from "@/utils/cn";
+import { cn } from "@/utils/cn";
 import { ROUTES } from "@/routes";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
@@ -52,8 +52,8 @@ const Page = () => {
         </div>
       </section>
 
-      <section className="max-w-7xl mx-auto px-6 py-20">
-        <div className="grid md:grid-cols-2 gap-12 items-center">
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 py-14 sm:py-16 md:py-20">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 items-center">
 
           <div className="relative w-full h-150 rounded-2xl overflow-hidden shadow-xl">
             <Image
@@ -69,9 +69,9 @@ const Page = () => {
               Leadership
             </p>
 
-            <h2 className="text-3xl font-bold mb-2">
+            <h3 className="text-3xl font-bold mb-2">
               {ceo.name}
-            </h2>
+            </h3>
 
             <p className="text-gray-500 uppercase text-sm mb-4">
               {ceo.designation}
@@ -103,10 +103,10 @@ const Page = () => {
             {rest.map((member, index) => (
               <div
                 key={index}
-                // className={cn(
-                //   "group relative rounded-2xl overflow-hidden bg-white/5 backdrop-blur-xl border border-white/10",
-                //   "hover:-translate-y-2 transition-all duration-500 shadow-lg hover:shadow-2xl"
-                // )}
+                className={cn(
+                  "group relative rounded-2xl overflow-hidden bg-white/5 backdrop-blur-xl border border-white/10",
+                  "hover:-translate-y-2 transition-all duration-500 shadow-lg hover:shadow-2xl"
+                )}
               >
                 <div className="relative h-100 w-full overflow-hidden">
                   <Image
@@ -145,9 +145,9 @@ const Page = () => {
       <section className="py-20 bg-white">
         <div className="max-w-4xl mx-auto text-center px-6">
 
-          <h2 className="text-3xl md:text-4xl font-semibold text-black">
+          <h3 className="text-3xl md:text-4xl font-semibold text-black">
             Let’s Build Something Great Together
-          </h2>
+          </h3>
 
           <p className="text-gray-600 mt-4">
             Whether you&apos;re investing, buying, or selling, we are here to guide you every step of the way.

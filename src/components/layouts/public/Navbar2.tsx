@@ -139,7 +139,7 @@ const Navbar2: React.FC = () => {
 
                     <div className="p-4 space-y-2">
                         {navItems.map((item, index) => (
-                            <a
+                            <Link
                                 key={index}
                                 href={item.href}
                                 className={cn(
@@ -155,7 +155,7 @@ const Navbar2: React.FC = () => {
                                 )}
                             >
                                 {item.name}
-                            </a>
+                            </Link>
                         ))}
 
                         <Button

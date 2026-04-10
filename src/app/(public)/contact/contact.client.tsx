@@ -44,12 +44,12 @@ const ContactPage = () => {
             <div className="absolute top-0 left-0 w-full h-125 bg-linear-to-br from-primary/20 via-transparent to-transparent blur-3xl pointer-events-none" />
             <div className="absolute bottom-0 right-0 w-100 h-100 bg-primary/10 blur-3xl rounded-full pointer-events-none" />
 
-            <section className="relative text-center py-28 px-6 max-w-4xl mx-auto z-10">
-                <h1 className="text-5xl md:text-6xl font-bold tracking-tight leading-tight">
+            <section className="relative text-center py-20 sm:py-24 md:py-28 px-4 sm:px-6 max-w-4xl mx-auto z-10">
+                <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight leading-tight">
                     Let’s Build Your Next <span className="text-primary">Investment</span>
                 </h1>
 
-                <p className="mt-6 text-gray-600 text-lg">
+                <p className="mt-4 sm:mt-6 text-gray-600 text-base sm:text-lg">
                     Premium real estate guidance, tailored opportunities, and trusted expertise.
                 </p>
 
@@ -79,7 +79,7 @@ const ContactPage = () => {
                 </div>
             </section>
 
-            <section className="relative max-w-7xl mx-auto px-6 pb-24 grid lg:grid-cols-2 gap-16 z-10">
+            <section className="relative max-w-7xl mx-auto px-4 sm:px-6 pb-16 sm:pb-20 md:pb-24 grid lg:grid-cols-2 gap-10 md:gap-16 z-10">
 
                 <div className="space-y-6">
 
@@ -88,9 +88,9 @@ const ContactPage = () => {
                             key={index}
                             className="border border-black/5 shadow-xl bg-white/70 backdrop-blur-xl hover:shadow-2xl transition"
                         >
-                            <CardContent className="p-6 space-y-4">
+                            <CardContent className="p-4 sm:p-6 space-y-3 sm:space-y-4">
 
-                                <h3 className="text-lg font-semibold tracking-wide">
+                                <h3 className="text-base sm:text-lg font-semibold tracking-wide">
                                     {item.name}
                                 </h3>
 
@@ -107,7 +107,7 @@ const ContactPage = () => {
                                         <a
                                             key={i}
                                             href={`tel:${phone}`}
-                                            className="flex items-center gap-3 text-gray-600 hover:text-black transition"
+                                            className="flex items-center gap-3 text-gray-600 hover:text-black transition break-all"
                                         >
                                             <Phone size={18} className="text-primary" />
                                             {phone}
@@ -122,11 +122,11 @@ const ContactPage = () => {
                     <div className="group relative rounded-2xl overflow-hidden">
                         <iframe
                             src={getMapSrc(MAP_LINK)}
-                            className="w-full h-87.5 border-0 transition duration-700"
+                            className="w-full h-64 sm:h-72 md:h-80 lg:h-87.5 border-0 transition duration-700"
                         />
                     </div>
 
-                    <div className="flex gap-4 pt-6">
+                    <div className="flex gap-3 sm:gap-4 pt-4 sm:pt-6 flex-wrap">
                         {SOCIAL_LINKS.map(({ name, href, icon: Icon }) => (
                             <a
                                 key={name}
@@ -143,7 +143,7 @@ const ContactPage = () => {
 
                 {/* ================= RIGHT (FORM) ================= */}
                 <Card className="border border-black/5 shadow-2xl bg-white/80 backdrop-blur-xl">
-                    <CardContent className="p-10">
+                    <CardContent className="p-6 sm:p-8 md:p-10">
 
                         <div className="mb-8">
                             <h2 className="text-2xl font-semibold tracking-wide">
@@ -156,7 +156,7 @@ const ContactPage = () => {
 
                         <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
 
-                            <div className="grid md:grid-cols-2 gap-4">
+                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                                 <div>
                                     <Input placeholder="Full Name" {...register("name")} />
                                     {errors.name && <p className="text-red-500 text-sm mt-1">{errors.name.message}</p>}
@@ -168,7 +168,7 @@ const ContactPage = () => {
                                 </div>
                             </div>
 
-                            <div className="grid md:grid-cols-2 gap-4">
+                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                                 <div>
                                     <Input placeholder="Email Address" {...register("email")} />
                                     {errors.email && <p className="text-red-500 text-sm mt-1">{errors.email.message}</p>}
