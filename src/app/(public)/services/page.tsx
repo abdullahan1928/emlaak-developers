@@ -18,13 +18,6 @@ export const metadata = {
       "Premium real estate solutions designed for growth, trust, and long-term value.",
     url: `${SITE_URL}/services`,
     siteName: "Emlaak Developers",
-    images: [
-      {
-        url: "/images/services/service.jpg",
-        width: 1200,
-        height: 630,
-      },
-    ],
     type: "website",
   },
 };

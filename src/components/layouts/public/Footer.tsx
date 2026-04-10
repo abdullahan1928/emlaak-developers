@@ -20,7 +20,9 @@ async function getProjects() {
         );
         return res.json();
     } catch {
-        return [];
+        return {
+            projects: [],
+        };
     }
 }
 

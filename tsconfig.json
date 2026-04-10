@@ -35,8 +35,10 @@
     ".next/types/**/*.ts",
     "src/models/project/.model.ts",
     "next-sitemap.config.j",
-    ".next/dev/types/**/*.ts"
-, "src/helper/devnixa.logo.tsz", "next-sitemap.config.js"  ],
+    ".next/dev/types/**/*.ts",
+    "src/helper/devnixa.logo.tsz",
+    "next-sitemap.config.js"
+  ],
   "exclude": [
     "node_modules"
   ]

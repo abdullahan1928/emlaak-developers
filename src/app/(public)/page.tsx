@@ -18,7 +18,6 @@ export const metadata: Metadata = {
     title: "Emlaak Developers | Home",
     description:
       "Find your dream property in Pakistan with Emlaak Developers.",
-    images: ["/images/home-banner.jpg"],
   },
 };
 

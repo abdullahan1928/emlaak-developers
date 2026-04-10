@@ -58,22 +58,7 @@ export const metadata: Metadata = {
       "Find your dream property with Emlaak Developers. Trusted real estate services in Pakistan.",
     url: SITE_URL,
     siteName: "Emlaak Developers",
-    images: [
-      {
-        url: `${SITE_URL}/logo.png`,
-        width: 800,
-        height: 600,
-        alt: "Emlaak Developers Logo",
-      },
-    ],
     type: "website",
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: "Emlaak Developers | Real Estate Pakistan",
-    description:
-      "Discover premium real estate investment opportunities in Pakistan.",
-    images: [`${SITE_URL}/logo.png`],
   },
 };
 

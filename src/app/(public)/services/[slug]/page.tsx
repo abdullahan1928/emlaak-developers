@@ -20,7 +20,6 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
       description: service.fullDescription,
       url: `https://www.emlaakdevelopers.com/services/${service.slug}`,
       siteName: "Emlaak Developers",
-      images: [{ url: `/images/services/${service.image}`, width: 1200, height: 630 }],
       type: "website",
     },
   };
