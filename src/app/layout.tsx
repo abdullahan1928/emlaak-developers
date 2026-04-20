@@ -3,7 +3,7 @@ import "@/index.css";
 import localFont from "next/font/local";
 import { Inter, Geist } from "next/font/google";
 import { cn } from "@/utils/cn";
-import { SITE_URL } from "@/data/social.data";
+import { SITE_NAME, SITE_URL } from "@/data/social.data";
 
 const geist = Geist({ subsets: ['latin'], variable: '--font-sans' });
 
@@ -32,32 +32,32 @@ const gilroy = localFont({
 
 export const metadata: Metadata = {
   title: {
-    default: "Emlaak Developers | Real Estate in Pakistan",
-    template: "%s | Emlaak Developers",
+    default: `${SITE_NAME} | Real Estate in Pakistan`,
+    template: `%s | ${SITE_NAME}`,
   },
   description:
-    "Emlaak Developers offers premium real estate solutions in Pakistan, specializing in commercial, residential, and agricultural property investments.",
+    `${SITE_NAME} offers premium real estate solutions in Pakistan, specializing in commercial, residential, and agricultural property investments.`,
   icons: {
     icon: "/logo.ico",
   },
   keywords: [
+    SITE_NAME,
     "Real Estate Pakistan",
     "Property Investment Pakistan",
     "Buy Property Pakistan",
     "Commercial Property Pakistan",
     "Residential Property Pakistan",
-    "Emlaak Developers",
   ],
   robots: {
     index: true,
     follow: true,
   },
   openGraph: {
-    title: "Emlaak Developers - Real Estate Company in Pakistan",
+    title: "${SITE_NAME} - Real Estate Company in Pakistan",
     description:
-      "Find your dream property with Emlaak Developers. Trusted real estate services in Pakistan.",
+      `Find your dream property with ${SITE_NAME}. Trusted real estate services in Pakistan.`,
     url: SITE_URL,
-    siteName: "Emlaak Developers",
+    siteName: SITE_NAME,
     type: "website",
   },
 };
@@ -65,7 +65,7 @@ export const metadata: Metadata = {
 const structuredData = {
   "@context": "https://schema.org",
   "@type": "RealEstateAgent",
-  name: "Emlaak Developers",
+  name: SITE_NAME,
   url: SITE_URL,
   areaServed: "Pakistan",
   description:

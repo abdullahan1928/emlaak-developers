@@ -1,3 +1,5 @@
+import { SITE_NAME } from "./social.data";
+
 interface IAbout {
   name: string;
   designation: string;
@@ -9,7 +11,7 @@ export const about: IAbout[] = [
   {
     name: "Anwar ul Haq",
     designation: "Chairman",
-    description: "Anwar ul Haq is the Chairman of Emlaak Developers and Al-Haq Developers. He is a visionary entrepreneur with a passion for real estate and a commitment to excellence. Anwar has over 20 years of experience in the real estate industry and has successfully completed numerous projects in Pakistan and abroad. He is known for his innovative approach to real estate development and his dedication to delivering high-quality projects that exceed customer expectations.",
+    description: `Anwar ul Haq is the Chairman of ${SITE_NAME} and Al-Haq Developers. He is a visionary entrepreneur with a passion for real estate and a commitment to excellence. Anwar has over 20 years of experience in the real estate industry and has successfully completed numerous projects in Pakistan and abroad. He is known for his innovative approach to real estate development and his dedication to delivering high-quality projects that exceed customer expectations.`,
     image: "anwar.jpg",
   },
   {

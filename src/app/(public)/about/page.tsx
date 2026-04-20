@@ -4,17 +4,17 @@ import { cn } from "@/utils/cn";
 import { ROUTES } from "@/routes";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
-import { SITE_URL } from "@/data/social.data";
+import { SITE_NAME, SITE_URL } from "@/data/social.data";
 
 export const metadata = {
   metadataBase: SITE_URL,
 
   title: "About",
   description:
-    "Learn about Emlaak Developers – a trusted real estate company delivering premium property investment, marketing, and consultancy services across Pakistan.",
+    `Learn about ${SITE_NAME} - a trusted real estate company delivering premium property investment, marketing, and consultancy services across Pakistan.`,
 
   keywords: [
-    "about Emlaak Developers",
+    `about ${SITE_NAME}`,
     "real estate company Pakistan",
     "property investment experts",
     "real estate consultancy",
@@ -34,7 +34,7 @@ const Page = () => {
           Redefining Real Estate Excellence
         </h1>
         <p className="mt-6 text-gray-600 max-w-3xl mx-auto leading-relaxed">
-          Emlaak Developers is a forward-thinking real estate company focused on
+          {SITE_NAME} is a forward-thinking real estate company focused on
           delivering premium investment opportunities, innovative marketing strategies,
           and high-value developments across Pakistan. With decades of experience,
           we combine trust, technology, and vision to shape the future of real estate.

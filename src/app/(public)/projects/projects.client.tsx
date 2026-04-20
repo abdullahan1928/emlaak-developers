@@ -26,7 +26,7 @@
 // import ProjectListView from "@/components/projects/ProjectListView";
 
 // const TEMPLATE_CONFIG = {
-//   brand: "Emlaak Developers",
+//   brand: SITE_NAME,
 //   heroTitle: "Signature Living Spaces",
 //   heroSubtitle:
 //     "A curated collection of luxury developments crafted for timeless living.",

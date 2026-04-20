@@ -1,4 +1,4 @@
-import { SITE_URL } from "@/data/social.data";
+import { SITE_NAME, SITE_URL } from "@/data/social.data";
 import ContactPage from "./contact.client";
 
 export const metadata = {
@@ -6,10 +6,10 @@ export const metadata = {
 
   title: "Contact Us",
   description:
-    "Get in touch with Emlaak Developers for premium real estate investment, buying, selling, and consultancy services across Pakistan.",
+    `Get in touch with ${SITE_NAME} for premium real estate investment, buying, selling, and consultancy services across Pakistan.`,
 
   keywords: [
-    "contact Emlaak Developers",
+    `contact ${SITE_NAME}`,
     "real estate contact Pakistan",
     "property consultants Pakistan",
     "buy sell property contact",

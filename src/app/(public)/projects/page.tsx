@@ -4,10 +4,10 @@ import { Category } from "@/enums/project.enum";
 import { enumToOptions } from "@/lib/enum";
 import ProjectsPage from "./projects.client";
 import { getProjects } from "@/lib/projects";
-import { SITE_URL } from "@/data/social.data";
+import { SITE_NAME, SITE_URL } from "@/data/social.data";
 
 const TEMPLATE_CONFIG = {
-    brand: "Emlaak Developers",
+    brand: SITE_NAME,
     heroTitle: "Signature Living Spaces",
     heroSubtitle: "A curated collection of luxury developments crafted for timeless living.",
     heroImage: "/images/project/project2.jpg",
@@ -16,14 +16,14 @@ const TEMPLATE_CONFIG = {
 export const metadata = {
     title: "Real Estate Projects",
     description:
-        "Discover premium real estate projects by Emlaak Developers. Explore luxury residential and commercial developments, curated for timeless living and smart investment opportunities.",
+        `Discover premium real estate projects by ${SITE_NAME}. Explore luxury residential and commercial developments, curated for timeless living and smart investment opportunities.`,
     keywords: [
+        SITE_NAME,
         "luxury real estate Pakistan",
         "real estate projects",
         "property investment",
         "residential developments",
         "commercial projects",
-        "Emlaak Developers",
         "premium properties"
     ],
     openGraph: {
@@ -31,7 +31,7 @@ export const metadata = {
         description:
             "Explore our curated collection of luxury residential and commercial projects designed for sophisticated living and profitable investment.",
         url: `${SITE_URL}/projects`,
-        siteName: "Emlaak Developers",
+        siteName: SITE_NAME,
         type: "website",
     },
 };

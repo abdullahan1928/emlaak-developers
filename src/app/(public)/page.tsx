@@ -8,16 +8,17 @@ import PropertySection from "@/components/home/property-section";
 import Services from "@/components/home/services";
 import Welcome from "@/components/home/welcome";
 import CTASection from "@/components/home/cta-section";
+import { SITE_NAME } from "@/data/social.data";
 
 // ✅ Page-level SEO (correct way in App Router)
 export const metadata: Metadata = {
   title: "Home",
   description:
-    "Explore Emlaak Developers' premium real estate services in Pakistan. Discover residential, commercial, and investment opportunities.",
+    `Explore ${SITE_NAME}' premium real estate services in Pakistan. Discover residential, commercial, and investment opportunities.`,
   openGraph: {
-    title: "Emlaak Developers | Home",
+    title: `${SITE_NAME} | Home`,
     description:
-      "Find your dream property in Pakistan with Emlaak Developers.",
+      `Find your dream property in Pakistan with ${SITE_NAME}.`,
   },
 };
 
