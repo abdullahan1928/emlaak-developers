@@ -110,7 +110,7 @@ export default async function Footer() {
                             {projects.slice(0, 5).map((project: any) => (
                                 <li key={project._id.toString()}>
                                     <Link
-                                        href={ROUTES.PUBLIC.PROJECTS.VIEW(project._id.toString())}
+                                        href={ROUTES.PUBLIC.PROJECTS.VIEW(project.slug)}
                                         className="text-sm text-white/70 hover:text-primary"
                                     >
                                         {project.title}

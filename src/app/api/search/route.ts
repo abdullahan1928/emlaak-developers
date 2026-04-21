@@ -9,50 +9,51 @@ export async function GET(req: NextRequest) {
     await dbConnect();
 
     const { searchParams } = new URL(req.url);
-
-    const query = searchParams.get("q");
+    const query = searchParams.get("q")?.trim();
 
     if (!query) {
       return NextResponse.json({ results: [] });
     }
 
-    const searchRegex = query.trim().split(/\s+/).join("|");
+    // Each word becomes a separate $regex condition joined with $or
+    const words = query.split(/\s+/).filter(Boolean);
+    const regexConditions = (fields: string[]) =>
+      words.flatMap((word) =>
+        fields.map((field) => ({
+          [field]: { $regex: word, $options: "i" },
+        }))
+      );
 
-    // 🔹 Fetch Projects
-    const projects = await Project.find({
-      title: { $regex: searchRegex, $options: "i" },
-      status: PublishStatus.PUBLISHED
-    })
-      .limit(5)
-      .lean();
+    const [projects, properties] = await Promise.all([
+      Project.find({
+        $or: regexConditions(["title", "location", "tags"]),
+        status: PublishStatus.PUBLISHED,
+      })
+        .limit(5)
+        .lean(),
 
-    // 🔹 Fetch Properties
-    const properties = await Property.find({
-      $or: [
-        { title: searchRegex },
-        { location: searchRegex },
-        { city: searchRegex },
-      ],
-    })
-      .limit(5)
-      .lean();
+      Property.find({
+        $or: regexConditions(["title", "location", "city"]),
+      })
+        .limit(5)
+        .lean(),
+    ]);
 
-    // 🔹 Normalize Results
     const formattedProjects = projects.map((p) => ({
       id: p._id,
       title: p.title,
       slug: p.slug,
       location: p.location,
-      image: p.images?.[0]?.url || p.images?.[0], // adjust based on schema
+      image: p.images?.[0]?.url ?? null,
       type: "project",
     }));
 
-    const formattedProperties = properties.map((p) => ({
+    const formattedProperties = properties.map((p: any) => ({
       id: p._id,
       title: p.title,
       slug: p.slug,
       location: p.location,
-      image: p.images?.[0]?.url || p.images?.[0],
+      image: p.images?.[0]?.url ?? null,
       type: "property",
       price: p.price,
     }));
@@ -61,9 +62,9 @@ export async function GET(req: NextRequest) {
       results: [...formattedProjects, ...formattedProperties],
     });
   } catch (error) {
-    console.error(error);
+    console.error("Search error:", error);
     return NextResponse.json(
-      { error: "Something went wrong" },
+      { error: "Search failed" },
       { status: 500 }
     );
   }

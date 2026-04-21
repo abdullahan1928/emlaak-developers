@@ -26,9 +26,9 @@ export function proxy(request: NextRequest) {
   }
 
   // Prevent logged-in users from accessing public auth pages
-  if (pathname.startsWith("/public") && isValid) {
-    return NextResponse.redirect(new URL(ROUTES.ADMIN.DASHBOARD, request.url));
-  }
+  // if (pathname.startsWith("/admin1928") && isValid) {
+  //   return NextResponse.redirect(new URL(ROUTES.ADMIN.DASHBOARD, request.url));
+  // }
 
   return NextResponse.next();
 }
