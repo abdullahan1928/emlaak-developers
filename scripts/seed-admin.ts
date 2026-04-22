@@ -1,3 +1,4 @@
+import "dotenv/config";
 import Admin from "../src/models/admin.model";
 import mongoose from "mongoose";
 

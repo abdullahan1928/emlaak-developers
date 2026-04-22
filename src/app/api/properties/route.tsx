@@ -1,74 +1,111 @@
 import dbConnect from "@/lib/connectDB";
-import Project from "@/models/project.model";
+import Property from "@/models/property.model";
+import cloudinary from "@/lib/cloudinary";
 import { NextRequest, NextResponse } from "next/server";
-import { uploadFile } from "@/lib/s3";
-import mongoose from "mongoose";
 
-export async function POST(req: NextRequest) {
-    await dbConnect();
-
-    const { title, location, startingPrice, category, description, tags, pictures } = await req.json();
-
-    // Decode base64 images
-    const decodeBase64Image = (data: string) => {
-        const matches = data.match(/^data:(.+);base64,(.+)$/);
-        if (matches?.length !== 3) {
-            throw new Error('Invalid input string');
-        }
-        return Buffer.from(matches[2], 'base64');
-    };
-
-    const projectId = new mongoose.Types.ObjectId();
-
+export async function GET(req: NextRequest) {
     try {
-        // Upload base64 images to S3
-        const pictureUrls = await Promise.all(
-            (pictures as string[]).map(async (picture: string, index: number) => {
-                const fileContent = decodeBase64Image(picture);
-                const location = await uploadFile(fileContent, projectId.toString(), index);
-                return location.Location; // Assuming `location.Location` contains the URL of the uploaded file
-            })
-        );
+        await dbConnect();
 
-        // Save project data to MongoDB
-        const project = new Project({
-            _id: projectId,
-            title,
-            location,
-            startingPrice,
-            category,
-            description,
-            tags,
-            pictures: pictureUrls,
-        });
+        const { searchParams } = new URL(req.url);
 
-        await project.save();
+        const page = parseInt(searchParams.get("page") || "1");
+        const limit = parseInt(searchParams.get("limit") || "10");
+        const search = searchParams.get("search") || "";
+        const purpose = searchParams.get("purpose") || "";
+        const type = searchParams.get("type") || "";
+        const city = searchParams.get("city") || "";
+        const minPrice = searchParams.get("minPrice") || "";
+        const maxPrice = searchParams.get("maxPrice") || "";
+        const bedrooms = searchParams.get("bedrooms") || "";
+        const sortBy = searchParams.get("sortBy") || "createdAt";
+        const order = searchParams.get("order") === "asc" ? 1 : -1;
+        // Admin can pass published=all to see unpublished too
+        const publishedParam = searchParams.get("published") || "true";
 
-        return new NextResponse(JSON.stringify({ message: "Project added" }), {
-            status: 200,
-            headers: {
-                "Content-Type": "application/json",
-            },
-        });
-    } catch (error) {
-        console.error("Error saving project", error);
-        return new NextResponse(
-            JSON.stringify({ message: "Internal server error" }),
+        const query: Record<string, any> = {};
+
+        if (publishedParam !== "all") {
+            query.isPublished = publishedParam === "true";
+        }
+
+        if (search) {
+            query.$or = [
+                { title: { $regex: search, $options: "i" } },
+                { location: { $regex: search, $options: "i" } },
+                { city: { $regex: search, $options: "i" } },
+                { area: { $regex: search, $options: "i" } },
+            ];
+        }
+
+        if (purpose) query.purpose = purpose;
+        if (type) query.type = type;
+        if (city) query.city = { $regex: city, $options: "i" };
+        if (bedrooms) query.bedrooms = parseInt(bedrooms);
+
+        if (minPrice || maxPrice) {
+            query.price = {};
+            if (minPrice) query.price.$gte = parseInt(minPrice);
+            if (maxPrice) query.price.$lte = parseInt(maxPrice);
+        }
+
+        const total = await Property.countDocuments(query);
+
+        const properties = await Property.find(query)
+            .sort({ [sortBy]: order })
+            .skip((page - 1) * limit)
+            .limit(limit)
+            .lean();
+
+        return NextResponse.json({ properties, total });
+    } catch (error: any) {
+        console.error("GET Properties Error:", error);
+        return NextResponse.json(
+            { message: "Failed to fetch properties", error: error.message },
             { status: 500 }
         );
     }
 }
 
-// get all projects
-export async function GET() {
-    await dbConnect();
+export async function POST(req: NextRequest) {
+    const uploadedImages: { url: string; order: number; public_id: string }[] = [];
 
-    const projects = await Project.find({});
+    try {
+        await dbConnect();
 
-    return new NextResponse(JSON.stringify(projects), {
-        status: 200,
-        headers: {
-            "Content-Type": "application/json",
-        },
-    });
+        const body = await req.json();
+        const { images, ...rest } = body;
+
+        // Upload each base64 image to Cloudinary on the server
+        for (let i = 0; i < images.length; i++) {
+            const res = await cloudinary.uploader.upload(images[i], {
+                folder: "properties",
+            });
+            uploadedImages.push({
+                url: res.secure_url,
+                order: i,
+                public_id: res.public_id,
+            });
+        }
+
+        const property = await Property.create({
+            ...rest,
+            images: uploadedImages,
+        });
+
+        return NextResponse.json({ property }, { status: 201 });
+    } catch (error: any) {
+        // Roll back any images that were uploaded before the failure
+        await Promise.all(
+            uploadedImages.map((img) =>
+                cloudinary.uploader.destroy(img.public_id)
+            )
+        );
+
+        console.error("POST Property Error:", error);
+        return NextResponse.json(
+            { message: "Failed to create property", error: error.message },
+            { status: 500 }
+        );
+    }
 }
