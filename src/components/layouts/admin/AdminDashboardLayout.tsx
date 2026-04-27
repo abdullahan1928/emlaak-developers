@@ -36,6 +36,7 @@ import {
   LogOut,
   GitBranch,
   ChevronsUpDown,
+  FileText,
 } from "lucide-react";
 import { SITE_NAME } from "@/data/social.data";
 import Link from "next/link";
@@ -59,6 +60,7 @@ export default function AdminDashboardLayout({ children }: { children: React.Rea
     { icon: Home, label: "Dashboard", href: ROUTES.ADMIN.DASHBOARD },
     { icon: GitBranch, label: "Properties", href: ROUTES.ADMIN.PROPERTIES.LIST },
     { icon: BarChart3, label: "Projects", href: ROUTES.ADMIN.PROJECTS.LIST },
+    { icon: FileText, label: "Blogs", href: ROUTES.ADMIN.BLOGS.LIST },
   ];
 
   return (

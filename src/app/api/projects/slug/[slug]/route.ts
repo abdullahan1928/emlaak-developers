@@ -3,10 +3,12 @@ import dbConnect from "@/lib/connectDB";
 import Project from "@/models/project.model";
 import { NextRequest, NextResponse } from "next/server";
 
-export async function GET(req: NextRequest, { params }: { params: Promise<{ slug: string }> }) {
+export async function GET(
+  req: NextRequest,
+  { params }: { params: Promise<{ slug: string }> }
+) {
   try {
     await dbConnect();
-
     const { slug } = await params;
 
     if (!slug) {
@@ -16,7 +18,6 @@ export async function GET(req: NextRequest, { params }: { params: Promise<{ slug
       );
     }
 
-    // ✅ Only published
     const project = await Project.findOne({
       slug,
       status: PublishStatus.PUBLISHED,
@@ -29,23 +30,10 @@ export async function GET(req: NextRequest, { params }: { params: Promise<{ slug
       );
     }
 
-    return new NextResponse(
-      JSON.stringify(project),
-      {
-        status: 200,
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
+    return NextResponse.json(project);
   } catch (error: any) {
-    console.error("GET Project By Slug Error:", error);
-
     return NextResponse.json(
-      {
-        success: false,
-        message: "Failed to fetch project",
-        error: error.message || "Unknown error",
-      },
+      { success: false, message: "Failed to fetch project", error: error.message },
       { status: 500 }
     );
   }

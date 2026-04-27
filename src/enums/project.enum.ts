@@ -16,8 +16,18 @@ export enum PublishStatus {
 }
 
 export enum Category {
-  COMMERCIAL = "commerical",
+  COMMERCIAL = "commercial",
   RESIDENTIAL = "residential",
   INDUSTRIAL = "industrial",
   AGRICULTURAL = "agricultural",
+  MIXED_USE = "mixed-use",
+  TOWNSHIP = "township",
+  HOUSING_SOCIETY = "housing-society",
+}
+
+export enum AreaUnit {
+  MARLA = "marla",
+  KANAL = "kanal",
+  SQFT = "sqft",
+  SQYD = "sqyd",
 }

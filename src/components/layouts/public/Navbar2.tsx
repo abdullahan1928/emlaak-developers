@@ -33,6 +33,7 @@ const Navbar2: React.FC = () => {
         { name: "Home", href: ROUTES.PUBLIC.HOME },
         { name: "Properties", href: ROUTES.PUBLIC.PROPERTIES.LIST },
         { name: "Projects", href: ROUTES.PUBLIC.PROJECTS.LIST },
+        { name: "Blogs", href: ROUTES.PUBLIC.BLOGS.LIST },
         { name: "About Us", href: ROUTES.PUBLIC.ABOUT },
         { name: "Services", href: ROUTES.PUBLIC.SERVICES },
         { name: "Contact", href: ROUTES.PUBLIC.CONTACT },

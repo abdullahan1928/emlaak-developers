@@ -45,6 +45,10 @@ export const ROUTES = {
       LIST: "",
       VIEW: (id: string | number) => `${encodeURIComponent(id)}`
     }),
+    BLOGS: withPrefix("/blogs", {
+      LIST: "",
+      VIEW: (id: string | number) => `${encodeURIComponent(id)}`
+    }),
   },
 
   AUTH: {
@@ -60,6 +64,12 @@ export const ROUTES = {
       EDIT: (id: string) => `edit/${id}`,
     }),
     PROJECTS: withPrefix("projects", {
+      LIST: "",
+      NEW: "new",
+      VIEW: (id: string) => `view/${id}`,
+      EDIT: (id: string) => `edit/${id}`,
+    }),
+    BLOGS: withPrefix("blogs", {
       LIST: "",
       NEW: "new",
       VIEW: (id: string) => `view/${id}`,
